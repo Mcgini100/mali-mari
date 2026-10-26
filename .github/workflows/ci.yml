@@ -10,16 +10,16 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version: 22
 
       - name: Parser fixtures (JavaScript reference)
         run: node tool/test_parser.js
 
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: 17
@@ -38,13 +38,23 @@ jobs:
       - name: Analyze
         run: flutter analyze --no-fatal-infos
 
+      - name: Show analyzer issues as annotations
+        if: failure()
+        run: |
+          flutter analyze --no-fatal-infos --format=machine 2>&1 \
+            | awk -F'|' -v ws="$GITHUB_WORKSPACE/" 'NF>=8 { f=$4; sub(ws, "", f); printf "::%s file=%s,line=%s,col=%s::%s [%s]\n", ($1=="ERROR" ? "error" : "warning"), f, $5, $6, $8, $3 }' || true
+
       - name: Test
         run: flutter test
+
+      - name: Show test failures as annotations
+        if: failure()
+        run: flutter test --reporter github || true
 
       - name: Build debug APK
         run: flutter build apk --debug
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         with:
           name: mari-debug-apk
           path: build/app/outputs/flutter-apk/app-debug.apk

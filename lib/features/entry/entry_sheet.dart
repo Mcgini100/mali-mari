@@ -124,7 +124,7 @@ class _EntrySheetState extends ConsumerState<EntrySheet> {
     // A new amount or currency is converted at today's rate; an untouched
     // amount keeps the rate it was frozen at.
     final amountChanged = existing == null || existing.amountMinor != minor || existing.currency != _currency;
-    final rate = amountChanged ? ref.read(currentRateProvider) : existing!.rateUsed;
+    final rate = amountChanged ? ref.read(currentRateProvider) : existing.rateUsed;
     final eq = Money.equivalents(minor, _currency, rate);
     final now = DateTime.now();
 
@@ -132,8 +132,8 @@ class _EntrySheetState extends ConsumerState<EntrySheet> {
       id: existing?.id ?? newId(),
       amountMinor: minor,
       currency: _currency,
-      usdMinor: amountChanged ? eq.usd : existing!.usdMinor,
-      zigMinor: amountChanged ? eq.zig : existing!.zigMinor,
+      usdMinor: amountChanged ? eq.usd : existing.usdMinor,
+      zigMinor: amountChanged ? eq.zig : existing.zigMinor,
       rateUsed: rate,
       direction: _direction,
       categoryId: _categoryId,
