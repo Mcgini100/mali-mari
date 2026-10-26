@@ -1,0 +1,198 @@
+{
+  "version": 1,
+  "_readme": [
+    "Mari transaction-message templates. This file is DATA: add a template here when a bank or wallet changes its wording, no code change needed.",
+    "Placeholders expanded by the parser before compiling: {CUR} -> named group 'cur' (ZiG/ZWG/USD/US$/$), {AMT} -> named group 'amt' (1,234.56 style).",
+    "Other named groups a template may use: 'cp' (counterparty). Patterns are case-insensitive and must stay ECMAScript/Dart-compatible (named groups, no possessive quantifiers).",
+    "Templates are tried in order; the first match wins. If none match, the generic heuristic runs.",
+    "The sample phrasings these were written against are synthetic (modelled on common Zimbabwean wallet/bank alerts). Add real messages to test/fixtures/messages.json and adjust.",
+    "heuristicCounterpartyPattern is compiled case-SENSITIVE (it relies on ALL-CAPS names); everything else is case-insensitive."
+  ],
+  "templates": [
+    {
+      "id": "wallet_received",
+      "direction": "in",
+      "pattern": "received\\s+{CUR}\\s?{AMT}\\s+from\\s+(?<cp>[^.(\\n]+?)(?=\\s*\\(|\\s+\\+?\\d{9,}|\\.(?:\\s|$)|,|\\s+approval|\\s+txn|$)"
+    },
+    {
+      "id": "wallet_payment",
+      "direction": "out",
+      "pattern": "(?:merchant\\s+)?payment\\s+(?:of\\s+)?{CUR}\\s?{AMT}\\s+to\\s+(?<cp>.+?)\\s+(?:was\\s+)?successful"
+    },
+    {
+      "id": "wallet_sent",
+      "direction": "out",
+      "pattern": "{CUR}\\s?{AMT}\\s+(?:has\\s+been\\s+)?(?:sent|transferred)\\s+to\\s+(?<cp>[^.(\\n]+?)(?=\\s*\\(|\\s+\\+?\\d{9,}|\\.(?:\\s|$)|,|\\s+txn|\\s+approval|$)"
+    },
+    {
+      "id": "wallet_cash_out",
+      "direction": "out",
+      "category": "cash_out",
+      "pattern": "cash[\\s-]?out\\s+(?:of\\s+)?{CUR}\\s?{AMT}(?:\\s+at\\s+(?:agent\\s+)?(?<cp>.+?)(?=\\s+successful|\\.(?:\\s|$)|,|$))?"
+    },
+    {
+      "id": "wallet_airtime",
+      "direction": "out",
+      "category": "airtime",
+      "pattern": "bought\\s+{CUR}\\s?{AMT}\\s+(?:of\\s+)?(?<cp>airtime|data|bundles?)"
+    },
+    {
+      "id": "bank_debited_from",
+      "direction": "out",
+      "pattern": "{CUR}\\s?{AMT}\\s+has\\s+been\\s+debited\\s+from(?:.*?\\bat\\s+(?<cp>[A-Za-z0-9][A-Za-z0-9 &'.-]+?)(?=\\.(?:\\s|$)|,|\\s+bal|\\s+avl|\\s+avail|$))?"
+    },
+    {
+      "id": "bank_debited",
+      "direction": "out",
+      "pattern": "debited\\s+(?:with\\s+)?{CUR}\\s?{AMT}(?:.*?\\bat\\s+(?<cp>[A-Za-z0-9][A-Za-z0-9 &'.-]+?)(?=\\.(?:\\s|$)|,|\\s+bal|\\s+avl|\\s+avail|$))?"
+    },
+    {
+      "id": "bank_credited",
+      "direction": "in",
+      "pattern": "credited\\s+(?:with\\s+)?{CUR}\\s?{AMT}(?:.*?\\b(?:ref|from)\\s*:?\\s*(?<cp>[A-Za-z0-9][A-Za-z0-9 &'.-]+?)(?=\\.(?:\\s|$)|,|\\s+bal|\\s+avl|\\s+avail|$))?"
+    }
+  ],
+  "balancePatterns": [
+    "(?:new\\s+)?(?:wallet\\s+)?(?:avl|avail(?:able)?)?\\.?\\s*bal(?:ance)?\\.?\\s*(?:is|:)?\\s*{CUR}\\s?{AMT}"
+  ],
+  "feePatterns": [
+    "(?:fee|charges?)\\s*(?:of)?\\s*:?\\s*{CUR}\\s?{AMT}",
+    "imtt(?:\\s+tax)?\\s*:?\\s*{CUR}\\s?{AMT}"
+  ],
+  "referencePattern": "(?:approval\\s+code|txn\\s+id|transaction\\s+id|trans\\s+id|ref(?:erence)?(?:\\s+no)?)\\s*[:.]?\\s*(?<ref>[A-Za-z0-9][A-Za-z0-9.\\-/]{4,})",
+  "directionKeywords": {
+    "in": [
+      "received",
+      "credited",
+      "deposited",
+      "deposit",
+      "refund",
+      "refunded",
+      "reversal",
+      "cash in",
+      "cash-in"
+    ],
+    "out": [
+      "paid",
+      "payment",
+      "sent",
+      "debited",
+      "withdrawn",
+      "withdrawal",
+      "purchase",
+      "bought",
+      "cash out",
+      "cash-out",
+      "cashout",
+      "transferred to",
+      "transfer to"
+    ]
+  },
+  "categoryKeywords": {
+    "electricity": [
+      "zesa",
+      "zetdc",
+      "electricity",
+      "prepaid token"
+    ],
+    "airtime": [
+      "airtime",
+      "bundle",
+      "data",
+      "econet",
+      "netone",
+      "telecel"
+    ],
+    "groceries": [
+      "ok zimbabwe",
+      "ok mart",
+      "pick n pay",
+      "spar",
+      "tm supermarket",
+      "choppies",
+      "food lover",
+      "bon marche",
+      "n richards",
+      "gain cash"
+    ],
+    "eating_out": [
+      "chicken inn",
+      "pizza inn",
+      "nando",
+      "kfc",
+      "steers",
+      "simbisa",
+      "chicken slice",
+      "mambos"
+    ],
+    "transport": [
+      "zupco",
+      "fuel",
+      "zuva",
+      "total",
+      "puma",
+      "engen",
+      "sakunda",
+      "redan",
+      "uber",
+      "vaya",
+      "indrive"
+    ],
+    "church": [
+      "church",
+      "zaoga",
+      "afm",
+      "tithe",
+      "offering",
+      "ministries",
+      "cathedral"
+    ],
+    "school": [
+      "school",
+      "fees",
+      "academy",
+      "college",
+      "university",
+      "uz ",
+      "nust",
+      "msu"
+    ],
+    "water_council": [
+      "city of harare",
+      "city of bulawayo",
+      "council",
+      "zinwa",
+      "rates"
+    ],
+    "health": [
+      "pharmacy",
+      "clinic",
+      "hospital",
+      "medical",
+      "cimas",
+      "psmas",
+      "first mutual health"
+    ],
+    "rent": [
+      "rent",
+      "rentals"
+    ],
+    "salary": [
+      "salary",
+      "payroll",
+      "wages"
+    ],
+    "remittance": [
+      "mukuru",
+      "worldremit",
+      "world remit",
+      "sendwave",
+      "western union",
+      "moneygram",
+      "hello paisa",
+      "lemfi"
+    ]
+  },
+  "suffixAmountPattern": "{AMT}\\s?{CUR}(?![A-Za-z])",
+  "heuristicCounterpartyPattern": "\\b(?:from|to|at)\\s+(?<cp>[A-Z][A-Z0-9&'.\\- ]{2,40}?)(?=\\s*\\(|\\s+\\+?\\d{6,}|\\.(?:\\s|$)|,|$)"
+}

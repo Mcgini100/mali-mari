@@ -1,0 +1,80 @@
+{
+  "_readme": "Synthetic messages modelled on common Zimbabwean wallet and bank alert phrasing. Replace or extend with real (anonymised) messages. Each case lists what the parser must extract; omitted keys are not checked. expect null = must NOT be treated as a transaction.",
+  "cases": [
+    {
+      "name": "EcoCash-style money received",
+      "text": "You have received ZiG150.00 from TATENDA MOYO (0772123456). Approval Code: CO241010.1234.A56789. New wallet balance: ZiG1,250.40.",
+      "expect": { "amount": "150.00", "currency": "zig", "direction": "in", "counterparty": "TATENDA MOYO", "reference": "CO241010.1234.A56789", "confidence": "high" }
+    },
+    {
+      "name": "Merchant payment in USD",
+      "text": "Payment of USD12.50 to OK ZIMBABWE SAMORA MACHEL successful. Approval Code: MP241010.0930.B12345. New balance: USD40.10.",
+      "expect": { "amount": "12.50", "currency": "usd", "direction": "out", "counterparty": "OK ZIMBABWE SAMORA MACHEL", "category": "groceries", "confidence": "high" }
+    },
+    {
+      "name": "Transfer with fee and IMTT tax",
+      "text": "Transfer Confirmation. ZiG500.00 sent to RUDO CHIKWANHA 0773987654. Txn ID: PP241009.1500.C11111. Fee: ZiG5.00 IMTT Tax: ZiG10.00. New wallet balance: ZiG735.40",
+      "expect": { "amount": "500.00", "currency": "zig", "direction": "out", "counterparty": "RUDO CHIKWANHA", "fee": "15.00", "reference": "PP241009.1500.C11111", "confidence": "high" }
+    },
+    {
+      "name": "Cash out at agent",
+      "text": "Cash Out of USD50.00 at agent MBARE MUSIKA AGENT successful. Charge: USD1.25. Approval Code: CO241008.1111.D22222.",
+      "expect": { "amount": "50.00", "currency": "usd", "direction": "out", "category": "cash_out", "counterparty": "MBARE MUSIKA AGENT", "fee": "1.25", "confidence": "high" }
+    },
+    {
+      "name": "Airtime purchase",
+      "text": "You have bought ZiG30.00 airtime for 0772123456. Approval Code: AT241010.0800.E33333. New balance: ZiG1,220.40",
+      "expect": { "amount": "30.00", "currency": "zig", "direction": "out", "category": "airtime", "confidence": "high" }
+    },
+    {
+      "name": "ZESA token payment",
+      "text": "Payment of ZiG200.00 to ZESA PREPAID successful. Token: 1234 5678 9012 3456 7890. Approval Code: ZE241010.1300.F44444.",
+      "expect": { "amount": "200.00", "currency": "zig", "direction": "out", "category": "electricity", "counterparty": "ZESA PREPAID", "confidence": "high" }
+    },
+    {
+      "name": "Bank card debit",
+      "text": "Acc ****4521 debited USD45.00 on 10/10/26 at PICK N PAY BORROWDALE. Avl Bal USD1,204.55",
+      "expect": { "amount": "45.00", "currency": "usd", "direction": "out", "counterparty": "PICK N PAY BORROWDALE", "category": "groceries", "confidence": "high" }
+    },
+    {
+      "name": "Bank salary credit",
+      "text": "Your account ...4521 has been credited with USD850.00 Ref: SALARY OCT. Avail bal: USD2,054.55",
+      "expect": { "amount": "850.00", "currency": "usd", "direction": "in", "counterparty": "SALARY OCT", "category": "salary", "confidence": "high" }
+    },
+    {
+      "name": "Bank ZWG debit with spaces",
+      "text": "Dear Customer, ZWG 1,200.00 has been debited from your account 0123XXXX89 for POS purchase at SPAR. Bal ZWG 3,400.00",
+      "expect": { "amount": "1200.00", "currency": "zig", "direction": "out", "counterparty": "SPAR", "category": "groceries", "confidence": "high" }
+    },
+    {
+      "name": "Diaspora remittance",
+      "text": "You have received US$100.00 from MUKURU REMIT. Txn ID: MK1234567. New balance: US$140.10",
+      "expect": { "amount": "100.00", "currency": "usd", "direction": "in", "counterparty": "MUKURU REMIT", "category": "remittance", "confidence": "high" }
+    },
+    {
+      "name": "Merchant payment with leading word",
+      "text": "Merchant Payment ZiG45.00 to CHICKEN INN SAM LEVY successful. Approval Code: MP241010.1900.G55555",
+      "expect": { "amount": "45.00", "currency": "zig", "direction": "out", "category": "eating_out", "counterparty": "CHICKEN INN SAM LEVY", "confidence": "high" }
+    },
+    {
+      "name": "Unknown wording falls back to heuristic",
+      "text": "Hi, USD20.00 was withdrawn from your wallet at ATM 0042. Thank you for banking with us.",
+      "expect": { "amount": "20.00", "currency": "usd", "direction": "out", "confidence": "medium" }
+    },
+    {
+      "name": "OTP is not a transaction",
+      "text": "Your EcoCash OTP is 482910. Do not share it with anyone.",
+      "expect": null
+    },
+    {
+      "name": "Balance enquiry is not a transaction",
+      "text": "Your wallet balance is ZiG1,250.40. Thank you for using EcoCash.",
+      "expect": null
+    },
+    {
+      "name": "Promo has an amount but no direction",
+      "text": "Win USD1000 in the Mega Bonanza! Dial *151# to enter today.",
+      "expect": { "amount": "1000.00", "currency": "usd", "direction": null, "confidence": "low" }
+    }
+  ]
+}

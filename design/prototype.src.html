@@ -1,0 +1,998 @@
+<title>Mari Prototype</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,300..500,0..1,0&display=block">
+<style>
+/* Layout: presentation stage — notes column + one phone, the phone is the product.
+   Tokens mirror design/tokens.json exactly; the app theme (lib/core/theme/tokens.dart) uses the same values. */
+:root {
+  --bg: #F6F5F2; --surface: #FFFFFF; --raised: #FFFFFF; --sunken: #EEECE7; --sep: #E4E1DB;
+  --fg: #17161A; --fg2: #6C6972; --fg3: #A19DA6;
+  --accent: #6A4FD3; --accent-soft: #EEEAFB; --on-accent: #FFFFFF;
+  --income: #1E7F55; --income-soft: #E3F2EA;
+  --spend: #B9502F; --spend-soft: #F7E7E0;
+  --warn: #B87A0A; --warn-soft: #FAF0D9;
+  --stage: #E8E6E1; --frame: #1C1B1F; --scrim: rgba(23, 22, 26, 0.32);
+  --shadow: 0 1px 2px rgba(23, 22, 26, 0.05), 0 6px 20px rgba(23, 22, 26, 0.05);
+  --phone-shadow: 0 30px 80px rgba(23, 22, 26, 0.18), 0 2px 6px rgba(23, 22, 26, 0.1);
+
+  --font: -apple-system, "SF Pro Text", "SF Pro Display", system-ui, Roboto, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --icons: "Material Symbols Rounded";
+
+  --s-xxs: 4px; --s-xs: 8px; --s-sm: 12px; --s-md: 16px; --s-lg: 24px; --s-xl: 32px; --s-xxl: 48px;
+  --gutter: 20px;
+  --r-control: 12px; --r-card: 18px; --r-sheet: 28px;
+  --ease-sheet: cubic-bezier(0.2, 0.9, 0.25, 1);
+  --ease-quart: cubic-bezier(0.25, 1, 0.5, 1);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0D0C0F; --surface: #18171B; --raised: #211F25; --sunken: #111013; --sep: #2B292F;
+    --fg: #F3F1F5; --fg2: #9B97A2; --fg3: #66626C;
+    --accent: #A592F2; --accent-soft: #2A2440; --on-accent: #16121F;
+    --income: #55C291; --income-soft: #15281F;
+    --spend: #E68667; --spend-soft: #2E1A14;
+    --warn: #E5B04E; --warn-soft: #2C2210;
+    --stage: #050506; --frame: #2A282E; --scrim: rgba(0, 0, 0, 0.55);
+    --shadow: none;
+    --phone-shadow: 0 30px 80px rgba(0, 0, 0, 0.6), 0 0 0 1px #2B292F;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0D0C0F; --surface: #18171B; --raised: #211F25; --sunken: #111013; --sep: #2B292F;
+  --fg: #F3F1F5; --fg2: #9B97A2; --fg3: #66626C;
+  --accent: #A592F2; --accent-soft: #2A2440; --on-accent: #16121F;
+  --income: #55C291; --income-soft: #15281F;
+  --spend: #E68667; --spend-soft: #2E1A14;
+  --warn: #E5B04E; --warn-soft: #2C2210;
+  --stage: #050506; --frame: #2A282E; --scrim: rgba(0, 0, 0, 0.55);
+  --shadow: none;
+  --phone-shadow: 0 30px 80px rgba(0, 0, 0, 0.6), 0 0 0 1px #2B292F;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0; background: var(--stage); color: var(--fg);
+  font-family: var(--font); font-size: 15px; line-height: 1.4;
+  -webkit-font-smoothing: antialiased;
+  padding-inline: 16px;
+}
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+input, textarea { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 8px; }
+.ic {
+  font-family: var(--icons); font-weight: 400; font-style: normal; font-size: 22px; line-height: 1;
+  display: inline-block; width: 1em; height: 1em; overflow: hidden; white-space: nowrap;
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24; user-select: none; flex: none;
+}
+.num { font-variant-numeric: tabular-nums; font-feature-settings: "tnum" 1; }
+
+/* ---------- presentation shell ---------- */
+.topbar {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20;
+  display: flex; flex-wrap: wrap; align-items: center; gap: 12px;
+  padding-block: 14px; background: var(--stage);
+  max-width: 1080px; margin-inline: auto;
+}
+.brand { display: flex; align-items: baseline; gap: 10px; margin-right: auto; }
+.brand b { font-size: 20px; letter-spacing: -0.4px; }
+.brand span { color: var(--fg2); font-size: 13px; }
+.tabs { display: flex; gap: 2px; overflow-x: auto; flex: 0 1 auto; min-width: 0; max-width: 100%; scrollbar-width: none; }
+.tabs::-webkit-scrollbar { display: none; }
+.tabs button {
+  padding: 7px 10px; border-radius: 999px; font-size: 13px; font-weight: 500; color: var(--fg2); white-space: nowrap;
+}
+.tabs button[aria-current="true"] { background: var(--surface); color: var(--fg); box-shadow: var(--shadow); }
+.theme-btn { display: flex; align-items: center; gap: 6px; padding: 7px 12px; border-radius: 999px; background: var(--surface); font-size: 13px; font-weight: 500; box-shadow: var(--shadow); }
+.theme-btn .ic { font-size: 18px; }
+
+.stage {
+  max-width: 1080px; margin-inline: auto; padding-block: 12px 48px;
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 48px; align-items: start;
+}
+.notes { padding-top: 40px; max-width: 460px; min-width: 0; }
+.notes .eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 0.4px; text-transform: uppercase; color: var(--accent); }
+.notes h1 { font-size: 32px; line-height: 38px; letter-spacing: -0.8px; margin: 8px 0 12px; text-wrap: balance; }
+.notes p { color: var(--fg2); margin: 0 0 14px; font-size: 15px; line-height: 23px; }
+.notes ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+.notes li { display: grid; grid-template-columns: 20px minmax(0, 1fr); gap: 10px; font-size: 14px; line-height: 21px; color: var(--fg); }
+.notes li .ic { font-size: 18px; color: var(--accent); margin-top: 1px; }
+
+.phone {
+  width: 390px; height: 820px; border-radius: 54px; padding: 11px; background: var(--frame);
+  box-shadow: var(--phone-shadow); position: relative; flex: none;
+}
+.screen {
+  position: relative; width: 100%; height: 100%; border-radius: 44px; overflow: hidden;
+  background: var(--bg); isolation: isolate;
+}
+.island { position: absolute; top: 11px; left: 50%; width: 112px; height: 32px; margin-left: -56px; background: #000; border-radius: 20px; z-index: 50; }
+@media (max-width: 900px) {
+  .tabs { order: 3; flex-basis: 100%; }
+  .stage { grid-template-columns: minmax(0, 1fr); gap: 20px; justify-items: center; }
+  .notes { padding-top: 0; order: 2; max-width: 560px; }
+}
+@media (max-width: 440px) {
+  .phone { width: 100%; height: 760px; border-radius: 40px; padding: 8px; }
+  .screen { border-radius: 33px; }
+}
+
+/* ---------- inside the phone ---------- */
+.app { position: absolute; inset: 0; display: flex; flex-direction: column; transition: transform 380ms var(--ease-sheet), filter 380ms var(--ease-sheet), border-radius 380ms; transform-origin: 50% 100%; }
+.app.behind { transform: scale(0.94) translateY(6px); border-radius: 28px; overflow: hidden; filter: saturate(0.9); }
+.status { height: 50px; flex: none; display: flex; align-items: flex-end; justify-content: space-between; padding: 0 30px 6px 34px; font-size: 15px; font-weight: 600; }
+.status .r { display: flex; gap: 5px; align-items: center; }
+.status .r .ic { font-size: 17px; font-variation-settings: "FILL" 1, "wght" 500; }
+.scroll { flex: 1; overflow-y: auto; overflow-x: hidden; padding: 0 var(--gutter) 24px; scrollbar-width: none; }
+.scroll::-webkit-scrollbar { display: none; }
+
+.t-display { font-size: 44px; line-height: 48px; font-weight: 600; letter-spacing: -1.4px; }
+.t-title1 { font-size: 28px; line-height: 34px; font-weight: 600; letter-spacing: -0.6px; }
+.t-title2 { font-size: 22px; line-height: 28px; font-weight: 600; letter-spacing: -0.3px; }
+.t-headline { font-size: 17px; line-height: 22px; font-weight: 600; letter-spacing: -0.2px; }
+.t-body { font-size: 17px; line-height: 24px; letter-spacing: -0.2px; }
+.t-callout { font-size: 15px; line-height: 20px; letter-spacing: -0.1px; }
+.t-subhead { font-size: 15px; line-height: 20px; font-weight: 500; letter-spacing: -0.1px; }
+.t-footnote { font-size: 13px; line-height: 18px; }
+.t-caption { font-size: 12px; line-height: 16px; font-weight: 600; letter-spacing: 0.4px; text-transform: uppercase; }
+.fg2 { color: var(--fg2); } .fg3 { color: var(--fg3); }
+.inc { color: var(--income); } .spd { color: var(--spend); }
+
+.head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 6px 0 18px; }
+.iconbtn { width: 40px; height: 40px; border-radius: 999px; display: grid; place-items: center; background: var(--surface); box-shadow: var(--shadow); }
+.iconbtn .ic { font-size: 21px; color: var(--fg2); }
+.back { display: inline-flex; align-items: center; gap: 2px; color: var(--accent); font-size: 17px; letter-spacing: -0.2px; margin-left: -6px; padding: 8px 0; }
+.back .ic { font-size: 26px; }
+
+/* hero */
+.hero { padding: 6px 0 24px; }
+.hero .figure { display: block; overflow: hidden; height: 50px; margin: 6px 0 14px; }
+.hero .figure span { display: inline-block; }
+.hero .figure.swap-out span { animation: swapOut 130ms var(--ease-quart) forwards; }
+.hero .figure.swap-in span { animation: swapIn 260ms var(--ease-quart); }
+@keyframes swapOut { to { transform: translateY(-8px); opacity: 0; } }
+@keyframes swapIn { from { transform: translateY(8px); opacity: 0; } to { transform: none; opacity: 1; } }
+.cur-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.seg { display: inline-flex; padding: 3px; border-radius: 999px; background: var(--sunken); position: relative; }
+.seg button { position: relative; z-index: 1; padding: 6px 14px; font-size: 13px; font-weight: 600; color: var(--fg2); border-radius: 999px; transition: color 200ms; }
+.seg button[aria-pressed="true"] { color: var(--fg); }
+.seg .thumb { position: absolute; top: 3px; bottom: 3px; left: 3px; border-radius: 999px; background: var(--raised); box-shadow: 0 1px 3px rgba(0,0,0,0.12); transition: transform 260ms var(--ease-quart), width 260ms var(--ease-quart); }
+.seg.wide { display: flex; } .seg.wide button { flex: 1; padding: 9px 0; font-size: 15px; }
+
+.card { background: var(--surface); border-radius: var(--r-card); box-shadow: var(--shadow); }
+.review-cta { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-radius: var(--r-card); background: var(--accent-soft); color: var(--fg); width: 100%; text-align: left; margin-bottom: 28px; }
+.review-cta .dot { width: 34px; height: 34px; border-radius: 999px; background: var(--accent); color: var(--on-accent); display: grid; place-items: center; font-weight: 600; font-size: 15px; flex: none; }
+.review-cta .grow { flex: 1; min-width: 0; }
+.review-cta .ic { color: var(--accent); }
+
+.sec-head { display: flex; align-items: baseline; justify-content: space-between; margin: 0 0 10px; }
+.sec-head button { color: var(--accent); font-size: 15px; }
+.section { margin-bottom: 28px; }
+
+.bud { display: grid; gap: 7px; padding: 12px 16px; }
+.bud + .bud { border-top: 0.5px solid var(--sep); }
+.bud .row { display: flex; align-items: center; gap: 10px; }
+.bud .row .name { flex: 1; min-width: 0; font-size: 15px; font-weight: 500; }
+.bud .row .amt { font-size: 13px; color: var(--fg2); }
+.bud .row .ic { font-size: 18px; color: var(--fg2); }
+.bar { height: 6px; border-radius: 999px; background: var(--sunken); overflow: hidden; }
+.bar i { display: block; height: 100%; border-radius: inherit; background: var(--accent); transition: width 520ms var(--ease-quart); }
+.bar.warn i { background: var(--warn); } .bar.over i { background: var(--spend); }
+.bud .state { font-size: 12px; line-height: 16px; font-weight: 600; margin-top: -1px; }
+
+.txn { display: flex; align-items: center; gap: 12px; padding: 11px 16px; width: 100%; text-align: left; }
+.txn + .txn { border-top: 0.5px solid var(--sep); }
+.tile { width: 38px; height: 38px; border-radius: 12px; display: grid; place-items: center; background: var(--sunken); flex: none; }
+.tile .ic { font-size: 20px; color: var(--fg2); }
+.tile.in { background: var(--income-soft); } .tile.in .ic { color: var(--income); }
+.txn .mid { flex: 1; min-width: 0; }
+.txn .mid b { display: block; font-weight: 500; font-size: 15px; line-height: 20px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.txn .mid small { display: block; font-size: 13px; line-height: 18px; color: var(--fg2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.txn .end { text-align: right; flex: none; }
+.txn .end b { display: block; font-weight: 500; font-size: 15px; line-height: 20px; }
+.txn .end small { display: block; font-size: 12px; line-height: 16px; color: var(--fg3); }
+.src { display: inline-flex; align-items: center; gap: 3px; }
+.src .ic { font-size: 13px; }
+
+/* tab bar */
+.tabbar { flex: none; display: grid; grid-template-columns: repeat(5, 1fr); align-items: center; padding: 6px 10px 26px; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(20px); border-top: 0.5px solid var(--sep); }
+.tabbar button { display: grid; justify-items: center; gap: 2px; font-size: 10px; font-weight: 500; color: var(--fg3); padding: 4px 0; }
+.tabbar button .ic { font-size: 24px; }
+.tabbar button[aria-current="true"] { color: var(--accent); }
+.tabbar button[aria-current="true"] .ic { font-variation-settings: "FILL" 1, "wght" 400; }
+.tabbar .add { justify-self: center; width: 52px; height: 52px; border-radius: 999px; background: var(--accent); color: var(--on-accent); display: grid; place-items: center; box-shadow: 0 6px 16px color-mix(in srgb, var(--accent) 40%, transparent); }
+.tabbar .add .ic { font-size: 28px; font-variation-settings: "wght" 500; }
+
+/* buttons */
+.btn { display: flex; align-items: center; justify-content: center; gap: 8px; height: 52px; border-radius: 16px; font-size: 17px; font-weight: 600; letter-spacing: -0.2px; width: 100%; transition: transform 120ms; }
+.btn:active { transform: scale(0.97); }
+.btn.primary { background: var(--accent); color: var(--on-accent); }
+.btn.secondary { background: var(--sunken); color: var(--fg); }
+.btn.ghost { color: var(--accent); }
+.btn.destructive { background: var(--spend-soft); color: var(--spend); }
+.btn.small { height: 40px; font-size: 15px; border-radius: 12px; width: auto; padding: 0 16px; }
+
+.chip { display: inline-flex; align-items: center; gap: 6px; padding: 7px 12px; border-radius: 999px; background: var(--surface); box-shadow: inset 0 0 0 1px var(--sep); font-size: 14px; font-weight: 500; white-space: nowrap; color: var(--fg); }
+.chip .ic { font-size: 17px; color: var(--fg2); }
+.chip[aria-pressed="true"] { background: var(--fg); color: var(--bg); box-shadow: none; }
+.chip[aria-pressed="true"] .ic { color: var(--bg); }
+.chips { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; margin-inline: calc(var(--gutter) * -1); padding-inline: var(--gutter); }
+.chips::-webkit-scrollbar { display: none; }
+
+.field { display: grid; gap: 6px; }
+.field label { font-size: 13px; color: var(--fg2); }
+.input { height: 48px; border-radius: var(--r-control); background: var(--surface); box-shadow: inset 0 0 0 1px var(--sep); border: 0; padding: 0 14px; font-size: 17px; width: 100%; }
+.input:focus { outline: none; box-shadow: inset 0 0 0 2px var(--accent); }
+textarea.input { height: auto; padding: 12px 14px; font-size: 15px; line-height: 21px; resize: none; }
+
+.list { background: var(--surface); border-radius: var(--r-card); box-shadow: var(--shadow); overflow: hidden; }
+.li { display: flex; align-items: center; gap: 12px; padding: 13px 16px; min-height: 52px; width: 100%; text-align: left; }
+.li + .li { border-top: 0.5px solid var(--sep); }
+.li .grow { flex: 1; min-width: 0; }
+.li .val { color: var(--fg2); font-size: 15px; text-align: right; }
+.li .chev { color: var(--fg3); font-size: 20px; }
+.li .lead { font-size: 20px; color: var(--fg2); }
+.group-label { padding: 0 16px 8px; color: var(--fg2); }
+.group { margin-bottom: 26px; }
+
+.switch { width: 51px; height: 31px; border-radius: 999px; background: var(--sep); position: relative; transition: background 200ms; flex: none; }
+.switch::after { content: ""; position: absolute; top: 2px; left: 2px; width: 27px; height: 27px; border-radius: 999px; background: #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.2); transition: transform 240ms var(--ease-quart); }
+.switch[aria-checked="true"] { background: var(--income); }
+.switch[aria-checked="true"]::after { transform: translateX(20px); }
+
+/* sheet */
+.scrim { position: absolute; inset: 0; background: var(--scrim); opacity: 0; transition: opacity 380ms var(--ease-sheet); z-index: 30; pointer-events: none; }
+.scrim.on { opacity: 1; pointer-events: auto; }
+.sheet { position: absolute; left: 0; right: 0; bottom: 0; max-height: calc(100% - 56px); background: var(--bg); border-radius: var(--r-sheet) var(--r-sheet) 0 0; z-index: 31; transform: translateY(102%); transition: transform 380ms var(--ease-sheet); display: flex; flex-direction: column; }
+.sheet.on { transform: none; }
+.grabber { width: 36px; height: 5px; border-radius: 99px; background: var(--sep); margin: 8px auto 4px; flex: none; }
+.sheet-head { display: flex; align-items: center; justify-content: space-between; padding: 6px var(--gutter) 10px; flex: none; }
+.sheet-head button { color: var(--accent); font-size: 17px; }
+.sheet .scroll { padding-bottom: 28px; }
+
+.amount-display { text-align: center; padding: 10px 0 4px; }
+.amount-display .cur { font-size: 22px; font-weight: 600; color: var(--fg2); margin-right: 6px; vertical-align: 14px; }
+.amount-display .val { font-size: 56px; line-height: 64px; font-weight: 600; letter-spacing: -2px; }
+.amount-display .eq { font-size: 13px; color: var(--fg3); min-height: 18px; }
+.keypad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 12px; }
+.keypad button { height: 50px; border-radius: 14px; font-size: 24px; font-weight: 500; background: var(--surface); box-shadow: var(--shadow); transition: transform 120ms, background 120ms; }
+.keypad button:active { transform: scale(0.95); background: var(--sunken); }
+.keypad .ic { font-size: 24px; }
+
+/* review */
+.quote { background: var(--sunken); border-radius: 14px; padding: 12px 14px; font-size: 14px; line-height: 20px; color: var(--fg); }
+.quote .from { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--fg2); margin-bottom: 6px; font-weight: 500; }
+.quote .from .ic { font-size: 15px; }
+mark { background: color-mix(in srgb, var(--accent) 22%, transparent); color: inherit; border-radius: 4px; padding: 0 2px; }
+.badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 8px; border-radius: 999px; font-size: 12px; font-weight: 600; }
+.badge .ic { font-size: 14px; }
+.badge.high { background: var(--income-soft); color: var(--income); }
+.badge.medium { background: var(--warn-soft); color: var(--warn); }
+.badge.low { background: var(--spend-soft); color: var(--spend); }
+.kv { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 16px; }
+.kv + .kv { border-top: 0.5px solid var(--sep); }
+.kv span:first-child { color: var(--fg2); font-size: 15px; }
+.kv span:last-child { font-size: 15px; font-weight: 500; text-align: right; min-width: 0; overflow-wrap: anywhere; }
+.pager { display: flex; justify-content: center; gap: 6px; margin: 14px 0 0; }
+.pager i { width: 6px; height: 6px; border-radius: 9px; background: var(--sep); }
+.pager i.on { background: var(--fg); width: 18px; }
+
+.empty { text-align: center; padding: 40px 24px; }
+.empty .ic { font-size: 40px; color: var(--fg3); }
+.empty b { display: block; margin: 12px 0 4px; font-size: 17px; }
+.empty p { margin: 0; color: var(--fg2); font-size: 15px; line-height: 21px; }
+
+/* insights */
+.stat { padding: 16px; }
+.stat + .stat { border-top: 0.5px solid var(--sep); }
+.hbar { display: grid; grid-template-columns: 108px minmax(0, 1fr) auto; align-items: center; gap: 10px; padding: 7px 0; font-size: 14px; }
+.hbar .track { height: 10px; border-radius: 99px; background: var(--sunken); overflow: hidden; }
+.hbar .track i { display: block; height: 100%; border-radius: 99px; background: var(--fg); opacity: 0.85; }
+.hbar .track i.top { background: var(--accent); opacity: 1; }
+.hbar .lab { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.hbar .v { color: var(--fg2); font-size: 13px; }
+
+/* onboarding */
+.ob { position: absolute; inset: 0; display: flex; flex-direction: column; padding: 0 var(--gutter); }
+.ob .body { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 14px; }
+.ob .foot { padding: 0 0 34px; display: grid; gap: 10px; }
+.wordmark { font-size: 64px; line-height: 64px; font-weight: 700; letter-spacing: -3px; }
+.wordmark i { font-style: normal; color: var(--accent); }
+.choice { display: flex; align-items: center; gap: 12px; padding: 16px; border-radius: 16px; background: var(--surface); box-shadow: inset 0 0 0 1px var(--sep); width: 100%; text-align: left; }
+.choice[aria-pressed="true"] { box-shadow: inset 0 0 0 2px var(--accent); }
+.choice .grow { flex: 1; }
+.choice .tick { width: 22px; height: 22px; border-radius: 99px; box-shadow: inset 0 0 0 1.5px var(--sep); display: grid; place-items: center; }
+.choice[aria-pressed="true"] .tick { background: var(--accent); box-shadow: none; color: var(--on-accent); }
+.choice .tick .ic { font-size: 16px; font-variation-settings: "wght" 600; }
+
+.promise { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 12px; align-items: start; }
+.promise .ic { font-size: 22px; color: var(--accent); }
+
+/* style guide */
+.sg h3 { margin: 22px 0 10px; }
+.swatches { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.sw { border-radius: 12px; overflow: hidden; box-shadow: inset 0 0 0 1px var(--sep); }
+.sw i { display: block; height: 44px; }
+.sw span { display: block; padding: 6px 8px; font-size: 11px; line-height: 14px; background: var(--surface); }
+.sw span em { display: block; font-style: normal; color: var(--fg3); }
+.typerow { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; padding: 8px 0; border-top: 0.5px solid var(--sep); }
+.typerow small { color: var(--fg3); font-size: 11px; white-space: nowrap; }
+.spacerow { display: flex; align-items: center; gap: 10px; font-size: 12px; color: var(--fg2); padding: 3px 0; }
+.spacerow i { height: 10px; background: var(--accent); border-radius: 3px; display: block; }
+
+.toast { position: absolute; left: 20px; right: 20px; bottom: 100px; z-index: 40; background: var(--fg); color: var(--bg); padding: 12px 16px; border-radius: 14px; font-size: 15px; display: flex; align-items: center; justify-content: space-between; gap: 10px; transform: translateY(20px); opacity: 0; transition: all 260ms var(--ease-quart); pointer-events: none; }
+.toast.on { transform: none; opacity: 1; pointer-events: auto; }
+.toast button { color: var(--accent-soft); font-weight: 600; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 1ms !important; transition-duration: 1ms !important; }
+}
+</style>
+
+<header class="topbar">
+  <div class="brand"><b>Mari</b><span>Design prototype</span></div>
+  <nav class="tabs" id="tabs" aria-label="Screens"></nav>
+  <button class="theme-btn" id="themeBtn" type="button"><span class="ic" aria-hidden="true">contrast</span><span id="themeLabel">System</span></button>
+</header>
+
+<main class="stage">
+  <section class="notes" id="notes" aria-live="polite"></section>
+  <div class="phone">
+    <div class="screen" id="screen">
+      <div class="island" aria-hidden="true"></div>
+      <div class="app" id="app"></div>
+      <div class="scrim" id="scrim"></div>
+      <div class="sheet" id="sheet" role="dialog" aria-modal="true"></div>
+      <div class="toast" id="toast" role="status"></div>
+    </div>
+  </div>
+</main>
+
+<script>
+/*@@PARSER@@*/
+</script>
+<script>
+'use strict';
+const TEMPLATES = /*@@TEMPLATES@@*/;
+const PARSER = window.MariParser.compile(TEMPLATES);
+
+/* ------------------------------------------------------------------ data */
+const RATE = 26.66; // ZiG per US$, official, 10 Oct 2026 (example)
+const TODAY = new Date(2026, 9, 10);
+const CATS = {
+  groceries: { en: 'Groceries', icon: 'shopping_basket', kind: 'expense' },
+  transport: { en: 'Transport', icon: 'directions_bus', kind: 'expense' },
+  airtime: { en: 'Airtime & data', icon: 'phone_android', kind: 'expense' },
+  rent: { en: 'Rent', icon: 'home', kind: 'expense' },
+  school: { en: 'School fees', icon: 'school', kind: 'expense' },
+  electricity: { en: 'ZESA tokens', icon: 'bolt', kind: 'expense' },
+  water_council: { en: 'Water & rates', icon: 'water_drop', kind: 'expense' },
+  church: { en: 'Church & tithe', icon: 'church', kind: 'expense' },
+  family: { en: 'Family support', icon: 'family_restroom', kind: 'expense' },
+  fees: { en: 'Mobile money fees', icon: 'receipt_long', kind: 'expense' },
+  health: { en: 'Health', icon: 'local_hospital', kind: 'expense' },
+  eating_out: { en: 'Eating out', icon: 'restaurant', kind: 'expense' },
+  mukando: { en: 'Mukando & savings', icon: 'savings', kind: 'expense' },
+  other: { en: 'Other', icon: 'more_horiz', kind: 'expense' },
+  salary: { en: 'Salary', icon: 'work', kind: 'income' },
+  side_hustle: { en: 'Side hustle', icon: 'storefront', kind: 'income' },
+  remittance: { en: 'From diaspora', icon: 'flight_land', kind: 'income' },
+  income_other: { en: 'Other income', icon: 'add_circle', kind: 'income' },
+  cash_out: { en: 'Cash out', icon: 'payments', kind: 'transfer' },
+};
+const SRC = { ecocash: { label: 'EcoCash', icon: 'smartphone' }, bank: { label: 'Bank', icon: 'account_balance' }, manual: { label: 'Cash', icon: 'edit' } };
+
+function d(day, h, m) { return new Date(2026, 9, day, h, m); }
+function mk(id, day, h, m, dir, cur, amt, cat, who, src) {
+  const minor = Math.round(amt * 100);
+  return { id, at: d(day, h, m), dir, cur, minor, usd: cur === 'usd' ? minor : Math.round(minor / RATE), zig: cur === 'zig' ? minor : Math.round(minor * RATE), cat, who, src };
+}
+let TX = [
+  mk('t1', 10, 8, 42, 'out', 'zig', 340, 'groceries', 'OK Zimbabwe Samora', 'ecocash'),
+  mk('t2', 10, 7, 15, 'out', 'usd', 1, 'transport', 'Kombi to town', 'manual'),
+  mk('t3', 9, 18, 30, 'out', 'zig', 200, 'electricity', 'ZESA Prepaid', 'ecocash'),
+  mk('t4', 9, 12, 5, 'out', 'usd', 45, 'groceries', 'Pick n Pay Borrowdale', 'bank'),
+  mk('t5', 9, 9, 0, 'in', 'usd', 100, 'remittance', 'Mukuru · from Chipo', 'ecocash'),
+  mk('t6', 8, 19, 40, 'out', 'zig', 30, 'airtime', 'Econet bundle', 'ecocash'),
+  mk('t7', 8, 13, 20, 'out', 'usd', 12.5, 'eating_out', 'Chicken Inn Sam Levy', 'ecocash'),
+  mk('t8', 7, 17, 0, 'out', 'zig', 500, 'family', 'Rudo Chikwanha', 'ecocash'),
+  mk('t9', 7, 17, 0, 'out', 'zig', 15, 'fees', 'EcoCash fee + IMTT', 'ecocash'),
+  mk('t10', 5, 10, 0, 'out', 'usd', 40, 'church', 'ZAOGA tithe', 'manual'),
+  mk('t11', 3, 8, 0, 'out', 'usd', 120, 'school', 'Term 3 fees · Tafara', 'bank'),
+  mk('t12', 1, 9, 0, 'in', 'usd', 850, 'salary', 'Salary · October', 'bank'),
+  mk('t13', 2, 16, 0, 'out', 'usd', 22, 'transport', 'Fuel · Zuva Chisipite', 'bank'),
+  mk('t14', 4, 11, 0, 'out', 'usd', 50, 'cash_out', 'Mbare Musika agent', 'ecocash'),
+];
+const BUDGETS = { groceries: 18000, transport: 6000, airtime: 2500, electricity: 3000, eating_out: 4000, church: 5000, family: 8000, school: 12000, fees: 1000 };
+const LAST_MONTH_SPEND_USD = 51200; // September total (example)
+let PENDING = [
+  { text: 'Payment of ZiG86.00 to BON MARCHE BORROWDALE successful. Approval Code: MP241010.1112.H66666. New balance: ZiG948.40.', app: 'EcoCash', via: 'notification', time: '11:12' },
+  { text: 'Transfer Confirmation. ZiG250.00 sent to TINASHE MOYO 0773555123. Txn ID: PP241010.0950.J77777. Fee: ZiG2.50 IMTT Tax: ZiG5.00. New wallet balance: ZiG1,034.40', app: 'Messages · EcoCash', via: 'notification', time: '09:50' },
+];
+
+/* ------------------------------------------------------------------ i18n (sample of the app's string table) */
+const STR = {
+  en: { left: 'Left to spend', of: 'of', budgeted: 'budgeted', daysLeft: 'days left', review: 'to review', reviewSub: 'Captured from EcoCash alerts', budgets: 'Budgets', recent: 'Recent', seeAll: 'See all', home: 'Home', history: 'History', insights: 'Insights', budgetsTab: 'Budgets' },
+  sn: { left: 'Zvasara kushandisa', of: 'pa', budgeted: 'zvakarongwa', daysLeft: 'mazuva asara', review: 'zvekuongorora', reviewSub: 'Zvatorwa kubva kuma alert eEcoCash', budgets: 'Mabhajeti', recent: 'Zvichangoitika', seeAll: 'Ona zvese', home: 'Kumba', history: 'Nhoroondo', insights: 'Ongororo', budgetsTab: 'Mabhajeti' },
+  nd: { left: 'Okusele ukusetshenziswa', of: 'kokungu', budgeted: 'okuhleliweyo', daysLeft: 'insuku ezisele', review: 'okuhlolwayo', reviewSub: 'Kuthathwe kuma-alert e-EcoCash', budgets: 'Amabhajethi', recent: 'Okwakamuva', seeAll: 'Bona konke', home: 'Ekhaya', history: 'Umlando', insights: 'Ukuhlaziya', budgetsTab: 'Amabhajethi' },
+};
+
+/* ------------------------------------------------------------------ state */
+const S = { screen: 'home', disp: 'usd', lang: 'en', theme: 'system', ob: 0, homeCur: 'usd', obRate: '26.66',
+  q: '', filter: 'all', capture: false, reviewIdx: 0, insightMonth: 0, pasteText: '', pasteResult: undefined,
+  draft: null, consent: false, sg: false };
+const t = (k) => (STR[S.lang] && STR[S.lang][k]) || STR.en[k];
+
+/* ------------------------------------------------------------------ formatting */
+function group(n) { return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+function fmt(minor, cur, opts = {}) {
+  const neg = minor < 0; const m = Math.abs(minor);
+  const whole = Math.floor(m / 100); const frac = String(m % 100).padStart(2, '0');
+  const body = opts.noCents ? group(Math.round(m / 100)) : `${group(whole)}.${frac}`;
+  const sym = cur === 'usd' ? 'US$' : 'ZiG';
+  return `${neg ? '−' : ''}${sym}${opts.space === false ? '' : ' '}${body}`;
+}
+const inDisp = (tx) => (S.disp === 'usd' ? tx.usd : tx.zig);
+const toDisp = (usdMinor) => (S.disp === 'usd' ? usdMinor : Math.round(usdMinor * RATE));
+const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+function dayLabel(dt) {
+  const diff = Math.round((new Date(TODAY.getFullYear(), TODAY.getMonth(), TODAY.getDate()) - new Date(dt.getFullYear(), dt.getMonth(), dt.getDate())) / 86400000);
+  if (diff === 0) return 'Today'; if (diff === 1) return 'Yesterday';
+  return `${DAYS[dt.getDay()]} ${dt.getDate()} ${MONTHS[dt.getMonth()].slice(0, 3)}`;
+}
+const hhmm = (dt) => `${String(dt.getHours()).padStart(2, '0')}:${String(dt.getMinutes()).padStart(2, '0')}`;
+const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const ic = (name, extra = '') => `<span class="ic ${extra}" aria-hidden="true">${name}</span>`;
+
+/* ------------------------------------------------------------------ derived numbers */
+function spentByCat(list = TX) {
+  const out = {};
+  list.forEach((x) => { if (x.dir === 'out' && CATS[x.cat].kind === 'expense') out[x.cat] = (out[x.cat] || 0) + x.usd; });
+  return out;
+}
+function totals() {
+  const spent = Object.values(spentByCat()).reduce((a, b) => a + b, 0);
+  const budget = Object.values(BUDGETS).reduce((a, b) => a + b, 0);
+  return { spent, budget, left: budget - spent };
+}
+function barClass(p) { return p > 1 ? 'over' : p >= 0.85 ? 'warn' : ''; }
+
+/* ------------------------------------------------------------------ shared pieces */
+function statusBar() { return `<div class="status num"><span>9:41</span><span class="r">${ic('signal_cellular_alt')}${ic('wifi')}${ic('battery_full')}</span></div>`; }
+function tabbar() {
+  const tab = (id, icon, label) => `<button type="button" data-go="${id}" aria-current="${S.screen === id}">${ic(icon)}<span>${label}</span></button>`;
+  return `<nav class="tabbar" aria-label="App tabs">${tab('home', 'home', t('home'))}${tab('history', 'receipt_long', t('history'))}
+    <button type="button" class="add" data-act="add" aria-label="Add a transaction">${ic('add')}</button>
+    ${tab('budgets', 'donut_large', t('budgetsTab'))}${tab('insights', 'insights', t('insights'))}</nav>`;
+}
+function txnRow(x) {
+  const c = CATS[x.cat]; const isIn = x.dir === 'in';
+  const amt = `${isIn ? '+' : ''}${fmt(x.minor, x.cur)}`;
+  const eq = x.cur === 'usd' ? fmt(x.zig, 'zig', { noCents: true }) : fmt(x.usd, 'usd');
+  return `<button type="button" class="txn" data-edit="${x.id}">
+    <span class="tile ${isIn ? 'in' : ''}">${ic(c.icon)}</span>
+    <span class="mid"><b>${esc(x.who)}</b><small><span class="src">${ic(SRC[x.src].icon)}${SRC[x.src].label}</span> · ${c.en} · ${hhmm(x.at)}</small></span>
+    <span class="end num"><b class="${isIn ? 'inc' : ''}">${amt}</b><small>≈ ${eq}</small></span></button>`;
+}
+function segCurrency(id) {
+  return `<div class="seg" data-seg="${id}" role="group" aria-label="Display currency">
+    <span class="thumb"></span>
+    <button type="button" data-cur="usd" aria-pressed="${S.disp === 'usd'}">US$</button>
+    <button type="button" data-cur="zig" aria-pressed="${S.disp === 'zig'}">ZiG</button></div>`;
+}
+function budgetRow(cat, spent, limit) {
+  const c = CATS[cat]; const p = limit ? spent / limit : 0;
+  const cls = barClass(p);
+  const state = p > 1 ? `<span class="state spd">${fmt(toDisp(spent - limit), S.disp, { noCents: true })} over</span>` : p >= 0.85 ? `<span class="state" style="color:var(--warn)">${Math.round(p * 100)}% used</span>` : '';
+  return `<div class="bud"><div class="row">${ic(c.icon)}<span class="name">${c.en}</span>
+    <span class="amt num">${fmt(toDisp(spent), S.disp, { noCents: true })} ${t('of')} ${fmt(toDisp(limit), S.disp, { noCents: true })}</span></div>
+    <div class="bar ${cls}"><i style="width:${Math.min(100, p * 100).toFixed(1)}%"></i></div>${state}</div>`;
+}
+
+/* ------------------------------------------------------------------ screens */
+const SCREENS = {};
+
+SCREENS.home = () => {
+  const T = totals(); const sb = spentByCat();
+  const top = Object.keys(BUDGETS).sort((a, b) => (sb[b] || 0) / BUDGETS[b] - (sb[a] || 0) / BUDGETS[a]).slice(0, 4);
+  const recent = [...TX].sort((a, b) => b.at - a.at).slice(0, 5);
+  const daysLeft = 31 - TODAY.getDate();
+  return `${statusBar()}<div class="scroll">
+    <div class="head"><span class="t-footnote fg2">Saturday, 10 October</span>
+      <button type="button" class="iconbtn" data-go="settings" aria-label="Settings">${ic('settings')}</button></div>
+    <div class="hero">
+      <div class="t-caption fg2">${t('left')} · October</div>
+      <div class="figure t-display num" id="heroFig"><span data-roll="${toDisp(T.left)}">${fmt(toDisp(T.left), S.disp)}</span></div>
+      <div class="cur-row">${segCurrency('hero')}<span class="t-footnote fg2 num">1 US$ = ${RATE} ZiG · official</span></div>
+      <p class="t-footnote fg2 num" style="margin:12px 0 0">${t('of')} ${fmt(toDisp(T.budget), S.disp, { noCents: true })} ${t('budgeted')} · ${daysLeft} ${t('daysLeft')}</p>
+    </div>
+    ${PENDING.length ? `<button type="button" class="review-cta" data-go="review"><span class="dot num">${PENDING.length}</span>
+      <span class="grow"><span class="t-headline" style="display:block">${PENDING.length} ${t('review')}</span><span class="t-footnote fg2">${t('reviewSub')}</span></span>${ic('chevron_right')}</button>` : ''}
+    <div class="section"><div class="sec-head"><span class="t-title2">${t('budgets')}</span><button type="button" data-go="budgets">${t('seeAll')}</button></div>
+      <div class="card">${top.map((k) => budgetRow(k, sb[k] || 0, BUDGETS[k])).join('')}</div></div>
+    <div class="section"><div class="sec-head"><span class="t-title2">${t('recent')}</span><button type="button" data-go="history">${t('seeAll')}</button></div>
+      <div class="card">${recent.map(txnRow).join('')}</div></div>
+  </div>${tabbar()}`;
+};
+
+SCREENS.history = () => {
+  const q = S.q.trim().toLowerCase();
+  let list = [...TX].sort((a, b) => b.at - a.at).filter((x) => {
+    if (S.filter === 'usd' || S.filter === 'zig') { if (x.cur !== S.filter) return false; }
+    else if (S.filter !== 'all' && x.src !== S.filter) return false;
+    if (q && !(`${x.who} ${CATS[x.cat].en}`.toLowerCase().includes(q))) return false;
+    return true;
+  });
+  const groups = [];
+  list.forEach((x) => { const k = dayLabel(x.at); let g = groups.find((gg) => gg.k === k); if (!g) { g = { k, items: [] }; groups.push(g); } g.items.push(x); });
+  const chip = (id, label, icon) => `<button type="button" class="chip" data-filter="${id}" aria-pressed="${S.filter === id}">${icon ? ic(icon) : ''}${label}</button>`;
+  return `${statusBar()}<div class="scroll">
+    <div class="head"><span class="t-title1">${t('history')}</span>${segCurrency('hist')}</div>
+    <div style="position:relative;margin-bottom:12px">
+      <span class="ic" style="position:absolute;left:12px;top:13px;color:var(--fg3);font-size:20px">search</span>
+      <input class="input" id="q" type="search" placeholder="Search people, shops, categories" value="${esc(S.q)}" style="padding-left:40px" autocomplete="off"></div>
+    <div class="chips" style="margin-bottom:20px">${chip('all', 'All')}${chip('usd', 'US$')}${chip('zig', 'ZiG')}${chip('ecocash', 'EcoCash', 'smartphone')}${chip('bank', 'Bank', 'account_balance')}${chip('manual', 'Cash', 'edit')}</div>
+    <div id="histList">${groups.length ? groups.map((g) => {
+      const out = g.items.filter((x) => x.dir === 'out' && CATS[x.cat].kind === 'expense').reduce((a, x) => a + inDisp(x), 0);
+      return `<div class="section"><div class="sec-head"><span class="t-caption fg2">${g.k}</span><span class="t-footnote fg2 num">${out ? `−${fmt(out, S.disp)}` : ''}</span></div>
+        <div class="card">${g.items.map(txnRow).join('')}</div></div>`;
+    }).join('') : `<div class="empty">${ic('search_off')}<b>Nothing matches</b><p>Try a shop name like “Spar”, or clear the filter.</p></div>`}</div>
+  </div>${tabbar()}`;
+};
+
+SCREENS.budgets = () => {
+  const T = totals(); const sb = spentByCat();
+  const p = T.spent / T.budget;
+  const unbudgeted = Object.keys(CATS).filter((k) => CATS[k].kind === 'expense' && !BUDGETS[k]);
+  return `${statusBar()}<div class="scroll">
+    <div class="head"><span class="t-title1">${t('budgets')}</span>${segCurrency('bud')}</div>
+    <div class="card" style="padding:16px;margin-bottom:24px">
+      <div class="t-caption fg2">Spent in October</div>
+      <div class="num" style="display:flex;align-items:baseline;gap:8px;margin:6px 0 12px;flex-wrap:wrap"><span class="t-title1">${fmt(toDisp(T.spent), S.disp)}</span><span class="t-callout fg2">${t('of')} ${fmt(toDisp(T.budget), S.disp, { noCents: true })}</span></div>
+      <div class="bar ${barClass(p)}" style="height:8px"><i style="width:${Math.min(100, p * 100)}%"></i></div>
+      <div class="t-footnote fg2" style="margin-top:10px">Day 10 of 31. You've used ${Math.round(p * 100)}% of the month's budget in ${Math.round(10 / 31 * 100)}% of the month.</div>
+    </div>
+    <div class="section"><div class="sec-head"><span class="t-caption fg2">Monthly limits</span></div>
+      <div class="card">${Object.keys(BUDGETS).map((k) => `<button type="button" style="display:block;width:100%;text-align:left" data-budget="${k}">${budgetRow(k, sb[k] || 0, BUDGETS[k])}</button>`).join('')}</div></div>
+    <div class="section"><div class="sec-head"><span class="t-caption fg2">No limit yet</span></div>
+      <div class="list">${unbudgeted.map((k) => `<button type="button" class="li" data-budget="${k}">${ic(CATS[k].icon, 'lead')}<span class="grow t-callout">${CATS[k].en}</span><span class="t-callout" style="color:var(--accent)">Set limit</span></button>`).join('')}</div></div>
+  </div>${tabbar()}`;
+};
+
+SCREENS.insights = () => {
+  const sb = spentByCat(); const T = totals();
+  const rows = Object.entries(sb).sort((a, b) => b[1] - a[1]);
+  const max = rows[0][1];
+  const delta = (T.spent - LAST_MONTH_SPEND_USD) / LAST_MONTH_SPEND_USD;
+  const [bigCat, bigVal] = rows[0];
+  return `${statusBar()}<div class="scroll">
+    <div class="head"><span class="t-title1">${t('insights')}</span>${segCurrency('ins')}</div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+      <button type="button" class="iconbtn" aria-label="Previous month" data-act="noop">${ic('chevron_left')}</button>
+      <span class="t-headline">October 2026</span>
+      <button type="button" class="iconbtn" aria-label="Next month" data-act="noop" style="opacity:.4">${ic('chevron_right')}</button></div>
+    <div class="card" style="margin-bottom:24px">
+      <div class="stat"><div class="t-caption fg2">Spent against budget</div>
+        <div class="num" style="display:flex;align-items:baseline;gap:8px;margin:6px 0 10px;flex-wrap:wrap"><span class="t-title1">${Math.round(T.spent / T.budget * 100)}%</span><span class="t-callout fg2">${fmt(toDisp(T.spent), S.disp, { noCents: true })} ${t('of')} ${fmt(toDisp(T.budget), S.disp, { noCents: true })}</span></div>
+        <div class="bar" style="height:8px"><i style="width:${T.spent / T.budget * 100}%"></i></div></div>
+      <div class="stat"><div class="t-caption fg2">Biggest category</div>
+        <div style="display:flex;align-items:center;gap:12px;margin-top:8px"><span class="tile">${ic(CATS[bigCat].icon)}</span>
+        <span style="flex:1"><span class="t-headline" style="display:block">${CATS[bigCat].en}</span><span class="t-footnote fg2 num">${Math.round(bigVal / T.spent * 100)}% of everything you spent</span></span>
+        <span class="t-headline num">${fmt(toDisp(bigVal), S.disp, { noCents: true })}</span></div></div>
+      <div class="stat"><div class="t-caption fg2">Compared with September</div>
+        <div class="num" style="display:flex;align-items:baseline;gap:8px;margin-top:6px;flex-wrap:wrap"><span class="t-title1 ${delta < 0 ? 'inc' : 'spd'}">${delta < 0 ? '−' : '+'}${Math.abs(Math.round(delta * 100))}%</span>
+        <span class="t-callout fg2">${fmt(toDisp(Math.abs(T.spent - LAST_MONTH_SPEND_USD)), S.disp, { noCents: true })} ${delta < 0 ? 'less' : 'more'} so far</span></div></div>
+    </div>
+    <div class="section"><div class="sec-head"><span class="t-title2">Where it went</span></div>
+      <div class="card" style="padding:10px 16px">${rows.map(([k, v], i) => `<div class="hbar"><span class="lab">${CATS[k].en}</span><span class="track"><i class="${i === 0 ? 'top' : ''}" style="width:${(v / max * 100).toFixed(1)}%"></i></span><span class="v num">${fmt(toDisp(v), S.disp, { noCents: true })}</span></div>`).join('')}</div>
+      <p class="t-footnote fg3" style="margin:10px 4px 0">Each payment is converted at the rate on the day it happened, so past months never shift when the rate moves. Cash-outs are moves between your own money and are left out.</p></div>
+  </div>${tabbar()}`;
+};
+
+SCREENS.review = () => {
+  const showPaste = !PENDING.length || S.reviewIdx >= PENDING.length;
+  let card = '';
+  if (!showPaste) {
+    const p = PENDING[S.reviewIdx];
+    const r = window.MariParser.parse(p.text, PARSER);
+    card = reviewCard(p.text, r, p.app, p.time, true);
+  }
+  return `${statusBar()}<div class="scroll">
+    <div class="head"><button type="button" class="back" data-go="home">${ic('chevron_left')}${t('home')}</button><span></span></div>
+    <div class="t-title1" style="margin-bottom:4px">Review</div>
+    <p class="t-callout fg2" style="margin:0 0 18px">Nothing is saved until you confirm it.</p>
+    ${showPaste ? `<div class="empty" style="padding:20px 24px 28px">${ic('task_alt')}<b>All caught up</b><p>New alerts from EcoCash and your bank will wait here.</p></div>` : card}
+    ${PENDING.length > 1 && !showPaste ? `<div class="pager">${PENDING.map((_, i) => `<i class="${i === S.reviewIdx ? 'on' : ''}"></i>`).join('')}</div>` : ''}
+    <div class="section" style="margin-top:32px"><div class="sec-head"><span class="t-title2">Paste a message</span></div>
+      <p class="t-footnote fg2" style="margin:0 0 10px">On iPhone, copy an EcoCash or bank SMS and paste it here. Mari reads it on your phone; nothing is uploaded. This box runs the app's real parser.</p>
+      <textarea class="input" id="paste" rows="4" placeholder="You have received ZiG150.00 from…">${esc(S.pasteText)}</textarea>
+      <div style="display:flex;gap:8px;margin-top:10px">
+        <button type="button" class="btn small secondary" data-act="sample">Try a sample</button>
+        <button type="button" class="btn small primary" data-act="parse" style="margin-left:auto">Read message</button></div>
+      <div id="pasteOut" style="margin-top:14px">${S.pasteResult === undefined ? '' : S.pasteResult === null
+        ? `<div class="card" style="padding:16px"><span class="badge low">${ic('help')}Not a transaction</span><p class="t-callout" style="margin:10px 0 12px">Mari couldn't find an amount with a currency in this message. You can still add it yourself.</p><button type="button" class="btn small secondary" data-act="add">Enter it manually</button></div>`
+        : reviewCard(S.pasteText, S.pasteResult, 'Pasted', 'now', false)}</div></div>
+  </div>`;
+};
+function highlight(text, r) {
+  let h = esc(text);
+  if (!r) return h;
+  const amt = (r.amountMinor / 100).toFixed(2);
+  const re = new RegExp(`((?:ZiG|ZWG|USD|US\\$|\\$)\\s?${group(Math.floor(r.amountMinor / 100)).replace(/,/g, ',')}(?:\\.${amt.split('.')[1]})?)`, 'i');
+  return h.replace(re, '<mark>$1</mark>');
+}
+function reviewCard(text, r, app, time, queued) {
+  const conf = { high: ['high', 'verified', 'Matched a known format'], medium: ['medium', 'help', 'Best guess — check it'], low: ['low', 'warning', 'Direction unclear'] }[r.confidence];
+  const cat = r.category && CATS[r.category] ? CATS[r.category].en : 'Choose…';
+  const amt = fmt(r.amountMinor, r.currency);
+  const eq = r.currency === 'usd' ? fmt(Math.round(r.amountMinor * RATE), 'zig') : fmt(Math.round(r.amountMinor / RATE), 'usd');
+  return `<div class="card" style="padding:16px;display:grid;gap:14px">
+    <div class="quote"><div class="from">${ic('sms')}${esc(app)} · ${esc(time)}</div>${highlight(text, r)}</div>
+    <span class="badge ${conf[0]}" style="justify-self:start">${ic(conf[1])}${conf[2]}</span>
+    <div style="text-align:center"><div class="t-display num ${r.direction === 'in' ? 'inc' : ''}">${r.direction === 'in' ? '+' : ''}${amt}</div><div class="t-footnote fg3 num">≈ ${eq} at ${RATE}</div></div>
+    <div class="list" style="box-shadow:inset 0 0 0 1px var(--sep)">
+      <div class="kv"><span>Type</span><span>${r.direction === 'in' ? 'Money in' : r.direction === 'out' ? 'Money out' : '<span style="color:var(--spend)">Choose in or out</span>'}</span></div>
+      <div class="kv"><span>${r.direction === 'in' ? 'From' : 'To'}</span><span>${esc(r.counterparty || '—')}</span></div>
+      <div class="kv"><span>Category</span><span style="color:var(--accent)">${cat}</span></div>
+      ${r.reference ? `<div class="kv"><span>Reference</span><span class="num t-footnote" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:62%">${esc(r.reference)}</span></div>` : ''}
+      ${r.feeMinor ? `<div class="kv"><span>Log ${fmt(r.feeMinor, r.currency)} fees separately</span><span><span class="switch" role="switch" aria-checked="true" style="display:inline-block;vertical-align:middle"></span></span></div>` : ''}
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 2fr;gap:8px">
+      <button type="button" class="btn secondary" data-act="${queued ? 'discard' : 'clearpaste'}">Discard</button>
+      <button type="button" class="btn primary" data-act="${queued ? 'confirm' : 'confirmpaste'}" ${r.direction ? '' : 'disabled style="opacity:.45"'}>Confirm</button></div>
+  </div>`;
+}
+
+SCREENS.settings = () => {
+  const row = (lead, label, val, act) => `<button type="button" class="li" ${act || ''}>${ic(lead, 'lead')}<span class="grow t-callout">${label}</span>${val ? `<span class="val">${val}</span>` : ''}${ic('chevron_right', 'chev')}</button>`;
+  return `${statusBar()}<div class="scroll">
+    <div class="head"><button type="button" class="back" data-go="home">${ic('chevron_left')}${t('home')}</button><span></span></div>
+    <div class="t-title1" style="margin-bottom:20px">Settings</div>
+    <div class="group"><div class="group-label t-caption">Money</div><div class="list">
+      ${row('currency_exchange', 'Show amounts in', S.disp === 'usd' ? 'US$' : 'ZiG')}
+      ${row('home', 'Home currency', 'US$')}
+      ${row('trending_flat', 'Exchange rate', `<span class="num">${RATE}</span> · official`)}
+    </div><p class="t-footnote fg3" style="margin:8px 16px 0">Updated today at 08:00. Prefer the street rate? Set your own and Mari uses it until you switch back.</p></div>
+    <div class="group"><div class="group-label t-caption">Capture</div><div class="list">
+      <div class="li">${ic('notifications_active', 'lead')}<span class="grow"><span class="t-callout" style="display:block">Read money alerts</span><span class="t-footnote fg2">Android · EcoCash and bank notifications</span></span>
+        <button type="button" class="switch" role="switch" aria-checked="${S.capture}" aria-label="Read money alerts" data-act="capture"></button></div>
+      ${row('bolt', 'iPhone Shortcut', 'Set up', 'data-act="noop"')}
+    </div><p class="t-footnote fg3" style="margin:8px 16px 0">iPhone doesn't let any app read your messages. A Shortcut can pass EcoCash texts to Mari when they arrive, with your permission.</p></div>
+    <div class="group"><div class="group-label t-caption">App</div><div class="list">
+      ${row('translate', 'Language', { en: 'English', sn: 'chiShona', nd: 'isiNdebele' }[S.lang], 'data-go="onboarding" data-ob="1"')}
+      ${row('dark_mode', 'Appearance', 'System')}
+    </div></div>
+    <div class="group"><div class="group-label t-caption">Your data</div><div class="list">
+      ${row('ios_share', 'Export as CSV', '')}
+      <button type="button" class="li" data-act="delete">${ic('delete', 'lead')}<span class="grow t-callout spd">Delete all my data</span></button>
+    </div><p class="t-footnote fg3" style="margin:8px 16px 0">Everything lives on this phone. Mari has no account and no server.</p></div>
+    <p class="t-footnote fg3" style="text-align:center">Mari 1.0.0</p>
+  </div>`;
+};
+
+SCREENS.consent = () => `${statusBar()}<div class="scroll">
+  <div class="head"><button type="button" class="back" data-go="settings">${ic('chevron_left')}Settings</button><span></span></div>
+  <div class="t-title1" style="margin-bottom:8px;text-wrap:balance">Let Mari read money alerts</div>
+  <p class="t-callout fg2" style="margin:0 0 20px">When EcoCash or your bank sends an alert, Mari can read the notification and prepare the transaction for you to confirm.</p>
+  <div class="card" style="padding:16px;display:grid;gap:14px;margin-bottom:14px">
+    <div class="t-caption inc">Mari reads</div>
+    <div class="promise">${ic('check_circle', 'inc')}<span class="t-callout">Notifications from the apps you tick below, and in messaging apps only texts from the senders you list.</span></div>
+    <div class="promise">${ic('check_circle', 'inc')}<span class="t-callout">Only the amount, currency, who and a reference, which stay on this phone.</span></div>
+  </div>
+  <div class="card" style="padding:16px;display:grid;gap:14px;margin-bottom:24px">
+    <div class="t-caption spd">Mari never</div>
+    <div class="promise">${ic('block', 'spd')}<span class="t-callout">Opens your SMS inbox. Android gives Mari notifications, not your messages.</span></div>
+    <div class="promise">${ic('block', 'spd')}<span class="t-callout">Keeps any other notification. Chats, OTPs and promos are discarded the moment they arrive.</span></div>
+    <div class="promise">${ic('block', 'spd')}<span class="t-callout">Sends anything off your phone, or saves a transaction without your tap.</span></div>
+  </div>
+  <div class="sec-head"><span class="t-caption fg2">Read alerts from</span></div>
+  <div class="list" style="margin-bottom:12px">
+    ${[['EcoCash app', 'smartphone', true], ['Google Messages', 'sms', true], ['Samsung Messages', 'sms', false]].map(([n, i, on]) => `<div class="li">${ic(i, 'lead')}<span class="grow t-callout">${n}</span><span class="switch" role="switch" aria-checked="${on}"></span></div>`).join('')}
+  </div>
+  <div class="sec-head"><span class="t-caption fg2">Texts from these senders</span></div>
+  <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px">${['EcoCash', 'CBZ', 'Stanbic', 'Steward', 'FBC', 'NMB', 'InnBucks', 'OneMoney'].map((s) => `<span class="chip">${s}</span>`).join('')}<span class="chip" style="color:var(--accent)">${ic('add')}Add</span></div>
+  <button type="button" class="btn primary" data-act="consentGo">Continue to Android settings</button>
+  <button type="button" class="btn ghost" data-go="settings" style="margin-top:6px">Not now</button>
+</div>`;
+
+SCREENS.onboarding = () => {
+  const dots = `<div class="pager" style="margin:0 0 6px">${[0, 1, 2, 3].map((i) => `<i class="${i === S.ob ? 'on' : ''}"></i>`).join('')}</div>`;
+  const steps = [
+    `<div class="body"><div class="wordmark">Mari<i>.</i></div><div class="t-title2" style="color:var(--fg2);font-weight:500">Money, made clear.</div>
+      <p class="t-body fg2" style="margin:12px 0 0;max-width:300px">US dollars and ZiG, EcoCash and cash, in one honest picture of your month.</p></div>
+     <div class="foot">${dots}<button type="button" class="btn primary" data-act="obNext">Get started</button></div>`,
+    `<div class="body" style="justify-content:flex-start;padding-top:40px"><div class="t-title1">Choose your language</div><p class="t-callout fg2" style="margin:0 0 10px">You can change this any time.</p>
+      ${[['en', 'English', 'Money, made clear.'], ['sn', 'chiShona', 'Mari, yakajeka.'], ['nd', 'isiNdebele', 'Imali, ecacileyo.']].map(([k, n, s]) => `<button type="button" class="choice" data-lang="${k}" aria-pressed="${S.lang === k}"><span class="grow"><span class="t-headline" style="display:block">${n}</span><span class="t-footnote fg2">${s}</span></span><span class="tick">${S.lang === k ? ic('check') : ''}</span></button>`).join('')}</div>
+     <div class="foot">${dots}<button type="button" class="btn primary" data-act="obNext">Continue</button></div>`,
+    `<div class="body" style="justify-content:flex-start;padding-top:40px"><div class="t-title1">How do you think about money?</div><p class="t-callout fg2" style="margin:0 0 10px">Your home currency is the one budgets start in. Every amount is still shown in both.</p>
+      ${[['usd', 'US dollars', 'Most salaries, rent and school fees'], ['zig', 'ZiG', 'Most EcoCash and day-to-day spending']].map(([k, n, s]) => `<button type="button" class="choice" data-homecur="${k}" aria-pressed="${S.homeCur === k}"><span class="grow"><span class="t-headline" style="display:block">${n}</span><span class="t-footnote fg2">${s}</span></span><span class="tick">${S.homeCur === k ? ic('check') : ''}</span></button>`).join('')}
+      <div class="field" style="margin-top:14px"><label for="obRate">Today's rate (ZiG for 1 US$)</label><input class="input num" id="obRate" inputmode="decimal" value="${esc(S.obRate)}">
+      <span class="t-footnote fg3">Official rate fetched this morning. Use the rate you actually pay if it's different.</span></div></div>
+     <div class="foot">${dots}<button type="button" class="btn primary" data-act="obNext">Continue</button></div>`,
+    `<div class="body" style="justify-content:flex-start;padding-top:40px"><div class="t-title1">Private by design</div>
+      <div style="display:grid;gap:18px;margin-top:14px">
+      <div class="promise">${ic('smartphone')}<span><span class="t-headline" style="display:block">Stays on your phone</span><span class="t-callout fg2">No account, no server, no ads. Works with no data at all.</span></span></div>
+      <div class="promise">${ic('touch_app')}<span><span class="t-headline" style="display:block">You confirm everything</span><span class="t-callout fg2">Captured alerts wait for your tap before they count.</span></span></div>
+      <div class="promise">${ic('delete')}<span><span class="t-headline" style="display:block">Gone when you say so</span><span class="t-callout fg2">One tap in Settings erases everything.</span></span></div></div></div>
+     <div class="foot">${dots}<button type="button" class="btn primary" data-act="obDone">Start using Mari</button></div>`,
+  ];
+  return `${statusBar()}<div style="position:relative;flex:1">
+    ${S.ob > 0 ? `<button type="button" class="back" data-act="obBack" style="position:absolute;top:0;left:20px;z-index:2">${ic('chevron_left')}Back</button>` : ''}
+    <div class="ob">${steps[S.ob]}</div></div>`;
+};
+
+SCREENS.styleguide = () => {
+  const cs = getComputedStyle(document.documentElement);
+  const sw = (name, v) => `<div class="sw"><i style="background:var(${v})"></i><span>${name}<em class="num">${cs.getPropertyValue(v).trim()}</em></span></div>`;
+  const tr = (cls, label, spec) => `<div class="typerow"><span class="${cls}">${label}</span><small>${spec}</small></div>`;
+  return `${statusBar()}<div class="scroll sg">
+    <div class="head"><span class="t-title1">Style guide</span><span class="t-footnote fg2">${document.documentElement.dataset.theme || 'system'}</span></div>
+    <h3 class="t-caption fg2">Colour</h3>
+    <div class="swatches">${sw('Background', '--bg')}${sw('Surface', '--surface')}${sw('Sunken', '--sunken')}${sw('Text', '--fg')}${sw('Secondary', '--fg2')}${sw('Tertiary', '--fg3')}${sw('Jacaranda', '--accent')}${sw('Income', '--income')}${sw('Spend', '--spend')}${sw('Warning', '--warn')}${sw('Accent soft', '--accent-soft')}${sw('Separator', '--sep')}</div>
+    <h3 class="t-caption fg2">Type · system face, tabular money</h3>
+    ${tr('t-display num', 'US$254.30', '44/48 · 600 · −1.4')}${tr('t-title1', 'Budgets', '28/34 · 600 · −0.6')}${tr('t-title2', 'Recent', '22/28 · 600 · −0.3')}${tr('t-headline', 'Headline', '17/22 · 600')}${tr('t-body', 'Body text', '17/24 · 400')}${tr('t-callout', 'Callout', '15/20 · 400')}${tr('t-subhead', 'Subhead', '15/20 · 500')}${tr('t-footnote', 'Footnote', '13/18 · 400')}${tr('t-caption', 'Caption', '12/16 · 600 · +0.4')}
+    <h3 class="t-caption fg2">Spacing · 8pt grid</h3>
+    ${[4, 8, 12, 16, 24, 32, 48].map((v) => `<div class="spacerow"><i style="width:${v * 2.4}px"></i><span class="num">${v}</span></div>`).join('')}
+    <h3 class="t-caption fg2">Components</h3>
+    <div style="display:grid;gap:8px"><button type="button" class="btn primary">Confirm</button><button type="button" class="btn secondary">Discard</button><button type="button" class="btn destructive">Delete all my data</button></div>
+    <div style="display:flex;gap:10px;align-items:center;margin:14px 0;flex-wrap:wrap">${segCurrency('sg')}<span class="switch" role="switch" aria-checked="true"></span><span class="switch" role="switch" aria-checked="false"></span></div>
+    <div class="chips" style="margin-bottom:14px"><span class="chip" aria-pressed="true">${ic('shopping_basket')}Groceries</span><span class="chip">${ic('bolt')}ZESA tokens</span><span class="chip">${ic('church')}Church & tithe</span></div>
+    <div class="card" style="margin-bottom:14px">${budgetRow('airtime', 0, 2500)}${budgetRow('transport', 3840, 6000)}${budgetRow('electricity', 2760, 3000)}${budgetRow('fees', 1130, 1000)}</div>
+    <div class="card" style="margin-bottom:14px">${txnRow(TX[0])}${txnRow(TX[4])}</div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px"><span class="badge high">${ic('verified')}Matched a known format</span><span class="badge medium">${ic('help')}Best guess</span><span class="badge low">${ic('warning')}Direction unclear</span></div>
+    <div class="card"><div class="empty">${ic('receipt_long')}<b>No transactions yet</b><p>Add one with the + button, or paste an EcoCash message.</p></div></div>
+    <h3 class="t-caption fg2">Motion</h3>
+    <div class="card" style="padding:16px;display:grid;gap:10px">
+      <div class="t-display num" id="sgRoll"><span data-roll="25430">US$254.30</span></div>
+      <button type="button" class="btn small secondary" data-act="replay" style="justify-self:start">Replay balance roll</button>
+      <p class="t-footnote fg2" style="margin:0">Balance roll 520ms ease-out. Sheet rise 380ms with the screen behind scaling to 0.94. Currency swap 260ms, old figure up and out, new one up from below.</p></div>
+    <div style="height:20px"></div>
+  </div>`;
+};
+
+/* ------------------------------------------------------------------ add / edit sheet */
+function openSheet(html) {
+  const sheet = document.getElementById('sheet');
+  sheet.innerHTML = `<div class="grabber"></div>${html}`;
+  document.getElementById('app').classList.add('behind');
+  document.getElementById('scrim').classList.add('on');
+  requestAnimationFrame(() => sheet.classList.add('on'));
+}
+function closeSheet() {
+  document.getElementById('sheet').classList.remove('on');
+  document.getElementById('scrim').classList.remove('on');
+  document.getElementById('app').classList.remove('behind');
+  S.draft = null;
+}
+function entrySheet() {
+  const dft = S.draft;
+  const shown = dft.digits || '0';
+  const minor = Math.round(parseFloat(shown || '0') * 100) || 0;
+  const eq = minor ? (dft.cur === 'usd' ? `≈ ${fmt(Math.round(minor * RATE), 'zig')}` : `≈ ${fmt(Math.round(minor / RATE), 'usd')}`) + ` at ${RATE}` : '';
+  const cats = Object.keys(CATS).filter((k) => (dft.dir === 'in' ? CATS[k].kind === 'income' : CATS[k].kind !== 'income'));
+  return `<div class="sheet-head"><button type="button" data-act="close">Cancel</button><span class="t-headline">${dft.id ? 'Edit' : 'New transaction'}</span><button type="button" data-act="save" style="font-weight:600;${minor ? '' : 'opacity:.4'}">Save</button></div>
+  <div class="scroll">
+    <div class="seg wide" data-seg="dir" style="margin-bottom:6px"><span class="thumb"></span>
+      <button type="button" data-dir="out" aria-pressed="${dft.dir === 'out'}">Money out</button><button type="button" data-dir="in" aria-pressed="${dft.dir === 'in'}">Money in</button></div>
+    <div class="amount-display"><span class="cur">${dft.cur === 'usd' ? 'US$' : 'ZiG'}</span><span class="val num">${group(shown.split('.')[0] || '0')}${shown.includes('.') ? '.' + shown.split('.')[1] : ''}</span>
+      <div class="eq num">${eq}</div></div>
+    <div style="display:flex;justify-content:center;margin:6px 0 14px"><div class="seg" data-seg="dcur"><span class="thumb"></span>
+      <button type="button" data-dcur="usd" aria-pressed="${dft.cur === 'usd'}">US$</button><button type="button" data-dcur="zig" aria-pressed="${dft.cur === 'zig'}">ZiG</button></div></div>
+    <div class="chips" style="margin-bottom:14px">${cats.map((k) => `<button type="button" class="chip" data-cat="${k}" aria-pressed="${dft.cat === k}">${ic(CATS[k].icon)}${CATS[k].en}</button>`).join('')}</div>
+    <div style="display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px">
+      <input class="input" id="who" placeholder="${dft.dir === 'in' ? 'From (optional)' : 'To or where (optional)'}" value="${esc(dft.who || '')}" autocomplete="off">
+      <button type="button" class="chip" style="height:48px;border-radius:12px">${ic('calendar_today')}Today</button></div>
+    <div class="keypad num">${['1', '2', '3', '4', '5', '6', '7', '8', '9', '.', '0', 'del'].map((k) => `<button type="button" data-key="${k}" aria-label="${k === 'del' ? 'Delete digit' : k}">${k === 'del' ? ic('backspace') : k}</button>`).join('')}</div>
+  </div>`;
+}
+function renderSheet() { const s = document.getElementById('sheet'); const sc = s.querySelector('.scroll'); const top = sc ? sc.scrollTop : 0; s.innerHTML = `<div class="grabber"></div>${entrySheet()}`; const n = s.querySelector('.scroll'); if (n) n.scrollTop = top; positionThumbs(s); }
+function budgetSheet(cat) {
+  const cur = BUDGETS[cat] || 0;
+  openSheet(`<div class="sheet-head"><button type="button" data-act="close">Cancel</button><span class="t-headline">${CATS[cat].en}</span><button type="button" data-act="saveBudget" data-cat="${cat}" style="font-weight:600">Save</button></div>
+  <div class="scroll" style="display:grid;gap:16px;padding-top:8px">
+    <div class="field"><label for="bAmt">Monthly limit</label><div style="display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:center">
+      <input class="input num" id="bAmt" inputmode="decimal" value="${cur ? (cur / 100).toFixed(2) : ''}" placeholder="0.00">
+      <div class="seg" data-seg="bcur"><span class="thumb"></span><button type="button" aria-pressed="true">US$</button><button type="button" aria-pressed="false">ZiG</button></div></div></div>
+    <div class="list"><div class="li"><span class="grow"><span class="t-callout" style="display:block">Carry over what's left</span><span class="t-footnote fg2">Unspent money adds to next month's limit</span></span><span class="switch" role="switch" aria-checked="false"></span></div></div>
+    ${cur ? `<button type="button" class="btn destructive" data-act="removeBudget" data-cat="${cat}">Remove limit</button>` : ''}
+  </div>`);
+  positionThumbs(document.getElementById('sheet'));
+}
+
+/* ------------------------------------------------------------------ notes shown beside the phone */
+const NOTES = {
+  home: ['Home', 'One number that matters', 'The hero answers the only question people open a budget app to ask: how much can I still spend this month. Everything else sits below it, quieter.', [
+    ['visibility', 'Deference: no chrome competes with the figure. The currency switch is small and sits beside the rate, because the two belong together.'],
+    ['swap_vert', 'Tap US$ / ZiG. The figure swaps with a short vertical move, and every row below converts at the rate frozen on its own day.'],
+    ['notifications_active', 'The violet card is the review queue. Captured alerts never count until confirmed.']]],
+  add: ['Add', 'A keypad, not a form', 'Amount first, in big tabular figures. Direction, currency and category are one tap each. Save is disabled until there is an amount.', [
+    ['layers', 'Depth: the sheet rises over the screen and the screen behind scales back, so you know where you are and how to get back.'],
+    ['currency_exchange', 'The equivalent line updates live at today’s rate, and that rate is frozen into the record when you save.'],
+    ['category', 'Categories are Zimbabwean: ZESA tokens, Mukando, Family support, Mobile money fees, Cash out.']]],
+  review: ['Review', 'Captured, then confirmed', 'Alerts from EcoCash or a bank arrive here with the amount highlighted in the original message, so a person can check Mari’s reading against the source in one glance.', [
+    ['verified', 'Confidence is shown, not hidden. A known format, a best guess, or a missing direction each look different.'],
+    ['content_paste', 'The paste box runs the same parser the app ships with. Try your own EcoCash message.'],
+    ['receipt_long', 'Fees and the 2% IMTT tax are found and can be logged as their own line, which is where many people’s money quietly goes.']]],
+  budgets: ['Budgets', 'Pace, not just totals', 'Each limit shows spent against budget with a bar that turns amber at 85% and terracotta when over. The summary compares budget used with month elapsed.', [
+    ['palette', 'Warning and over are semantic colours, separate from the jacaranda accent, so state reads at a glance.'],
+    ['edit', 'Tap any row to change its limit in either currency, or to carry over what’s left.'],
+    ['savings', 'Categories with no limit stay listed, one tap from having one.']]],
+  history: ['History', 'Find anything fast', 'Search runs over people, shops and categories. Filters cover currency and where the record came from: EcoCash, bank or cash.', [
+    ['calendar_month', 'Grouped by day, each with the day’s spend in the display currency.'],
+    ['search', 'Try “zesa”, or the ZiG filter.'],
+    ['history', 'Original amount first, converted amount under it, so the record stays true to what happened.']]],
+  insights: ['Insights', 'Three numbers, said plainly', 'No dashboard of fifteen charts. Spent against budget, the biggest category, and the change from last month, then one ranked bar list.', [
+    ['bar_chart', 'The largest bar takes the accent; the rest stay neutral.'],
+    ['lock_clock', 'Past months don’t shift with the exchange rate, because each payment is converted at its own day’s rate.'],
+    ['swap_horiz', 'Cash-outs are excluded: moving money from EcoCash to your pocket isn’t spending.']]],
+  settings: ['Settings', 'Trust lives here', 'Rate source with a manual override, language, capture, export and a delete-everything control, in plain words.', [
+    ['notifications_active', 'Turn on “Read money alerts” to see the Android consent screen that appears before the system permission.'],
+    ['smartphone', 'The iPhone row explains the platform limit honestly and offers a Shortcut instead.'],
+    ['delete', 'Delete all my data is one row, always visible, never buried.']]],
+  consent: ['Capture consent', 'Exactly what is read', 'Shown before Android’s own permission screen. It lists what Mari reads and what it never does, and lets people choose apps and senders.', [
+    ['rule', 'Messaging apps only pass on texts from listed senders, so personal chats are dropped at the door.'],
+    ['policy', 'Mari uses notification access, not SMS permission, which Google Play reserves for SMS apps.'],
+    ['phonelink_off', 'Nothing leaves the phone.']]],
+  onboarding: ['Onboarding', 'Four calm steps', 'Welcome, language, home currency with today’s rate, and the privacy promises. Under a minute.', [
+    ['translate', 'Pick chiShona or isiNdebele and the home screen labels change. Translations are a first pass for native-speaker review.'],
+    ['currency_exchange', 'The rate is editable from day one, because many people pay the street rate, not the official one.'],
+    ['wifi_off', 'Works fully offline; the rate fetch is the only network call the app makes.']]],
+  styleguide: ['Style guide', 'Every token in one place', 'Colours, the type scale, spacing, components and motion, rendered live in the current theme. Toggle the theme above to compare.', [
+    ['dark_mode', 'Dark mode is its own palette: warmer blacks, lifted accent, softened semantics. Not an inversion.'],
+    ['format_size', 'System faces (SF Pro, Roboto) cost no download and feel native. Money always uses tabular figures.'],
+    ['animation', 'Replay the balance roll to see digits count without jitter.']]],
+};
+function renderNotes(key) {
+  const [eyebrow, title, body, bullets] = NOTES[key] || NOTES.home;
+  document.getElementById('notes').innerHTML = `<div class="eyebrow">${eyebrow}</div><h1>${title}</h1><p>${body}</p>
+    <ul>${bullets.map(([i, txt]) => `<li>${ic(i)}<span>${txt}</span></li>`).join('')}</ul>`;
+}
+
+/* ------------------------------------------------------------------ render + motion */
+const TAB_LIST = [['onboarding', 'Onboarding'], ['home', 'Home'], ['add', 'Add'], ['review', 'Review'], ['budgets', 'Budgets'], ['history', 'History'], ['insights', 'Insights'], ['settings', 'Settings'], ['consent', 'Capture consent'], ['styleguide', 'Style guide']];
+function renderTabs(active) {
+  document.getElementById('tabs').innerHTML = TAB_LIST.map(([k, l]) => `<button type="button" data-tab="${k}" aria-current="${k === active}">${l}</button>`).join('');
+}
+let currentTab = 'home';
+function render(opts = {}) {
+  const app = document.getElementById('app');
+  const sc = app.querySelector('.scroll'); const top = opts.keepScroll && sc ? sc.scrollTop : 0;
+  app.innerHTML = SCREENS[S.screen]();
+  const nsc = app.querySelector('.scroll'); if (nsc) nsc.scrollTop = top;
+  positionThumbs(app);
+  if (!opts.silentTabs) { currentTab = S.screen === 'home' && document.getElementById('sheet').classList.contains('on') ? 'add' : S.screen; }
+  renderTabs(currentTab); renderNotes(currentTab);
+}
+function positionThumbs(rootEl) {
+  rootEl.querySelectorAll('.seg').forEach((seg) => {
+    const on = seg.querySelector('button[aria-pressed="true"]'); const th = seg.querySelector('.thumb');
+    if (!on || !th) return;
+    th.style.width = `${on.offsetWidth}px`; th.style.transform = `translateX(${on.offsetLeft - 3}px)`;
+  });
+}
+function roll(el, from, to, cur) {
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const start = performance.now(); const dur = reduce ? 1 : 520;
+  const ease = (x) => 1 - Math.pow(1 - x, 3);
+  function frame(now) {
+    const p = Math.min(1, (now - start) / dur);
+    el.textContent = fmt(Math.round(from + (to - from) * ease(p)), cur);
+    if (p < 1) requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+}
+function toast(msg, undo) {
+  const el = document.getElementById('toast');
+  el.innerHTML = `<span>${esc(msg)}</span>${undo ? '<button type="button" data-act="undo">Undo</button>' : ''}`;
+  el.classList.add('on'); clearTimeout(toast.t); toast.t = setTimeout(() => el.classList.remove('on'), 2600);
+}
+function setDisplayCurrency(cur) {
+  if (S.disp === cur) return;
+  const fig = document.getElementById('heroFig');
+  if (fig && S.screen === 'home') {
+    fig.classList.add('swap-out');
+    setTimeout(() => { S.disp = cur; render({ keepScroll: true, silentTabs: true }); const f2 = document.getElementById('heroFig'); if (f2) { f2.classList.add('swap-in'); } }, 130);
+  } else { S.disp = cur; render({ keepScroll: true, silentTabs: true }); }
+}
+
+/* ------------------------------------------------------------------ events */
+let lastDeleted = null;
+document.addEventListener('click', (e) => {
+  const b = e.target.closest('button, [data-act]'); if (!b) return;
+  const ds = b.dataset;
+  if (ds.tab) {
+    closeSheet();
+    if (ds.tab === 'add') { S.screen = 'home'; render(); currentTab = 'add'; renderTabs('add'); renderNotes('add'); openAdd(); return; }
+    S.screen = ds.tab; if (ds.tab === 'onboarding') S.ob = 0; render(); return;
+  }
+  if (ds.go) { closeSheet(); S.screen = ds.go; if (ds.ob) S.ob = +ds.ob; render(); return; }
+  if (ds.cur) { setDisplayCurrency(ds.cur); return; }
+  if (ds.filter) { S.filter = ds.filter; render({ keepScroll: true }); return; }
+  if (ds.lang) { S.lang = ds.lang; render(); return; }
+  if (ds.homecur) { S.homeCur = ds.homecur; render(); return; }
+  if (ds.budget) { budgetSheet(ds.budget); return; }
+  if (ds.edit) { const x = TX.find((y) => y.id === ds.edit); S.draft = { id: x.id, dir: x.dir, cur: x.cur, digits: String(x.minor / 100), cat: x.cat, who: x.who }; openSheet(entrySheet()); positionThumbs(document.getElementById('sheet')); return; }
+  if (ds.dir) { S.draft.dir = ds.dir; S.draft.cat = ds.dir === 'in' ? 'salary' : 'groceries'; renderSheet(); return; }
+  if (ds.dcur) { S.draft.cur = ds.dcur; renderSheet(); return; }
+  if (ds.cat && S.draft) { S.draft.cat = ds.cat; renderSheet(); return; }
+  if (ds.key) {
+    let v = S.draft.digits || '';
+    if (ds.key === 'del') v = v.slice(0, -1);
+    else if (ds.key === '.') { if (!v.includes('.')) v = (v || '0') + '.'; }
+    else if (!(v.includes('.') && v.split('.')[1].length >= 2) && v.replace('.', '').length < 9) v = v === '0' ? ds.key : v + ds.key;
+    S.draft.digits = v; renderSheet(); return;
+  }
+  const act = ds.act;
+  if (!act) return;
+  if (act === 'add') { S.draft = { dir: 'out', cur: S.disp, digits: '', cat: 'groceries', who: '' }; if (S.screen !== 'home' && S.screen !== 'history' && S.screen !== 'budgets' && S.screen !== 'insights') { S.screen = 'home'; render(); } openSheet(entrySheet()); positionThumbs(document.getElementById('sheet')); return; }
+  if (act === 'close') { closeSheet(); return; }
+  if (act === 'save') {
+    const dft = S.draft; const minor = Math.round(parseFloat(dft.digits || '0') * 100); if (!minor) return;
+    const whoEl = document.getElementById('who'); const who = (whoEl && whoEl.value.trim()) || CATS[dft.cat].en;
+    const T0 = totals();
+    if (dft.id) { const i = TX.findIndex((y) => y.id === dft.id); const old = TX[i]; TX[i] = mk(old.id, old.at.getDate(), old.at.getHours(), old.at.getMinutes(), dft.dir, dft.cur, minor / 100, dft.cat, who, old.src); }
+    else TX.push(mk('n' + Date.now(), 10, 9, 41, dft.dir, dft.cur, minor / 100, dft.cat, who, 'manual'));
+    closeSheet(); render({ keepScroll: true, silentTabs: true });
+    const span = document.querySelector('#heroFig span'); if (span) roll(span, toDisp(T0.left), toDisp(totals().left), S.disp);
+    toast(dft.id ? 'Saved' : 'Added'); return;
+  }
+  if (act === 'saveBudget') { const v = parseFloat(document.getElementById('bAmt').value); if (v > 0) BUDGETS[ds.cat] = Math.round(v * 100); closeSheet(); render({ keepScroll: true }); toast('Limit saved'); return; }
+  if (act === 'removeBudget') { delete BUDGETS[ds.cat]; closeSheet(); render({ keepScroll: true }); toast('Limit removed'); return; }
+  if (act === 'confirm' || act === 'discard') {
+    const p = PENDING[S.reviewIdx];
+    if (act === 'confirm') {
+      const r = window.MariParser.parse(p.text, PARSER);
+      TX.push(mk('c' + Date.now(), 10, 11, 12, r.direction, r.currency, r.amountMinor / 100, r.category || 'other', r.counterparty || 'EcoCash', 'ecocash'));
+      if (r.feeMinor) TX.push(mk('f' + Date.now(), 10, 11, 12, 'out', r.currency, r.feeMinor / 100, 'fees', 'EcoCash fee + IMTT', 'ecocash'));
+    }
+    lastDeleted = act === 'discard' ? { p, idx: S.reviewIdx } : null;
+    PENDING.splice(S.reviewIdx, 1); if (S.reviewIdx >= PENDING.length) S.reviewIdx = Math.max(0, PENDING.length - 1);
+    if (!PENDING.length) S.reviewIdx = 0;
+    render({ silentTabs: true }); toast(act === 'confirm' ? 'Added to October' : 'Discarded', act === 'discard'); return;
+  }
+  if (act === 'undo' && lastDeleted) { PENDING.splice(lastDeleted.idx, 0, lastDeleted.p); lastDeleted = null; render({ silentTabs: true }); document.getElementById('toast').classList.remove('on'); return; }
+  if (act === 'sample') { S.pasteText = 'Dear Customer, ZWG 1,200.00 has been debited from your account 0123XXXX89 for POS purchase at SPAR. Bal ZWG 3,400.00'; S.pasteResult = undefined; render({ keepScroll: true, silentTabs: true }); return; }
+  if (act === 'parse') { S.pasteText = document.getElementById('paste').value; S.pasteResult = window.MariParser.parse(S.pasteText, PARSER); render({ keepScroll: true, silentTabs: true }); return; }
+  if (act === 'clearpaste') { S.pasteText = ''; S.pasteResult = undefined; render({ keepScroll: true, silentTabs: true }); return; }
+  if (act === 'confirmpaste') {
+    const r = S.pasteResult; TX.push(mk('p' + Date.now(), 10, 9, 41, r.direction, r.currency, r.amountMinor / 100, r.category || 'other', r.counterparty || 'Pasted message', 'manual'));
+    S.pasteText = ''; S.pasteResult = undefined; render({ keepScroll: true, silentTabs: true }); toast('Added to October'); return;
+  }
+  if (act === 'capture') { if (!S.capture) { S.screen = 'consent'; render(); } else { S.capture = false; render({ keepScroll: true }); } return; }
+  if (act === 'consentGo') { S.capture = true; S.screen = 'settings'; render(); toast('Notification access granted'); return; }
+  if (act === 'delete') { toast('In the app this asks you to confirm first'); return; }
+  if (act === 'obNext') { S.ob = Math.min(3, S.ob + 1); render(); return; }
+  if (act === 'obBack') { S.ob = Math.max(0, S.ob - 1); render(); return; }
+  if (act === 'obDone') { S.screen = 'home'; render(); return; }
+  if (act === 'replay') { const s = document.querySelector('#sgRoll span'); roll(s, 0, 25430, 'usd'); return; }
+});
+document.addEventListener('input', (e) => {
+  if (e.target.id === 'q') {
+    S.q = e.target.value; const pos = e.target.selectionStart;
+    render({ keepScroll: true, silentTabs: true });
+    const q = document.getElementById('q'); q.focus(); q.setSelectionRange(pos, pos);
+  }
+  if (e.target.id === 'who' && S.draft) S.draft.who = e.target.value;
+  if (e.target.id === 'paste') S.pasteText = e.target.value;
+  if (e.target.id === 'obRate') S.obRate = e.target.value;
+});
+document.getElementById('scrim').addEventListener('click', closeSheet);
+
+function openAdd() { S.draft = { dir: 'out', cur: S.disp, digits: '45', cat: 'groceries', who: '' }; openSheet(entrySheet()); positionThumbs(document.getElementById('sheet')); }
+
+/* theme toggle: system → light → dark */
+const THEMES = ['system', 'light', 'dark'];
+document.getElementById('themeBtn').addEventListener('click', () => {
+  S.theme = THEMES[(THEMES.indexOf(S.theme) + 1) % 3];
+  if (S.theme === 'system') delete document.documentElement.dataset.theme; else document.documentElement.dataset.theme = S.theme;
+  document.getElementById('themeLabel').textContent = S.theme[0].toUpperCase() + S.theme.slice(1);
+  if (S.screen === 'styleguide') render({ keepScroll: true, silentTabs: true });
+});
+window.addEventListener('resize', () => positionThumbs(document.getElementById('screen')));
+
+render();
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => positionThumbs(document.getElementById('screen')));
+</script>

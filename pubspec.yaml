@@ -1,0 +1,41 @@
+name: mari
+description: "Mari — money, made clear. An offline-first USD/ZiG budget app for Zimbabwe."
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.6.0 <4.0.0"
+  flutter: ">=3.27.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # State
+  flutter_riverpod: ">=2.6.1 <4.0.0"
+
+  # Local-first storage (SQLite via Drift). drift_flutter bundles sqlite3.
+  drift: ^2.26.0
+  drift_flutter: ^0.2.4
+  path_provider: ^2.1.5
+
+  # Exchange-rate fetch (the only network call the app makes)
+  http: ^1.2.2
+
+  # mari://capture?text=… deep links (iOS Shortcuts automation, Android automation apps)
+  app_links: ^6.4.0
+
+  # CSV export via the system share sheet
+  share_plus: ">=11.0.0 <13.0.0"
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ">=4.0.0 <7.0.0"
+  drift_dev: ^2.26.0
+  build_runner: ^2.4.13
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/parser/templates.json
