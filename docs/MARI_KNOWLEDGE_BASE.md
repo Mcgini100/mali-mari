@@ -93,7 +93,8 @@ Compressed record of everything decided and built for Mari, as of 27 Oct 2026. R
   5. profile and release APKs uploaded as the two artifacts
 
   When analyze or tests fail, the errors are posted as annotations.
-- **Status:** CI is green on `81c7c95` (27 Oct 2026). Nobody has tried the app on a phone yet, because the first sideload was blocked by Play Protect.
+- **Status (27 Oct 2026):** CI is green on `b03eac5`. The owner installed the sideload build on a phone. That first test found a bug: the tab bar filled the whole screen and hid every page (a `Center` in the bar grew to full height). It's fixed, and `test/app_smoke_test.dart` now runs the whole app and checks Home renders with the bar at the bottom.
+- **App icon:** the month tree in mist on Kariba teal, with one amber leaf for today's. `tool/make_icon.js` draws `assets/icon/` (full icon, adaptive foreground, Android 13 themed layer, 512 px Play listing icon), and `flutter_launcher_icons` generates every size during setup.
 - **Prototype:** `design/prototype.html` (built by `node tool/build_prototype.js`), published as a private Claude artifact ("Mari Prototype", v2).
 
 ## 9. Open decisions (grilling round 1, not yet answered)
