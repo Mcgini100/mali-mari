@@ -2,112 +2,100 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,300..500,0..1,0&display=block">
 <style>
-/* Layout: presentation stage — notes column + one phone, the phone is the product.
-   Tokens mirror design/tokens.json exactly; the app theme (lib/core/theme/tokens.dart) uses the same values. */
+/* Layout: presentation stage — notes column + one phone; the phone is the product.
+   Palette v2: Kariba teal + msasa amber on mist. Mirrors design/tokens.json and lib/core/theme/tokens.dart. */
 :root {
-  --bg: #F6F5F2; --surface: #FFFFFF; --raised: #FFFFFF; --sunken: #EEECE7; --sep: #E4E1DB;
-  --fg: #17161A; --fg2: #6C6972; --fg3: #A19DA6;
-  --accent: #6A4FD3; --accent-soft: #EEEAFB; --on-accent: #FFFFFF;
-  --income: #1E7F55; --income-soft: #E3F2EA;
-  --spend: #B9502F; --spend-soft: #F7E7E0;
-  --warn: #B87A0A; --warn-soft: #FAF0D9;
-  --stage: #E8E6E1; --frame: #1C1B1F; --scrim: rgba(23, 22, 26, 0.32);
-  --shadow: 0 1px 2px rgba(23, 22, 26, 0.05), 0 6px 20px rgba(23, 22, 26, 0.05);
-  --phone-shadow: 0 30px 80px rgba(23, 22, 26, 0.18), 0 2px 6px rgba(23, 22, 26, 0.1);
+  --bg: #F3F5F2; --surface: #FFFFFF; --raised: #FFFFFF; --sunken: #E8ECE8; --sep: #DCE2DD;
+  --fg: #14211F; --fg2: #5B6B67; --fg3: #94A29E;
+  --accent: #11756B; --accent-soft: #DDEFEA; --on-accent: #FFFFFF;
+  --warm: #D9822B; --warm-soft: #FBEBD7;
+  --income: #0E7C66; --income-soft: #DCF0E9;
+  --spend: #B5483A; --spend-soft: #F7E4DF;
+  --warn: #B7791F; --warn-soft: #FAEFD9;
+  --sky: #E3EEEA; --bark: #6E4E3A; --bud: #B9C4B4; --haze: #8FB59A;
+  --leaf-light: #5E9B57; --leaf-steady: #A3A03C; --leaf-full: #E0A13A; --leaf-heavy: #C8652E; --leaf-gold: #E9BE45;
+  --c-teal: #11756B; --t-teal: #DDEFEA; --c-amber: #B66A1C; --t-amber: #FBEBD7; --c-sage: #4E7A4A; --t-sage: #E2EEDD;
+  --c-clay: #A4523B; --t-clay: #F6E3DC; --c-sky: #2F6F96; --t-sky: #DEEBF3; --c-plum: #7A4E78; --t-plum: #EFE3EE;
+  --c-sand: #8A6D2F; --t-sand: #F3EBD6; --c-moss: #5D6B2A; --t-moss: #ECEFD9;
+  --stage: #E4E9E5; --frame: #16201F; --scrim: rgba(20, 33, 31, 0.34);
+  --shadow: 0 1px 2px rgba(20, 33, 31, 0.05), 0 6px 20px rgba(20, 33, 31, 0.05);
+  --phone-shadow: 0 30px 80px rgba(20, 33, 31, 0.18), 0 2px 6px rgba(20, 33, 31, 0.1);
 
   --font: -apple-system, "SF Pro Text", "SF Pro Display", system-ui, Roboto, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
   --icons: "Material Symbols Rounded";
-
-  --s-xxs: 4px; --s-xs: 8px; --s-sm: 12px; --s-md: 16px; --s-lg: 24px; --s-xl: 32px; --s-xxl: 48px;
   --gutter: 20px;
-  --r-control: 12px; --r-card: 18px; --r-sheet: 28px;
+  --r-control: 12px; --r-card: 20px; --r-sheet: 28px;
   --ease-sheet: cubic-bezier(0.2, 0.9, 0.25, 1);
   --ease-quart: cubic-bezier(0.25, 1, 0.5, 1);
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #0D0C0F; --surface: #18171B; --raised: #211F25; --sunken: #111013; --sep: #2B292F;
-    --fg: #F3F1F5; --fg2: #9B97A2; --fg3: #66626C;
-    --accent: #A592F2; --accent-soft: #2A2440; --on-accent: #16121F;
-    --income: #55C291; --income-soft: #15281F;
-    --spend: #E68667; --spend-soft: #2E1A14;
-    --warn: #E5B04E; --warn-soft: #2C2210;
-    --stage: #050506; --frame: #2A282E; --scrim: rgba(0, 0, 0, 0.55);
+    --bg: #0C1514; --surface: #142120; --raised: #1B2B29; --sunken: #0A1110; --sep: #243433;
+    --fg: #E9F1EE; --fg2: #93A6A1; --fg3: #5F716C;
+    --accent: #4FC3B0; --accent-soft: #143A35; --on-accent: #06201C;
+    --warm: #F0A54C; --warm-soft: #3A2812;
+    --income: #57C9A0; --income-soft: #12302A;
+    --spend: #F08A6E; --spend-soft: #3A1D16;
+    --warn: #E9B44C; --warn-soft: #33260F;
+    --sky: #112523; --bark: #9A7760; --bud: #3E504B; --haze: #3F8F7E;
+    --c-teal: #4FC3B0; --t-teal: #143A35; --c-amber: #F0A54C; --t-amber: #3A2812; --c-sage: #8CC183; --t-sage: #1D3020;
+    --c-clay: #EE9A80; --t-clay: #3A1F17; --c-sky: #7DB9DE; --t-sky: #14293A; --c-plum: #CF9ACB; --t-plum: #2E1C2D;
+    --c-sand: #DDBD72; --t-sand: #332811; --c-moss: #B4C46A; --t-moss: #262C12;
+    --stage: #050909; --frame: #22302E; --scrim: rgba(0, 0, 0, 0.55);
     --shadow: none;
-    --phone-shadow: 0 30px 80px rgba(0, 0, 0, 0.6), 0 0 0 1px #2B292F;
+    --phone-shadow: 0 30px 80px rgba(0, 0, 0, 0.6), 0 0 0 1px #243433;
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
-  --bg: #0D0C0F; --surface: #18171B; --raised: #211F25; --sunken: #111013; --sep: #2B292F;
-  --fg: #F3F1F5; --fg2: #9B97A2; --fg3: #66626C;
-  --accent: #A592F2; --accent-soft: #2A2440; --on-accent: #16121F;
-  --income: #55C291; --income-soft: #15281F;
-  --spend: #E68667; --spend-soft: #2E1A14;
-  --warn: #E5B04E; --warn-soft: #2C2210;
-  --stage: #050506; --frame: #2A282E; --scrim: rgba(0, 0, 0, 0.55);
+  --bg: #0C1514; --surface: #142120; --raised: #1B2B29; --sunken: #0A1110; --sep: #243433;
+  --fg: #E9F1EE; --fg2: #93A6A1; --fg3: #5F716C;
+  --accent: #4FC3B0; --accent-soft: #143A35; --on-accent: #06201C;
+  --warm: #F0A54C; --warm-soft: #3A2812;
+  --income: #57C9A0; --income-soft: #12302A;
+  --spend: #F08A6E; --spend-soft: #3A1D16;
+  --warn: #E9B44C; --warn-soft: #33260F;
+  --sky: #112523; --bark: #9A7760; --bud: #3E504B; --haze: #3F8F7E;
+  --c-teal: #4FC3B0; --t-teal: #143A35; --c-amber: #F0A54C; --t-amber: #3A2812; --c-sage: #8CC183; --t-sage: #1D3020;
+  --c-clay: #EE9A80; --t-clay: #3A1F17; --c-sky: #7DB9DE; --t-sky: #14293A; --c-plum: #CF9ACB; --t-plum: #2E1C2D;
+  --c-sand: #DDBD72; --t-sand: #332811; --c-moss: #B4C46A; --t-moss: #262C12;
+  --stage: #050909; --frame: #22302E; --scrim: rgba(0, 0, 0, 0.55);
   --shadow: none;
-  --phone-shadow: 0 30px 80px rgba(0, 0, 0, 0.6), 0 0 0 1px #2B292F;
+  --phone-shadow: 0 30px 80px rgba(0, 0, 0, 0.6), 0 0 0 1px #243433;
   color-scheme: dark;
 }
 
 * { box-sizing: border-box; }
 html, body { height: 100%; }
-body {
-  margin: 0; background: var(--stage); color: var(--fg);
-  font-family: var(--font); font-size: 15px; line-height: 1.4;
-  -webkit-font-smoothing: antialiased;
-  padding-inline: 16px;
-}
+body { margin: 0; background: var(--stage); color: var(--fg); font-family: var(--font); font-size: 15px; line-height: 1.4; -webkit-font-smoothing: antialiased; padding-inline: 16px; }
 button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
 input, textarea { font: inherit; color: inherit; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 8px; }
-.ic {
-  font-family: var(--icons); font-weight: 400; font-style: normal; font-size: 22px; line-height: 1;
-  display: inline-block; width: 1em; height: 1em; overflow: hidden; white-space: nowrap;
-  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24; user-select: none; flex: none;
-}
+.ic { font-family: var(--icons); font-weight: 400; font-style: normal; font-size: 22px; line-height: 1; display: inline-block; width: 1em; height: 1em; overflow: hidden; white-space: nowrap; font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24; user-select: none; flex: none; }
 .num { font-variant-numeric: tabular-nums; font-feature-settings: "tnum" 1; }
 
 /* ---------- presentation shell ---------- */
-.topbar {
-  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20;
-  display: flex; flex-wrap: wrap; align-items: center; gap: 12px;
-  padding-block: 14px; background: var(--stage);
-  max-width: 1080px; margin-inline: auto;
-}
+.topbar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding-block: 14px; background: var(--stage); max-width: 1080px; margin-inline: auto; }
 .brand { display: flex; align-items: baseline; gap: 10px; margin-right: auto; }
 .brand b { font-size: 20px; letter-spacing: -0.4px; }
+.brand b i { font-style: normal; color: var(--warm); }
 .brand span { color: var(--fg2); font-size: 13px; }
 .tabs { display: flex; gap: 2px; overflow-x: auto; flex: 0 1 auto; min-width: 0; max-width: 100%; scrollbar-width: none; }
 .tabs::-webkit-scrollbar { display: none; }
-.tabs button {
-  padding: 7px 10px; border-radius: 999px; font-size: 13px; font-weight: 500; color: var(--fg2); white-space: nowrap;
-}
+.tabs button { padding: 7px 10px; border-radius: 999px; font-size: 13px; font-weight: 500; color: var(--fg2); white-space: nowrap; }
 .tabs button[aria-current="true"] { background: var(--surface); color: var(--fg); box-shadow: var(--shadow); }
 .theme-btn { display: flex; align-items: center; gap: 6px; padding: 7px 12px; border-radius: 999px; background: var(--surface); font-size: 13px; font-weight: 500; box-shadow: var(--shadow); }
 .theme-btn .ic { font-size: 18px; }
-
-.stage {
-  max-width: 1080px; margin-inline: auto; padding-block: 12px 48px;
-  display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 48px; align-items: start;
-}
+.stage { max-width: 1080px; margin-inline: auto; padding-block: 12px 48px; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 48px; align-items: start; }
 .notes { padding-top: 40px; max-width: 460px; min-width: 0; }
 .notes .eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 0.4px; text-transform: uppercase; color: var(--accent); }
 .notes h1 { font-size: 32px; line-height: 38px; letter-spacing: -0.8px; margin: 8px 0 12px; text-wrap: balance; }
 .notes p { color: var(--fg2); margin: 0 0 14px; font-size: 15px; line-height: 23px; }
 .notes ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; }
-.notes li { display: grid; grid-template-columns: 20px minmax(0, 1fr); gap: 10px; font-size: 14px; line-height: 21px; color: var(--fg); }
+.notes li { display: grid; grid-template-columns: 20px minmax(0, 1fr); gap: 10px; font-size: 14px; line-height: 21px; }
 .notes li .ic { font-size: 18px; color: var(--accent); margin-top: 1px; }
-
-.phone {
-  width: 390px; height: 820px; border-radius: 54px; padding: 11px; background: var(--frame);
-  box-shadow: var(--phone-shadow); position: relative; flex: none;
-}
-.screen {
-  position: relative; width: 100%; height: 100%; border-radius: 44px; overflow: hidden;
-  background: var(--bg); isolation: isolate;
-}
+.phone { width: 390px; height: 820px; border-radius: 54px; padding: 11px; background: var(--frame); box-shadow: var(--phone-shadow); position: relative; flex: none; }
+.screen { position: relative; width: 100%; height: 100%; border-radius: 44px; overflow: hidden; background: var(--bg); isolation: isolate; }
 .island { position: absolute; top: 11px; left: 50%; width: 112px; height: 32px; margin-left: -56px; background: #000; border-radius: 20px; z-index: 50; }
 @media (max-width: 900px) {
   .tabs { order: 3; flex-basis: 100%; }
@@ -120,8 +108,8 @@ input, textarea { font: inherit; color: inherit; }
 }
 
 /* ---------- inside the phone ---------- */
-.app { position: absolute; inset: 0; display: flex; flex-direction: column; transition: transform 380ms var(--ease-sheet), filter 380ms var(--ease-sheet), border-radius 380ms; transform-origin: 50% 100%; }
-.app.behind { transform: scale(0.94) translateY(6px); border-radius: 28px; overflow: hidden; filter: saturate(0.9); }
+.app { position: absolute; inset: 0; display: flex; flex-direction: column; transition: transform 380ms var(--ease-sheet), border-radius 380ms; transform-origin: 50% 100%; }
+.app.behind { transform: scale(0.94) translateY(6px); border-radius: 28px; overflow: hidden; }
 .status { height: 50px; flex: none; display: flex; align-items: flex-end; justify-content: space-between; padding: 0 30px 6px 34px; font-size: 15px; font-weight: 600; }
 .status .r { display: flex; gap: 5px; align-items: center; }
 .status .r .ic { font-size: 17px; font-variation-settings: "FILL" 1, "wght" 500; }
@@ -134,21 +122,30 @@ input, textarea { font: inherit; color: inherit; }
 .t-headline { font-size: 17px; line-height: 22px; font-weight: 600; letter-spacing: -0.2px; }
 .t-body { font-size: 17px; line-height: 24px; letter-spacing: -0.2px; }
 .t-callout { font-size: 15px; line-height: 20px; letter-spacing: -0.1px; }
-.t-subhead { font-size: 15px; line-height: 20px; font-weight: 500; letter-spacing: -0.1px; }
 .t-footnote { font-size: 13px; line-height: 18px; }
 .t-caption { font-size: 12px; line-height: 16px; font-weight: 600; letter-spacing: 0.4px; text-transform: uppercase; }
 .fg2 { color: var(--fg2); } .fg3 { color: var(--fg3); }
-.inc { color: var(--income); } .spd { color: var(--spend); }
+.inc { color: var(--income); } .spd { color: var(--spend); } .wrm { color: var(--warm); }
 
-.head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 6px 0 18px; }
+.head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 6px 0 14px; }
 .iconbtn { width: 40px; height: 40px; border-radius: 999px; display: grid; place-items: center; background: var(--surface); box-shadow: var(--shadow); }
 .iconbtn .ic { font-size: 21px; color: var(--fg2); }
-.back { display: inline-flex; align-items: center; gap: 2px; color: var(--accent); font-size: 17px; letter-spacing: -0.2px; margin-left: -6px; padding: 8px 0; }
+.back { display: inline-flex; align-items: center; gap: 2px; color: var(--accent); font-size: 17px; margin-left: -6px; padding: 8px 0; }
 .back .ic { font-size: 26px; }
 
-/* hero */
-.hero { padding: 6px 0 24px; }
-.hero .figure { display: block; overflow: hidden; height: 50px; margin: 6px 0 14px; }
+/* greeting + tree */
+.greet { font-size: 26px; line-height: 32px; font-weight: 600; letter-spacing: -0.5px; }
+.greet small { display: block; font-size: 15px; line-height: 20px; font-weight: 400; letter-spacing: -0.1px; color: var(--fg2); margin-top: 2px; }
+.tree-card { position: relative; border-radius: var(--r-card); background: radial-gradient(120% 90% at 50% 100%, var(--surface) 0%, var(--sky) 100%); overflow: hidden; margin: 14px 0 0; }
+.tree-slot { position: relative; height: 236px; margin-top: 34px; }
+.tree-slot canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: manipulation; cursor: pointer; }
+.tree-meta { position: absolute; left: 16px; right: 16px; top: 12px; display: flex; justify-content: space-between; align-items: baseline; pointer-events: none; }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 12px; padding: 0 16px 14px; font-size: 12px; color: var(--fg2); }
+.legend span { display: inline-flex; align-items: center; gap: 5px; }
+.legend i { width: 9px; height: 7px; border-radius: 50%; display: inline-block; }
+
+.hero { padding: 20px 0 6px; }
+.hero .figure { display: block; overflow: hidden; height: 50px; margin: 4px 0 8px; }
 .hero .figure span { display: inline-block; }
 .hero .figure.swap-out span { animation: swapOut 130ms var(--ease-quart) forwards; }
 .hero .figure.swap-in span { animation: swapIn 260ms var(--ease-quart); }
@@ -161,42 +158,43 @@ input, textarea { font: inherit; color: inherit; }
 .seg .thumb { position: absolute; top: 3px; bottom: 3px; left: 3px; border-radius: 999px; background: var(--raised); box-shadow: 0 1px 3px rgba(0,0,0,0.12); transition: transform 260ms var(--ease-quart), width 260ms var(--ease-quart); }
 .seg.wide { display: flex; } .seg.wide button { flex: 1; padding: 9px 0; font-size: 15px; }
 
+.pace { display: flex; gap: 12px; align-items: center; padding: 14px 16px; border-radius: var(--r-card); background: var(--warm-soft); margin: 14px 0 0; }
+.pace .ic { color: var(--warm); font-size: 24px; }
+.pace b { display: block; font-size: 17px; line-height: 22px; letter-spacing: -0.2px; }
+.pace small { display: block; font-size: 13px; line-height: 18px; color: var(--fg2); }
+
 .card { background: var(--surface); border-radius: var(--r-card); box-shadow: var(--shadow); }
-.review-cta { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-radius: var(--r-card); background: var(--accent-soft); color: var(--fg); width: 100%; text-align: left; margin-bottom: 28px; }
-.review-cta .dot { width: 34px; height: 34px; border-radius: 999px; background: var(--accent); color: var(--on-accent); display: grid; place-items: center; font-weight: 600; font-size: 15px; flex: none; }
+.review-cta { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-radius: var(--r-card); background: var(--accent-soft); width: 100%; text-align: left; margin-top: 12px; }
+.review-cta .dot { width: 34px; height: 34px; border-radius: 999px; background: var(--accent); color: var(--on-accent); display: grid; place-items: center; font-weight: 600; flex: none; }
 .review-cta .grow { flex: 1; min-width: 0; }
 .review-cta .ic { color: var(--accent); }
-
 .sec-head { display: flex; align-items: baseline; justify-content: space-between; margin: 0 0 10px; }
 .sec-head button { color: var(--accent); font-size: 15px; }
-.section { margin-bottom: 28px; }
+.section { margin-top: 26px; }
 
 .bud { display: grid; gap: 7px; padding: 12px 16px; }
 .bud + .bud { border-top: 0.5px solid var(--sep); }
 .bud .row { display: flex; align-items: center; gap: 10px; }
 .bud .row .name { flex: 1; min-width: 0; font-size: 15px; font-weight: 500; }
 .bud .row .amt { font-size: 13px; color: var(--fg2); }
-.bud .row .ic { font-size: 18px; color: var(--fg2); }
 .bar { height: 6px; border-radius: 999px; background: var(--sunken); overflow: hidden; }
 .bar i { display: block; height: 100%; border-radius: inherit; background: var(--accent); transition: width 520ms var(--ease-quart); }
 .bar.warn i { background: var(--warn); } .bar.over i { background: var(--spend); }
-.bud .state { font-size: 12px; line-height: 16px; font-weight: 600; margin-top: -1px; }
+.bud .state { font-size: 12px; line-height: 16px; font-weight: 600; }
 
 .txn { display: flex; align-items: center; gap: 12px; padding: 11px 16px; width: 100%; text-align: left; }
 .txn + .txn { border-top: 0.5px solid var(--sep); }
-.tile { width: 38px; height: 38px; border-radius: 12px; display: grid; place-items: center; background: var(--sunken); flex: none; }
-.tile .ic { font-size: 20px; color: var(--fg2); }
-.tile.in { background: var(--income-soft); } .tile.in .ic { color: var(--income); }
+.tile { width: 38px; height: 38px; border-radius: 12px; display: grid; place-items: center; flex: none; }
+.tile .ic { font-size: 20px; }
+.mini { width: 26px; height: 26px; border-radius: 9px; display: grid; place-items: center; flex: none; }
+.mini .ic { font-size: 16px; }
 .txn .mid { flex: 1; min-width: 0; }
 .txn .mid b { display: block; font-weight: 500; font-size: 15px; line-height: 20px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .txn .mid small { display: block; font-size: 13px; line-height: 18px; color: var(--fg2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .txn .end { text-align: right; flex: none; }
 .txn .end b { display: block; font-weight: 500; font-size: 15px; line-height: 20px; }
 .txn .end small { display: block; font-size: 12px; line-height: 16px; color: var(--fg3); }
-.src { display: inline-flex; align-items: center; gap: 3px; }
-.src .ic { font-size: 13px; }
 
-/* tab bar */
 .tabbar { flex: none; display: grid; grid-template-columns: repeat(5, 1fr); align-items: center; padding: 6px 10px 26px; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(20px); border-top: 0.5px solid var(--sep); }
 .tabbar button { display: grid; justify-items: center; gap: 2px; font-size: 10px; font-weight: 500; color: var(--fg3); padding: 4px 0; }
 .tabbar button .ic { font-size: 24px; }
@@ -205,7 +203,6 @@ input, textarea { font: inherit; color: inherit; }
 .tabbar .add { justify-self: center; width: 52px; height: 52px; border-radius: 999px; background: var(--accent); color: var(--on-accent); display: grid; place-items: center; box-shadow: 0 6px 16px color-mix(in srgb, var(--accent) 40%, transparent); }
 .tabbar .add .ic { font-size: 28px; font-variation-settings: "wght" 500; }
 
-/* buttons */
 .btn { display: flex; align-items: center; justify-content: center; gap: 8px; height: 52px; border-radius: 16px; font-size: 17px; font-weight: 600; letter-spacing: -0.2px; width: 100%; transition: transform 120ms; }
 .btn:active { transform: scale(0.97); }
 .btn.primary { background: var(--accent); color: var(--on-accent); }
@@ -214,15 +211,12 @@ input, textarea { font: inherit; color: inherit; }
 .btn.destructive { background: var(--spend-soft); color: var(--spend); }
 .btn.small { height: 40px; font-size: 15px; border-radius: 12px; width: auto; padding: 0 16px; }
 
-.chip { display: inline-flex; align-items: center; gap: 6px; padding: 7px 12px; border-radius: 999px; background: var(--surface); box-shadow: inset 0 0 0 1px var(--sep); font-size: 14px; font-weight: 500; white-space: nowrap; color: var(--fg); }
-.chip .ic { font-size: 17px; color: var(--fg2); }
+.chip { display: inline-flex; align-items: center; gap: 6px; padding: 7px 12px; border-radius: 999px; background: var(--surface); box-shadow: inset 0 0 0 1px var(--sep); font-size: 14px; font-weight: 500; white-space: nowrap; }
+.chip .ic { font-size: 17px; }
 .chip[aria-pressed="true"] { background: var(--fg); color: var(--bg); box-shadow: none; }
-.chip[aria-pressed="true"] .ic { color: var(--bg); }
+.chip[aria-pressed="true"] .ic { color: var(--bg) !important; }
 .chips { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; margin-inline: calc(var(--gutter) * -1); padding-inline: var(--gutter); }
 .chips::-webkit-scrollbar { display: none; }
-
-.field { display: grid; gap: 6px; }
-.field label { font-size: 13px; color: var(--fg2); }
 .input { height: 48px; border-radius: var(--r-control); background: var(--surface); box-shadow: inset 0 0 0 1px var(--sep); border: 0; padding: 0 14px; font-size: 17px; width: 100%; }
 .input:focus { outline: none; box-shadow: inset 0 0 0 2px var(--accent); }
 textarea.input { height: auto; padding: 12px 14px; font-size: 15px; line-height: 21px; resize: none; }
@@ -236,13 +230,11 @@ textarea.input { height: auto; padding: 12px 14px; font-size: 15px; line-height:
 .li .lead { font-size: 20px; color: var(--fg2); }
 .group-label { padding: 0 16px 8px; color: var(--fg2); }
 .group { margin-bottom: 26px; }
-
-.switch { width: 51px; height: 31px; border-radius: 999px; background: var(--sep); position: relative; transition: background 200ms; flex: none; }
+.switch { width: 51px; height: 31px; border-radius: 999px; background: var(--sep); position: relative; transition: background 200ms; flex: none; display: inline-block; }
 .switch::after { content: ""; position: absolute; top: 2px; left: 2px; width: 27px; height: 27px; border-radius: 999px; background: #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.2); transition: transform 240ms var(--ease-quart); }
-.switch[aria-checked="true"] { background: var(--income); }
+.switch[aria-checked="true"] { background: var(--accent); }
 .switch[aria-checked="true"]::after { transform: translateX(20px); }
 
-/* sheet */
 .scrim { position: absolute; inset: 0; background: var(--scrim); opacity: 0; transition: opacity 380ms var(--ease-sheet); z-index: 30; pointer-events: none; }
 .scrim.on { opacity: 1; pointer-events: auto; }
 .sheet { position: absolute; left: 0; right: 0; bottom: 0; max-height: calc(100% - 56px); background: var(--bg); border-radius: var(--r-sheet) var(--r-sheet) 0 0; z-index: 31; transform: translateY(102%); transition: transform 380ms var(--ease-sheet); display: flex; flex-direction: column; }
@@ -251,7 +243,6 @@ textarea.input { height: auto; padding: 12px 14px; font-size: 15px; line-height:
 .sheet-head { display: flex; align-items: center; justify-content: space-between; padding: 6px var(--gutter) 10px; flex: none; }
 .sheet-head button { color: var(--accent); font-size: 17px; }
 .sheet .scroll { padding-bottom: 28px; }
-
 .amount-display { text-align: center; padding: 10px 0 4px; }
 .amount-display .cur { font-size: 22px; font-weight: 600; color: var(--fg2); margin-right: 6px; vertical-align: 14px; }
 .amount-display .val { font-size: 56px; line-height: 64px; font-weight: 600; letter-spacing: -2px; }
@@ -259,10 +250,8 @@ textarea.input { height: auto; padding: 12px 14px; font-size: 15px; line-height:
 .keypad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 12px; }
 .keypad button { height: 50px; border-radius: 14px; font-size: 24px; font-weight: 500; background: var(--surface); box-shadow: var(--shadow); transition: transform 120ms, background 120ms; }
 .keypad button:active { transform: scale(0.95); background: var(--sunken); }
-.keypad .ic { font-size: 24px; }
 
-/* review */
-.quote { background: var(--sunken); border-radius: 14px; padding: 12px 14px; font-size: 14px; line-height: 20px; color: var(--fg); }
+.quote { background: var(--sunken); border-radius: 14px; padding: 12px 14px; font-size: 14px; line-height: 20px; }
 .quote .from { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--fg2); margin-bottom: 6px; font-weight: 500; }
 .quote .from .ic { font-size: 15px; }
 mark { background: color-mix(in srgb, var(--accent) 22%, transparent); color: inherit; border-radius: 4px; padding: 0 2px; }
@@ -274,39 +263,46 @@ mark { background: color-mix(in srgb, var(--accent) 22%, transparent); color: in
 .kv { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 16px; }
 .kv + .kv { border-top: 0.5px solid var(--sep); }
 .kv span:first-child { color: var(--fg2); font-size: 15px; }
-.kv span:last-child { font-size: 15px; font-weight: 500; text-align: right; min-width: 0; overflow-wrap: anywhere; }
+.kv span:last-child { font-size: 15px; font-weight: 500; text-align: right; min-width: 0; }
 .pager { display: flex; justify-content: center; gap: 6px; margin: 14px 0 0; }
 .pager i { width: 6px; height: 6px; border-radius: 9px; background: var(--sep); }
 .pager i.on { background: var(--fg); width: 18px; }
-
-.empty { text-align: center; padding: 40px 24px; }
+.empty { text-align: center; padding: 34px 24px; }
 .empty .ic { font-size: 40px; color: var(--fg3); }
 .empty b { display: block; margin: 12px 0 4px; font-size: 17px; }
 .empty p { margin: 0; color: var(--fg2); font-size: 15px; line-height: 21px; }
 
-/* insights */
+/* insights + seasons */
 .stat { padding: 16px; }
 .stat + .stat { border-top: 0.5px solid var(--sep); }
+.recap { padding: 18px 16px; border-radius: var(--r-card); background: var(--accent-soft); }
+.recap p { margin: 6px 0 0; font-size: 17px; line-height: 25px; letter-spacing: -0.2px; text-wrap: pretty; }
+.recap p b { font-weight: 600; }
+.shelf { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.season { background: var(--surface); border-radius: 18px; box-shadow: var(--shadow); padding: 10px 10px 12px; text-align: left; position: relative; }
+.season[aria-current="true"] { box-shadow: inset 0 0 0 2px var(--accent); }
+.season canvas { display: block; width: 100%; height: 108px; border-radius: 12px; background: radial-gradient(120% 90% at 50% 100%, var(--surface) 0%, var(--sky) 100%); }
+.season b { display: block; font-size: 15px; margin-top: 8px; }
+.season small { display: block; font-size: 12px; line-height: 16px; color: var(--fg2); }
+.season .tag { position: absolute; top: 16px; left: 16px; font-size: 11px; font-weight: 600; letter-spacing: 0.3px; text-transform: uppercase; color: var(--accent); background: var(--surface); padding: 2px 7px; border-radius: 999px; }
 .hbar { display: grid; grid-template-columns: 108px minmax(0, 1fr) auto; align-items: center; gap: 10px; padding: 7px 0; font-size: 14px; }
 .hbar .track { height: 10px; border-radius: 99px; background: var(--sunken); overflow: hidden; }
-.hbar .track i { display: block; height: 100%; border-radius: 99px; background: var(--fg); opacity: 0.85; }
-.hbar .track i.top { background: var(--accent); opacity: 1; }
+.hbar .track i { display: block; height: 100%; border-radius: 99px; }
 .hbar .lab { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .hbar .v { color: var(--fg2); font-size: 13px; }
 
 /* onboarding */
 .ob { position: absolute; inset: 0; display: flex; flex-direction: column; padding: 0 var(--gutter); }
-.ob .body { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 14px; }
+.ob .body { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 12px; min-height: 0; }
 .ob .foot { padding: 0 0 34px; display: grid; gap: 10px; }
-.wordmark { font-size: 64px; line-height: 64px; font-weight: 700; letter-spacing: -3px; }
-.wordmark i { font-style: normal; color: var(--accent); }
+.wordmark { font-size: 60px; line-height: 60px; font-weight: 700; letter-spacing: -3px; }
+.wordmark i { font-style: normal; color: var(--warm); }
 .choice { display: flex; align-items: center; gap: 12px; padding: 16px; border-radius: 16px; background: var(--surface); box-shadow: inset 0 0 0 1px var(--sep); width: 100%; text-align: left; }
 .choice[aria-pressed="true"] { box-shadow: inset 0 0 0 2px var(--accent); }
 .choice .grow { flex: 1; }
 .choice .tick { width: 22px; height: 22px; border-radius: 99px; box-shadow: inset 0 0 0 1.5px var(--sep); display: grid; place-items: center; }
 .choice[aria-pressed="true"] .tick { background: var(--accent); box-shadow: none; color: var(--on-accent); }
 .choice .tick .ic { font-size: 16px; font-variation-settings: "wght" 600; }
-
 .promise { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 12px; align-items: start; }
 .promise .ic { font-size: 22px; color: var(--accent); }
 
@@ -314,17 +310,16 @@ mark { background: color-mix(in srgb, var(--accent) 22%, transparent); color: in
 .sg h3 { margin: 22px 0 10px; }
 .swatches { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
 .sw { border-radius: 12px; overflow: hidden; box-shadow: inset 0 0 0 1px var(--sep); }
-.sw i { display: block; height: 44px; }
+.sw i { display: block; height: 40px; }
 .sw span { display: block; padding: 6px 8px; font-size: 11px; line-height: 14px; background: var(--surface); }
 .sw span em { display: block; font-style: normal; color: var(--fg3); }
 .typerow { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; padding: 8px 0; border-top: 0.5px solid var(--sep); }
 .typerow small { color: var(--fg3); font-size: 11px; white-space: nowrap; }
-.spacerow { display: flex; align-items: center; gap: 10px; font-size: 12px; color: var(--fg2); padding: 3px 0; }
-.spacerow i { height: 10px; background: var(--accent); border-radius: 3px; display: block; }
 
 .toast { position: absolute; left: 20px; right: 20px; bottom: 100px; z-index: 40; background: var(--fg); color: var(--bg); padding: 12px 16px; border-radius: 14px; font-size: 15px; display: flex; align-items: center; justify-content: space-between; gap: 10px; transform: translateY(20px); opacity: 0; transition: all 260ms var(--ease-quart); pointer-events: none; }
 .toast.on { transform: none; opacity: 1; pointer-events: auto; }
 .toast button { color: var(--accent-soft); font-weight: 600; }
+.toast .ic { color: var(--leaf-gold); font-size: 20px; margin-right: 6px; vertical-align: -4px; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 1ms !important; transition-duration: 1ms !important; }
@@ -332,7 +327,7 @@ mark { background: color-mix(in srgb, var(--accent) 22%, transparent); color: in
 </style>
 
 <header class="topbar">
-  <div class="brand"><b>Mari</b><span>Design prototype</span></div>
+  <div class="brand"><b>Mari<i>.</i></b><span>Design prototype · v2</span></div>
   <nav class="tabs" id="tabs" aria-label="Screens"></nav>
   <button class="theme-btn" id="themeBtn" type="button"><span class="ic" aria-hidden="true">contrast</span><span id="themeLabel">System</span></button>
 </header>
@@ -527,89 +522,240 @@ mark { background: color-mix(in srgb, var(--accent) 22%, transparent); color: in
 
 </script>
 <script>
+// Mari month tree — JavaScript reference implementation.
+//
+// Every month grows one msasa-shaped tree. Its shape comes only from the year
+// and month (a seeded generator), so a given October always looks the same on
+// every phone, and the Dart port (lib/features/tree/month_tree.dart) draws the
+// exact same tree. test/fixtures/tree_2026_10.json pins the output;
+// `node tool/month_tree.js --fixture` regenerates it.
+//
+// Leaves: one slot per day of the month. A day's leaf colour comes from how
+// that day went (dayTone below). Every tone is a real msasa leaf colour, so no
+// day ever looks like a failure.
+(function (root) {
+  'use strict';
+
+  var TAU = Math.PI * 2;
+  var MAX_DAYS = 31;
+
+  // Park–Miller minimal standard generator. Products stay below 2^53, so
+  // JavaScript doubles and Dart ints produce identical sequences.
+  function rng(seed) {
+    var s = seed % 2147483647;
+    if (s <= 0) s += 2147483646;
+    return function () {
+      s = (s * 48271) % 2147483647;
+      return (s - 1) / 2147483646;
+    };
+  }
+
+  function add(a, b) { return [a[0] + b[0], a[1] + b[1], a[2] + b[2]]; }
+  function scale(a, k) { return [a[0] * k, a[1] * k, a[2] * k]; }
+  function cross(a, b) { return [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]]; }
+  function norm(a) { var l = Math.sqrt(a[0] * a[0] + a[1] * a[1] + a[2] * a[2]); return [a[0] / l, a[1] / l, a[2] / l]; }
+
+  function generate(year, month) {
+    var r = rng((year * 100 + month) * 7919);
+    var segments = []; // {a, b, w, depth}
+    var tips = [];
+
+    function grow(start, dir, len, w, depth) {
+      var end = add(start, scale(dir, len));
+      segments.push({ a: start, b: end, w: w, depth: depth });
+      if (depth === 3) { tips.push(end); return; }
+      var n = depth === 0 ? 3 : 2;
+      var ref = Math.abs(dir[1]) < 0.9 ? [0, 1, 0] : [1, 0, 0];
+      var u = norm(cross(dir, ref));
+      var v = cross(dir, u);
+      var az0 = r() * TAU;
+      for (var i = 0; i < n; i++) {
+        var az = az0 + (i * TAU) / n + (r() - 0.5) * 0.6;
+        var tilt = (depth === 0 ? 0.88 : 0.62) + (r() - 0.5) * 0.25;
+        var side = add(scale(u, Math.cos(az)), scale(v, Math.sin(az)));
+        var child = norm(add(scale(dir, Math.cos(tilt)), scale(side, Math.sin(tilt))));
+        // Msasa crowns spread wide and flat: damp upward growth near the top.
+        if (depth >= 1) child = norm([child[0], child[1] * 0.6, child[2]]);
+        grow(end, child, len * (0.74 + r() * 0.1), w * 0.64, depth + 1);
+      }
+    }
+
+    var trunkDir = norm([(r() - 0.5) * 0.25, 1, (r() - 0.5) * 0.25]);
+    grow([0, 0, 0], trunkDir, 1.25, 0.24, 0);
+
+    var leaves = [];
+    for (var i = 0; i < MAX_DAYS; i++) {
+      var tip = tips[i % tips.length];
+      var offset = [(r() - 0.5) * 0.8, (r() - 0.3) * 0.45, (r() - 0.5) * 0.8];
+      leaves.push({
+        pos: add(tip, offset),
+        size: 0.2 + r() * 0.07,
+        rot: r() * Math.PI,
+        phase: r() * TAU,
+        day: 0,
+      });
+    }
+    // Days take slots in a shuffled order so the crown fills evenly.
+    var order = [];
+    for (var k = 0; k < MAX_DAYS; k++) order.push(k);
+    for (var j = MAX_DAYS - 1; j > 0; j--) {
+      var x = Math.floor(r() * (j + 1));
+      var tmp = order[j]; order[j] = order[x]; order[x] = tmp;
+    }
+    for (var d = 0; d < MAX_DAYS; d++) leaves[order[d]].day = d + 1;
+
+    return { segments: segments, leaves: leaves, tips: tips };
+  }
+
+  // How a day went, as a leaf. pace = the month's budget per day (or, with no
+  // budget, the average spend on days that had any). Amounts in minor units.
+  //   bud    nothing logged that day
+  //   gold   more money came in than went out
+  //   light  spent at most half the daily pace
+  //   steady up to the pace
+  //   full   up to 1.6 × pace
+  //   heavy  more than that
+  function dayTone(spend, income, pace, hasEntries) {
+    if (!hasEntries) return 'bud';
+    if (income > 0 && income > spend) return 'gold';
+    if (spend <= 0) return 'light';
+    if (pace <= 0) return 'steady';
+    var ratio = spend / pace;
+    if (ratio <= 0.5) return 'light';
+    if (ratio <= 1.0) return 'steady';
+    if (ratio <= 1.6) return 'full';
+    return 'heavy';
+  }
+
+  // Orthographic view: turn the tree by yaw around its trunk, tip it toward the
+  // viewer by tilt, drop z. Returns [x, y, depth] with y up.
+  function project(p, yaw, tilt) {
+    var cy = Math.cos(yaw), sy = Math.sin(yaw);
+    var x = p[0] * cy + p[2] * sy;
+    var z = -p[0] * sy + p[2] * cy;
+    var ct = Math.cos(tilt), st = Math.sin(tilt);
+    var y = p[1] * ct - z * st;
+    var depth = p[1] * st + z * ct;
+    return [x, y, depth];
+  }
+
+  var api = { generate: generate, dayTone: dayTone, project: project, rng: rng, MAX_DAYS: MAX_DAYS };
+  if (typeof module !== 'undefined' && module.exports) module.exports = api;
+  else root.MariTree = api;
+
+  // node tool/month_tree.js --fixture  → writes the parity fixture for the Dart test
+  if (typeof require !== 'undefined' && typeof process !== 'undefined' && require.main === module && process.argv.indexOf('--fixture') !== -1) {
+    var fs = require('fs');
+    var path = require('path');
+    var out = { year: 2026, month: 10, tree: generate(2026, 10), projected: generate(2026, 10).leaves.slice(0, 5).map(function (l) { return project(l.pos, 0.4, 0.18); }) };
+    var file = path.join(__dirname, '..', 'test', 'fixtures', 'tree_2026_10.json');
+    fs.writeFileSync(file, JSON.stringify(out, null, 1) + '\n');
+    console.log('wrote ' + file + ' (' + out.tree.segments.length + ' segments, ' + out.tree.leaves.length + ' leaves)');
+  }
+})(typeof window !== 'undefined' ? window : this);
+
+</script>
+<script>
 'use strict';
 const TEMPLATES = {"version":1,"_readme":["Mari transaction-message templates. This file is DATA: add a template here when a bank or wallet changes its wording, no code change needed.","Placeholders expanded by the parser before compiling: {CUR} -> named group 'cur' (ZiG/ZWG/USD/US$/$), {AMT} -> named group 'amt' (1,234.56 style).","Other named groups a template may use: 'cp' (counterparty). Patterns are case-insensitive and must stay ECMAScript/Dart-compatible (named groups, no possessive quantifiers).","Templates are tried in order; the first match wins. If none match, the generic heuristic runs.","The sample phrasings these were written against are synthetic (modelled on common Zimbabwean wallet/bank alerts). Add real messages to test/fixtures/messages.json and adjust.","heuristicCounterpartyPattern is compiled case-SENSITIVE (it relies on ALL-CAPS names); everything else is case-insensitive."],"templates":[{"id":"wallet_received","direction":"in","pattern":"received\\s+{CUR}\\s?{AMT}\\s+from\\s+(?<cp>[^.(\\n]+?)(?=\\s*\\(|\\s+\\+?\\d{9,}|\\.(?:\\s|$)|,|\\s+approval|\\s+txn|$)"},{"id":"wallet_payment","direction":"out","pattern":"(?:merchant\\s+)?payment\\s+(?:of\\s+)?{CUR}\\s?{AMT}\\s+to\\s+(?<cp>.+?)\\s+(?:was\\s+)?successful"},{"id":"wallet_sent","direction":"out","pattern":"{CUR}\\s?{AMT}\\s+(?:has\\s+been\\s+)?(?:sent|transferred)\\s+to\\s+(?<cp>[^.(\\n]+?)(?=\\s*\\(|\\s+\\+?\\d{9,}|\\.(?:\\s|$)|,|\\s+txn|\\s+approval|$)"},{"id":"wallet_cash_out","direction":"out","category":"cash_out","pattern":"cash[\\s-]?out\\s+(?:of\\s+)?{CUR}\\s?{AMT}(?:\\s+at\\s+(?:agent\\s+)?(?<cp>.+?)(?=\\s+successful|\\.(?:\\s|$)|,|$))?"},{"id":"wallet_airtime","direction":"out","category":"airtime","pattern":"bought\\s+{CUR}\\s?{AMT}\\s+(?:of\\s+)?(?<cp>airtime|data|bundles?)"},{"id":"bank_debited_from","direction":"out","pattern":"{CUR}\\s?{AMT}\\s+has\\s+been\\s+debited\\s+from(?:.*?\\bat\\s+(?<cp>[A-Za-z0-9][A-Za-z0-9 &'.-]+?)(?=\\.(?:\\s|$)|,|\\s+bal|\\s+avl|\\s+avail|$))?"},{"id":"bank_debited","direction":"out","pattern":"debited\\s+(?:with\\s+)?{CUR}\\s?{AMT}(?:.*?\\bat\\s+(?<cp>[A-Za-z0-9][A-Za-z0-9 &'.-]+?)(?=\\.(?:\\s|$)|,|\\s+bal|\\s+avl|\\s+avail|$))?"},{"id":"bank_credited","direction":"in","pattern":"credited\\s+(?:with\\s+)?{CUR}\\s?{AMT}(?:.*?\\b(?:ref|from)\\s*:?\\s*(?<cp>[A-Za-z0-9][A-Za-z0-9 &'.-]+?)(?=\\.(?:\\s|$)|,|\\s+bal|\\s+avl|\\s+avail|$))?"}],"balancePatterns":["(?:new\\s+)?(?:wallet\\s+)?(?:avl|avail(?:able)?)?\\.?\\s*bal(?:ance)?\\.?\\s*(?:is|:)?\\s*{CUR}\\s?{AMT}"],"feePatterns":["(?:fee|charges?)\\s*(?:of)?\\s*:?\\s*{CUR}\\s?{AMT}","imtt(?:\\s+tax)?\\s*:?\\s*{CUR}\\s?{AMT}"],"referencePattern":"(?:approval\\s+code|txn\\s+id|transaction\\s+id|trans\\s+id|ref(?:erence)?(?:\\s+no)?)\\s*[:.]?\\s*(?<ref>[A-Za-z0-9][A-Za-z0-9.\\-/]{4,})","directionKeywords":{"in":["received","credited","deposited","deposit","refund","refunded","reversal","cash in","cash-in"],"out":["paid","payment","sent","debited","withdrawn","withdrawal","purchase","bought","cash out","cash-out","cashout","transferred to","transfer to"]},"categoryKeywords":{"electricity":["zesa","zetdc","electricity","prepaid token"],"airtime":["airtime","bundle","data","econet","netone","telecel"],"groceries":["ok zimbabwe","ok mart","pick n pay","spar","tm supermarket","choppies","food lover","bon marche","n richards","gain cash"],"eating_out":["chicken inn","pizza inn","nando","kfc","steers","simbisa","chicken slice","mambos"],"transport":["zupco","fuel","zuva","total","puma","engen","sakunda","redan","uber","vaya","indrive"],"church":["church","zaoga","afm","tithe","offering","ministries","cathedral"],"school":["school","fees","academy","college","university","uz ","nust","msu"],"water_council":["city of harare","city of bulawayo","council","zinwa","rates"],"health":["pharmacy","clinic","hospital","medical","cimas","psmas","first mutual health"],"rent":["rent","rentals"],"salary":["salary","payroll","wages"],"remittance":["mukuru","worldremit","world remit","sendwave","western union","moneygram","hello paisa","lemfi"]},"suffixAmountPattern":"{AMT}\\s?{CUR}(?![A-Za-z])","heuristicCounterpartyPattern":"\\b(?:from|to|at)\\s+(?<cp>[A-Z][A-Z0-9&'.\\- ]{2,40}?)(?=\\s*\\(|\\s+\\+?\\d{6,}|\\.(?:\\s|$)|,|$)"};
 const PARSER = window.MariParser.compile(TEMPLATES);
+const MT = window.MariTree;
 
 /* ------------------------------------------------------------------ data */
-const RATE = 26.66; // ZiG per US$, official, 10 Oct 2026 (example)
-const TODAY = new Date(2026, 9, 10);
+const RATE = 26.66; // ZiG per US$, official (example)
+const TODAY = new Date(2026, 9, 27, 18, 40);
+const YEAR = 2026, MONTH = 10, DAYS_IN_MONTH = 31;
 const CATS = {
-  groceries: { en: 'Groceries', icon: 'shopping_basket', kind: 'expense' },
-  transport: { en: 'Transport', icon: 'directions_bus', kind: 'expense' },
-  airtime: { en: 'Airtime & data', icon: 'phone_android', kind: 'expense' },
-  rent: { en: 'Rent', icon: 'home', kind: 'expense' },
-  school: { en: 'School fees', icon: 'school', kind: 'expense' },
-  electricity: { en: 'ZESA tokens', icon: 'bolt', kind: 'expense' },
-  water_council: { en: 'Water & rates', icon: 'water_drop', kind: 'expense' },
-  church: { en: 'Church & tithe', icon: 'church', kind: 'expense' },
-  family: { en: 'Family support', icon: 'family_restroom', kind: 'expense' },
-  fees: { en: 'Mobile money fees', icon: 'receipt_long', kind: 'expense' },
-  health: { en: 'Health', icon: 'local_hospital', kind: 'expense' },
-  eating_out: { en: 'Eating out', icon: 'restaurant', kind: 'expense' },
-  mukando: { en: 'Mukando & savings', icon: 'savings', kind: 'expense' },
-  other: { en: 'Other', icon: 'more_horiz', kind: 'expense' },
-  salary: { en: 'Salary', icon: 'work', kind: 'income' },
-  side_hustle: { en: 'Side hustle', icon: 'storefront', kind: 'income' },
-  remittance: { en: 'From diaspora', icon: 'flight_land', kind: 'income' },
-  income_other: { en: 'Other income', icon: 'add_circle', kind: 'income' },
-  cash_out: { en: 'Cash out', icon: 'payments', kind: 'transfer' },
+  groceries: { en: 'Groceries', icon: 'shopping_basket', kind: 'expense', tint: 'sage' },
+  transport: { en: 'Transport', icon: 'directions_bus', kind: 'expense', tint: 'sky' },
+  airtime: { en: 'Airtime & data', icon: 'phone_android', kind: 'expense', tint: 'plum' },
+  rent: { en: 'Rent', icon: 'home', kind: 'expense', tint: 'clay' },
+  school: { en: 'School fees', icon: 'school', kind: 'expense', tint: 'sky' },
+  electricity: { en: 'ZESA tokens', icon: 'bolt', kind: 'expense', tint: 'amber' },
+  water_council: { en: 'Water & rates', icon: 'water_drop', kind: 'expense', tint: 'sky' },
+  church: { en: 'Church & tithe', icon: 'volunteer_activism', kind: 'expense', tint: 'plum' },
+  family: { en: 'Family support', icon: 'family_restroom', kind: 'expense', tint: 'clay' },
+  fees: { en: 'Mobile money fees', icon: 'receipt_long', kind: 'expense', tint: 'sand' },
+  health: { en: 'Health', icon: 'local_hospital', kind: 'expense', tint: 'clay' },
+  eating_out: { en: 'Eating out', icon: 'restaurant', kind: 'expense', tint: 'amber' },
+  mukando: { en: 'Mukando & savings', icon: 'savings', kind: 'expense', tint: 'moss' },
+  other: { en: 'Other', icon: 'more_horiz', kind: 'expense', tint: 'sand' },
+  salary: { en: 'Salary', icon: 'work', kind: 'income', tint: 'teal' },
+  side_hustle: { en: 'Side hustle', icon: 'storefront', kind: 'income', tint: 'teal' },
+  remittance: { en: 'From diaspora', icon: 'flight_land', kind: 'income', tint: 'teal' },
+  income_other: { en: 'Other income', icon: 'add_circle', kind: 'income', tint: 'teal' },
+  cash_out: { en: 'Cash out', icon: 'payments', kind: 'transfer', tint: 'sand' },
 };
 const SRC = { ecocash: { label: 'EcoCash', icon: 'smartphone' }, bank: { label: 'Bank', icon: 'account_balance' }, manual: { label: 'Cash', icon: 'edit' } };
 
-function d(day, h, m) { return new Date(2026, 9, day, h, m); }
 function mk(id, day, h, m, dir, cur, amt, cat, who, src) {
   const minor = Math.round(amt * 100);
-  return { id, at: d(day, h, m), dir, cur, minor, usd: cur === 'usd' ? minor : Math.round(minor / RATE), zig: cur === 'zig' ? minor : Math.round(minor * RATE), cat, who, src };
+  return { id, at: new Date(2026, 9, day, h, m), dir, cur, minor, usd: cur === 'usd' ? minor : Math.round(minor / RATE), zig: cur === 'zig' ? minor : Math.round(minor * RATE), cat, who, src };
 }
+let n = 0; const id = () => 't' + (++n);
 let TX = [
-  mk('t1', 10, 8, 42, 'out', 'zig', 340, 'groceries', 'OK Zimbabwe Samora', 'ecocash'),
-  mk('t2', 10, 7, 15, 'out', 'usd', 1, 'transport', 'Kombi to town', 'manual'),
-  mk('t3', 9, 18, 30, 'out', 'zig', 200, 'electricity', 'ZESA Prepaid', 'ecocash'),
-  mk('t4', 9, 12, 5, 'out', 'usd', 45, 'groceries', 'Pick n Pay Borrowdale', 'bank'),
-  mk('t5', 9, 9, 0, 'in', 'usd', 100, 'remittance', 'Mukuru · from Chipo', 'ecocash'),
-  mk('t6', 8, 19, 40, 'out', 'zig', 30, 'airtime', 'Econet bundle', 'ecocash'),
-  mk('t7', 8, 13, 20, 'out', 'usd', 12.5, 'eating_out', 'Chicken Inn Sam Levy', 'ecocash'),
-  mk('t8', 7, 17, 0, 'out', 'zig', 500, 'family', 'Rudo Chikwanha', 'ecocash'),
-  mk('t9', 7, 17, 0, 'out', 'zig', 15, 'fees', 'EcoCash fee + IMTT', 'ecocash'),
-  mk('t10', 5, 10, 0, 'out', 'usd', 40, 'church', 'ZAOGA tithe', 'manual'),
-  mk('t11', 3, 8, 0, 'out', 'usd', 120, 'school', 'Term 3 fees · Tafara', 'bank'),
-  mk('t12', 1, 9, 0, 'in', 'usd', 850, 'salary', 'Salary · October', 'bank'),
-  mk('t13', 2, 16, 0, 'out', 'usd', 22, 'transport', 'Fuel · Zuva Chisipite', 'bank'),
-  mk('t14', 4, 11, 0, 'out', 'usd', 50, 'cash_out', 'Mbare Musika agent', 'ecocash'),
+  mk(id(), 1, 9, 0, 'in', 'usd', 850, 'salary', 'Salary · October', 'bank'), mk(id(), 1, 17, 20, 'out', 'usd', 38, 'groceries', 'OK Mart Avondale', 'bank'),
+  mk(id(), 2, 16, 0, 'out', 'usd', 22, 'transport', 'Fuel · Zuva Chisipite', 'bank'), mk(id(), 2, 19, 5, 'out', 'zig', 30, 'airtime', 'Econet bundle', 'ecocash'),
+  mk(id(), 3, 8, 0, 'out', 'usd', 120, 'school', 'Term 3 fees · Tafara', 'bank'),
+  mk(id(), 4, 12, 10, 'out', 'zig', 260, 'groceries', 'Spar Kensington', 'ecocash'), mk(id(), 4, 12, 10, 'out', 'zig', 6, 'fees', 'EcoCash fee + IMTT', 'ecocash'),
+  mk(id(), 5, 10, 0, 'out', 'usd', 40, 'church', 'ZAOGA tithe', 'manual'),
+  mk(id(), 6, 13, 30, 'out', 'usd', 9, 'eating_out', 'Chicken Inn Sam Levy', 'ecocash'),
+  mk(id(), 8, 7, 15, 'out', 'usd', 2, 'transport', 'Kombi to town', 'manual'), mk(id(), 8, 18, 0, 'out', 'usd', 12, 'groceries', 'TM Pick n Pay', 'bank'),
+  mk(id(), 9, 9, 0, 'in', 'usd', 100, 'remittance', 'Mukuru · from Chipo', 'ecocash'), mk(id(), 9, 17, 0, 'out', 'zig', 500, 'family', 'Rudo Chikwanha', 'ecocash'), mk(id(), 9, 17, 0, 'out', 'zig', 15, 'fees', 'EcoCash fee + IMTT', 'ecocash'),
+  mk(id(), 10, 18, 30, 'out', 'zig', 200, 'electricity', 'ZESA Prepaid', 'ecocash'),
+  mk(id(), 11, 9, 40, 'out', 'usd', 6, 'groceries', 'Mbare market veg', 'manual'),
+  mk(id(), 12, 19, 10, 'out', 'usd', 14, 'eating_out', 'Pizza Inn', 'ecocash'),
+  mk(id(), 13, 7, 15, 'out', 'usd', 2, 'transport', 'Kombi to town', 'manual'), mk(id(), 13, 20, 0, 'out', 'zig', 30, 'airtime', 'Econet bundle', 'ecocash'),
+  mk(id(), 14, 11, 0, 'out', 'usd', 41, 'groceries', 'OK Zimbabwe Samora', 'bank'),
+  mk(id(), 16, 15, 0, 'out', 'usd', 20, 'family', 'Mum · Gweru', 'ecocash'),
+  mk(id(), 17, 7, 20, 'out', 'usd', 3, 'transport', 'Kombi', 'manual'),
+  mk(id(), 18, 12, 0, 'out', 'zig', 180, 'groceries', 'Bon Marché Borrowdale', 'ecocash'),
+  mk(id(), 19, 13, 0, 'out', 'usd', 7, 'eating_out', 'Chicken Slice', 'ecocash'),
+  mk(id(), 20, 16, 0, 'in', 'zig', 900, 'side_hustle', 'Braiding · Nyasha', 'ecocash'),
+  mk(id(), 21, 10, 0, 'out', 'usd', 18, 'groceries', 'Spar Avondale', 'bank'),
+  mk(id(), 23, 18, 0, 'out', 'zig', 120, 'electricity', 'ZESA Prepaid', 'ecocash'),
+  mk(id(), 24, 9, 30, 'out', 'usd', 10, 'church', 'Offering', 'manual'), mk(id(), 24, 7, 15, 'out', 'usd', 2, 'transport', 'Kombi', 'manual'),
+  mk(id(), 25, 10, 0, 'out', 'usd', 9, 'groceries', 'Vegetables · Avondale', 'manual'),
+  mk(id(), 26, 19, 0, 'out', 'zig', 30, 'airtime', 'Econet bundle', 'ecocash'), mk(id(), 26, 13, 0, 'out', 'usd', 6, 'eating_out', 'Mambos Chicken', 'ecocash'),
+  mk(id(), 27, 8, 42, 'out', 'zig', 340, 'groceries', 'OK Zimbabwe Samora', 'ecocash'), mk(id(), 27, 7, 15, 'out', 'usd', 1, 'transport', 'Kombi to town', 'manual'),
 ];
 const BUDGETS = { groceries: 18000, transport: 6000, airtime: 2500, electricity: 3000, eating_out: 4000, church: 5000, family: 8000, school: 12000, fees: 1000 };
-const LAST_MONTH_SPEND_USD = 51200; // September total (example)
+const LAST_MONTH_SAME_DAYS_USD = 50300;
 let PENDING = [
-  { text: 'Payment of ZiG86.00 to BON MARCHE BORROWDALE successful. Approval Code: MP241010.1112.H66666. New balance: ZiG948.40.', app: 'EcoCash', via: 'notification', time: '11:12' },
-  { text: 'Transfer Confirmation. ZiG250.00 sent to TINASHE MOYO 0773555123. Txn ID: PP241010.0950.J77777. Fee: ZiG2.50 IMTT Tax: ZiG5.00. New wallet balance: ZiG1,034.40', app: 'Messages · EcoCash', via: 'notification', time: '09:50' },
+  { text: 'Payment of ZiG86.00 to BON MARCHE BORROWDALE successful. Approval Code: MP241027.1112.H66666. New balance: ZiG948.40.', app: 'EcoCash', time: '11:12' },
+  { text: 'Transfer Confirmation. ZiG250.00 sent to TINASHE MOYO 0773555123. Txn ID: PP241027.0950.J77777. Fee: ZiG2.50 IMTT Tax: ZiG5.00. New wallet balance: ZiG1,034.40', app: 'Messages · EcoCash', time: '09:50' },
+];
+const SEASONS = [
+  { y: 2026, m: 7, days: 31, name: 'July', used: 0.97, big: 'School fees', seed: 11 },
+  { y: 2026, m: 8, days: 31, name: 'August', used: 1.08, big: 'Groceries', seed: 12 },
+  { y: 2026, m: 9, days: 30, name: 'September', used: 0.89, big: 'Groceries', seed: 13 },
 ];
 
-/* ------------------------------------------------------------------ i18n (sample of the app's string table) */
-const STR = {
-  en: { left: 'Left to spend', of: 'of', budgeted: 'budgeted', daysLeft: 'days left', review: 'to review', reviewSub: 'Captured from EcoCash alerts', budgets: 'Budgets', recent: 'Recent', seeAll: 'See all', home: 'Home', history: 'History', insights: 'Insights', budgetsTab: 'Budgets' },
-  sn: { left: 'Zvasara kushandisa', of: 'pa', budgeted: 'zvakarongwa', daysLeft: 'mazuva asara', review: 'zvekuongorora', reviewSub: 'Zvatorwa kubva kuma alert eEcoCash', budgets: 'Mabhajeti', recent: 'Zvichangoitika', seeAll: 'Ona zvese', home: 'Kumba', history: 'Nhoroondo', insights: 'Ongororo', budgetsTab: 'Mabhajeti' },
-  nd: { left: 'Okusele ukusetshenziswa', of: 'kokungu', budgeted: 'okuhleliweyo', daysLeft: 'insuku ezisele', review: 'okuhlolwayo', reviewSub: 'Kuthathwe kuma-alert e-EcoCash', budgets: 'Amabhajethi', recent: 'Okwakamuva', seeAll: 'Bona konke', home: 'Ekhaya', history: 'Umlando', insights: 'Ukuhlaziya', budgetsTab: 'Amabhajethi' },
-};
-
 /* ------------------------------------------------------------------ state */
-const S = { screen: 'home', disp: 'usd', lang: 'en', theme: 'system', ob: 0, homeCur: 'usd', obRate: '26.66',
-  q: '', filter: 'all', capture: false, reviewIdx: 0, insightMonth: 0, pasteText: '', pasteResult: undefined,
-  draft: null, consent: false, sg: false };
+const S = { screen: 'home', disp: 'usd', lang: 'en', theme: 'system', ob: 0, homeCur: 'usd', obRate: '26.66', q: '', filter: 'all', capture: false, reviewIdx: 0, pasteText: '', pasteResult: undefined, draft: null, season: null };
+const GREET = {
+  en: ['Good morning', 'Good afternoon', 'Good evening'],
+  sn: ['Mangwanani', 'Masikati', 'Manheru'],
+  nd: ['Livukile', 'Litshonile', 'Litshonile'],
+};
+const STR = {
+  en: { home: 'Home', history: 'History', insights: 'Insights', budgets: 'Budgets', left: 'Left to spend', of: 'of', review: 'to review', reviewSub: 'Captured from your money alerts', recent: 'Recent', seeAll: 'See all' },
+  sn: { home: 'Kumba', history: 'Nhoroondo', insights: 'Ongororo', budgets: 'Mabhajeti', left: 'Zvasara kushandisa', of: 'pa', review: 'zvekutarisa', reviewSub: 'Zvatorwa kubva kuma alert emari', recent: 'Zvichangoitika', seeAll: 'Ona zvese' },
+  nd: { home: 'Ekhaya', history: 'Umlando', insights: 'Ukuhlaziya', budgets: 'Amabhajethi', left: 'Okusele ukusetshenziswa', of: 'kwe', review: 'okuhlolwayo', reviewSub: 'Kuthathwe kuma-alert emali', recent: 'Okwakamuva', seeAll: 'Bona konke' },
+};
 const t = (k) => (STR[S.lang] && STR[S.lang][k]) || STR.en[k];
 
 /* ------------------------------------------------------------------ formatting */
-function group(n) { return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
-function fmt(minor, cur, opts = {}) {
+function group(x) { return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+function fmt(minor, cur, o = {}) {
   const neg = minor < 0; const m = Math.abs(minor);
-  const whole = Math.floor(m / 100); const frac = String(m % 100).padStart(2, '0');
-  const body = opts.noCents ? group(Math.round(m / 100)) : `${group(whole)}.${frac}`;
-  const sym = cur === 'usd' ? 'US$' : 'ZiG';
-  return `${neg ? '−' : ''}${sym}${opts.space === false ? '' : ' '}${body}`;
+  const body = o.noCents ? group(Math.round(m / 100)) : `${group(Math.floor(m / 100))}.${String(m % 100).padStart(2, '0')}`;
+  return `${neg ? '−' : ''}${cur === 'usd' ? 'US$' : 'ZiG'} ${body}`;
 }
-const inDisp = (tx) => (S.disp === 'usd' ? tx.usd : tx.zig);
-const toDisp = (usdMinor) => (S.disp === 'usd' ? usdMinor : Math.round(usdMinor * RATE));
+const inDisp = (x) => (S.disp === 'usd' ? x.usd : x.zig);
+const toDisp = (usd) => (S.disp === 'usd' ? usd : Math.round(usd * RATE));
 const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+const DAYS_LONG = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 function dayLabel(dt) {
   const diff = Math.round((new Date(TODAY.getFullYear(), TODAY.getMonth(), TODAY.getDate()) - new Date(dt.getFullYear(), dt.getMonth(), dt.getDate())) / 86400000);
@@ -619,69 +765,140 @@ function dayLabel(dt) {
 const hhmm = (dt) => `${String(dt.getHours()).padStart(2, '0')}:${String(dt.getMinutes()).padStart(2, '0')}`;
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const ic = (name, extra = '') => `<span class="ic ${extra}" aria-hidden="true">${name}</span>`;
+const tintStyle = (cat) => { const k = (CATS[cat] || CATS.other).tint; return `background:var(--t-${k});color:var(--c-${k})`; };
 
-/* ------------------------------------------------------------------ derived numbers */
-function spentByCat(list = TX) {
-  const out = {};
-  list.forEach((x) => { if (x.dir === 'out' && CATS[x.cat].kind === 'expense') out[x.cat] = (out[x.cat] || 0) + x.usd; });
-  return out;
-}
+/* ------------------------------------------------------------------ numbers */
+const isSpend = (x) => x.dir === 'out' && CATS[x.cat].kind === 'expense';
+const isIncome = (x) => x.dir === 'in' && CATS[x.cat].kind !== 'transfer';
+function spentByCat(list = TX) { const o = {}; list.forEach((x) => { if (isSpend(x)) o[x.cat] = (o[x.cat] || 0) + x.usd; }); return o; }
 function totals() {
-  const spent = Object.values(spentByCat()).reduce((a, b) => a + b, 0);
+  const spent = TX.filter(isSpend).reduce((a, x) => a + x.usd, 0);
   const budget = Object.values(BUDGETS).reduce((a, b) => a + b, 0);
   return { spent, budget, left: budget - spent };
 }
-function barClass(p) { return p > 1 ? 'over' : p >= 0.85 ? 'warn' : ''; }
+const barClass = (p) => (p > 1 ? 'over' : p >= 0.85 ? 'warn' : '');
+const daysLeft = () => DAYS_IN_MONTH - TODAY.getDate() + 1; // including today
+function dayEntries(d) { return TX.filter((x) => x.at.getDate() === d).sort((a, b) => a.at - b.at); }
+function dayTotals(d) {
+  const list = dayEntries(d);
+  return { list, spend: list.filter(isSpend).reduce((a, x) => a + x.usd, 0), income: list.filter(isIncome).reduce((a, x) => a + x.usd, 0) };
+}
+const dailyPace = () => Math.round(totals().budget / DAYS_IN_MONTH);
+function treeTones() {
+  const tones = {}; const pace = dailyPace();
+  for (let d = 1; d <= TODAY.getDate(); d++) { const dt = dayTotals(d); tones[d] = MT.dayTone(dt.spend, dt.income, pace, dt.list.length > 0); }
+  return tones;
+}
+const TONE_WORD = { bud: 'Nothing logged', light: 'A light day', steady: 'A steady day', full: 'A full day', heavy: 'A heavy day', gold: 'Money came in' };
+const TONE_VAR = { bud: '--bud', light: '--leaf-light', steady: '--leaf-steady', full: '--leaf-full', heavy: '--leaf-heavy', gold: '--leaf-gold' };
+
+/* ------------------------------------------------------------------ 2D tree (fallback, Seasons thumbnails; same drawing the Flutter app does) */
+function cssVar(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+function drawTree2D(canvas, year, month, tones, opts = {}) {
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const w = canvas.clientWidth, h = canvas.clientHeight;
+  if (!w || !h) return;
+  canvas.width = Math.round(w * dpr); canvas.height = Math.round(h * dpr);
+  const g = canvas.getContext('2d'); g.setTransform(dpr, 0, 0, dpr, 0, 0); g.clearRect(0, 0, w, h);
+  const tree = MT.generate(year, month); const yaw = 0.4 + (opts.sway || 0), tilt = 0.18;
+  const P = (p) => MT.project(p, yaw, tilt);
+  const box = treeBounds(tree);
+  const pad = opts.pad || 0.12;
+  const k = Math.min(w / (box.w * (1 + pad * 2)), h / (box.h * (1 + pad * 2)));
+  const top = (h - box.h * k) / 2;
+  const X = (p) => w / 2 + (p[0] - box.cx) * k, Y = (p) => top + (box.maxY - p[1]) * k;
+  // ground shadow
+  g.fillStyle = 'rgba(0,0,0,0.05)'; g.beginPath(); g.ellipse(X([0, 0]), Y([0, 0]), 1.4 * k, 0.16 * k, 0, 0, Math.PI * 2); g.fill();
+  // canopy haze
+  g.fillStyle = cssVar('--haze'); g.globalAlpha = 0.12;
+  tree.tips.forEach((tp) => { const p = P(tp); g.beginPath(); g.arc(X(p), Y(p) - 0.05 * k, 0.55 * k, 0, Math.PI * 2); g.fill(); });
+  g.globalAlpha = 1;
+  const items = [];
+  const bark = cssVar('--bark');
+  tree.segments.forEach((s) => { const a = P(s.a), b = P(s.b); items.push({ d: (a[2] + b[2]) / 2, f: () => { g.strokeStyle = bark; g.lineCap = 'round'; g.lineWidth = Math.max(1, s.w * k); g.beginPath(); g.moveTo(X(a), Y(a)); g.lineTo(X(b), Y(b)); g.stroke(); } }); });
+  tree.leaves.forEach((l) => {
+    const tone = tones[l.day]; if (!tone) return;
+    const p = P(l.pos); const r = (tone === 'bud' ? l.size * 0.32 : l.size) * k;
+    items.push({ d: p[2], f: () => { g.fillStyle = cssVar(TONE_VAR[tone]); g.beginPath(); g.ellipse(X(p), Y(p), r, r * 0.72, l.rot, 0, Math.PI * 2); g.fill(); } });
+  });
+  items.sort((a, b) => a.d - b.d).forEach((i) => i.f());
+}
+function treeBounds(tree) {
+  let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+  const take = (p, r) => { const q = MT.project(p, 0.4, 0.18); minX = Math.min(minX, q[0] - r); maxX = Math.max(maxX, q[0] + r); minY = Math.min(minY, q[1] - r); maxY = Math.max(maxY, q[1] + r); };
+  tree.segments.forEach((s) => { take(s.a, s.w); take(s.b, s.w); });
+  tree.leaves.forEach((l) => take(l.pos, l.size));
+  tree.tips.forEach((tp) => take(tp, 0.55));
+  minY = Math.min(minY, -0.2);
+  return { minX, maxX, minY, maxY, w: maxX - minX, h: maxY - minY, cx: (minX + maxX) / 2 };
+}
+function seasonTones(s) {
+  const r = MT.rng(s.seed * 104729); const tones = {};
+  for (let d = 1; d <= s.days; d++) {
+    const v = r();
+    tones[d] = v < 0.08 ? 'bud' : v < 0.16 ? 'gold' : v < 0.45 ? 'light' : v < 0.72 ? 'steady' : v < (s.used > 1 ? 0.88 : 0.93) ? 'full' : 'heavy';
+  }
+  return tones;
+}
 
 /* ------------------------------------------------------------------ shared pieces */
-function statusBar() { return `<div class="status num"><span>9:41</span><span class="r">${ic('signal_cellular_alt')}${ic('wifi')}${ic('battery_full')}</span></div>`; }
+function statusBar() { return `<div class="status num"><span>18:40</span><span class="r">${ic('signal_cellular_alt')}${ic('wifi')}${ic('battery_full')}</span></div>`; }
 function tabbar() {
-  const tab = (id, icon, label) => `<button type="button" data-go="${id}" aria-current="${S.screen === id}">${ic(icon)}<span>${label}</span></button>`;
-  return `<nav class="tabbar" aria-label="App tabs">${tab('home', 'home', t('home'))}${tab('history', 'receipt_long', t('history'))}
+  const tab = (k, icon, label) => `<button type="button" data-go="${k}" aria-current="${S.screen === k}">${ic(icon)}<span>${label}</span></button>`;
+  return `<nav class="tabbar" aria-label="App tabs">${tab('home', 'park', t('home'))}${tab('history', 'receipt_long', t('history'))}
     <button type="button" class="add" data-act="add" aria-label="Add a transaction">${ic('add')}</button>
-    ${tab('budgets', 'donut_large', t('budgetsTab'))}${tab('insights', 'insights', t('insights'))}</nav>`;
+    ${tab('budgets', 'pie_chart', t('budgets'))}${tab('insights', 'insights', t('insights'))}</nav>`;
 }
 function txnRow(x) {
   const c = CATS[x.cat]; const isIn = x.dir === 'in';
-  const amt = `${isIn ? '+' : ''}${fmt(x.minor, x.cur)}`;
   const eq = x.cur === 'usd' ? fmt(x.zig, 'zig', { noCents: true }) : fmt(x.usd, 'usd');
   return `<button type="button" class="txn" data-edit="${x.id}">
-    <span class="tile ${isIn ? 'in' : ''}">${ic(c.icon)}</span>
-    <span class="mid"><b>${esc(x.who)}</b><small><span class="src">${ic(SRC[x.src].icon)}${SRC[x.src].label}</span> · ${c.en} · ${hhmm(x.at)}</small></span>
-    <span class="end num"><b class="${isIn ? 'inc' : ''}">${amt}</b><small>≈ ${eq}</small></span></button>`;
+    <span class="tile" style="${tintStyle(x.cat)}">${ic(c.icon)}</span>
+    <span class="mid"><b>${esc(x.who)}</b><small>${SRC[x.src].label} · ${c.en} · ${hhmm(x.at)}</small></span>
+    <span class="end num"><b class="${isIn ? 'inc' : ''}">${isIn ? '+' : ''}${fmt(x.minor, x.cur)}</b><small>≈ ${eq}</small></span></button>`;
 }
-function segCurrency(id) {
-  return `<div class="seg" data-seg="${id}" role="group" aria-label="Display currency">
-    <span class="thumb"></span>
-    <button type="button" data-cur="usd" aria-pressed="${S.disp === 'usd'}">US$</button>
-    <button type="button" data-cur="zig" aria-pressed="${S.disp === 'zig'}">ZiG</button></div>`;
+function segCurrency(k) {
+  return `<div class="seg" data-seg="${k}" role="group" aria-label="Display currency"><span class="thumb"></span>
+    <button type="button" data-cur="usd" aria-pressed="${S.disp === 'usd'}">US$</button><button type="button" data-cur="zig" aria-pressed="${S.disp === 'zig'}">ZiG</button></div>`;
 }
 function budgetRow(cat, spent, limit) {
-  const c = CATS[cat]; const p = limit ? spent / limit : 0;
-  const cls = barClass(p);
+  const c = CATS[cat]; const p = limit ? spent / limit : 0; const cls = barClass(p);
   const state = p > 1 ? `<span class="state spd">${fmt(toDisp(spent - limit), S.disp, { noCents: true })} over</span>` : p >= 0.85 ? `<span class="state" style="color:var(--warn)">${Math.round(p * 100)}% used</span>` : '';
-  return `<div class="bud"><div class="row">${ic(c.icon)}<span class="name">${c.en}</span>
+  return `<div class="bud"><div class="row"><span class="mini" style="${tintStyle(cat)}">${ic(c.icon)}</span><span class="name">${c.en}</span>
     <span class="amt num">${fmt(toDisp(spent), S.disp, { noCents: true })} ${t('of')} ${fmt(toDisp(limit), S.disp, { noCents: true })}</span></div>
     <div class="bar ${cls}"><i style="width:${Math.min(100, p * 100).toFixed(1)}%"></i></div>${state}</div>`;
+}
+function legend() {
+  return `<div class="legend">${['light', 'steady', 'full', 'heavy', 'gold', 'bud'].map((k) => `<span><i style="background:var(${TONE_VAR[k]})"></i>${{ light: 'Light', steady: 'Steady', full: 'Full', heavy: 'Heavy', gold: 'Money in', bud: 'Not logged' }[k]}</span>`).join('')}</div>`;
 }
 
 /* ------------------------------------------------------------------ screens */
 const SCREENS = {};
-
 SCREENS.home = () => {
   const T = totals(); const sb = spentByCat();
-  const top = Object.keys(BUDGETS).sort((a, b) => (sb[b] || 0) / BUDGETS[b] - (sb[a] || 0) / BUDGETS[a]).slice(0, 4);
-  const recent = [...TX].sort((a, b) => b.at - a.at).slice(0, 5);
-  const daysLeft = 31 - TODAY.getDate();
+  const top = Object.keys(BUDGETS).sort((a, b) => (sb[b] || 0) / BUDGETS[b] - (sb[a] || 0) / BUDGETS[a]).slice(0, 3);
+  const recent = [...TX].sort((a, b) => b.at - a.at).slice(0, 4);
+  const today = dayTotals(TODAY.getDate());
+  const tones = treeTones(); const leaves = Object.values(tones).filter((x) => x !== 'bud').length;
+  const perDay = Math.max(0, Math.floor(T.left / daysLeft()));
+  const hour = TODAY.getHours(); const gi = hour < 12 ? 0 : hour < 17 ? 1 : 2;
+  const todayLine = today.list.length
+    ? `Today: ${fmt(toDisp(today.spend), S.disp)} across ${today.list.length} ${today.list.length === 1 ? 'payment' : 'payments'}. ${today.spend <= dailyPace() ? 'A light one so far.' : 'A full one.'}`
+    : 'Nothing logged today yet.';
   return `${statusBar()}<div class="scroll">
-    <div class="head"><span class="t-footnote fg2">Saturday, 10 October</span>
+    <div class="head"><div class="greet">${GREET[S.lang][gi]}<small>${DAYS_LONG[TODAY.getDay()]}, ${TODAY.getDate()} October</small></div>
       <button type="button" class="iconbtn" data-go="settings" aria-label="Settings">${ic('settings')}</button></div>
+    <div class="tree-card">
+      <div class="tree-meta"><span class="t-caption fg2">October's tree</span><span class="t-footnote fg2 num">${leaves} leaves · day ${TODAY.getDate()}</span></div>
+      <div class="tree-slot" id="treeSlot" data-reveal="${S.reveal ? 1 : 0}"><canvas id="tree2d" aria-label="October's tree: ${leaves} leaves. Tap a leaf to see that day."></canvas></div>
+      ${legend()}
+    </div>
     <div class="hero">
       <div class="t-caption fg2">${t('left')} · October</div>
-      <div class="figure t-display num" id="heroFig"><span data-roll="${toDisp(T.left)}">${fmt(toDisp(T.left), S.disp)}</span></div>
+      <div class="figure t-display num" id="heroFig"><span>${fmt(toDisp(T.left), S.disp)}</span></div>
       <div class="cur-row">${segCurrency('hero')}<span class="t-footnote fg2 num">1 US$ = ${RATE} ZiG · official</span></div>
-      <p class="t-footnote fg2 num" style="margin:12px 0 0">${t('of')} ${fmt(toDisp(T.budget), S.disp, { noCents: true })} ${t('budgeted')} · ${daysLeft} ${t('daysLeft')}</p>
     </div>
+    <div class="pace">${ic('wb_sunny')}<span><b class="num">About ${fmt(toDisp(perDay), S.disp)} a day</b><small class="num">for the ${daysLeft()} days left in October. ${esc(todayLine)}</small></span></div>
     ${PENDING.length ? `<button type="button" class="review-cta" data-go="review"><span class="dot num">${PENDING.length}</span>
       <span class="grow"><span class="t-headline" style="display:block">${PENDING.length} ${t('review')}</span><span class="t-footnote fg2">${t('reviewSub')}</span></span>${ic('chevron_right')}</button>` : ''}
     <div class="section"><div class="sec-head"><span class="t-title2">${t('budgets')}</span><button type="button" data-go="budgets">${t('seeAll')}</button></div>
@@ -693,32 +910,30 @@ SCREENS.home = () => {
 
 SCREENS.history = () => {
   const q = S.q.trim().toLowerCase();
-  let list = [...TX].sort((a, b) => b.at - a.at).filter((x) => {
-    if (S.filter === 'usd' || S.filter === 'zig') { if (x.cur !== S.filter) return false; }
-    else if (S.filter !== 'all' && x.src !== S.filter) return false;
-    if (q && !(`${x.who} ${CATS[x.cat].en}`.toLowerCase().includes(q))) return false;
-    return true;
+  const list = [...TX].sort((a, b) => b.at - a.at).filter((x) => {
+    if (S.filter === 'usd' || S.filter === 'zig') { if (x.cur !== S.filter) return false; } else if (S.filter !== 'all' && x.src !== S.filter) return false;
+    return !q || `${x.who} ${CATS[x.cat].en}`.toLowerCase().includes(q);
   });
   const groups = [];
-  list.forEach((x) => { const k = dayLabel(x.at); let g = groups.find((gg) => gg.k === k); if (!g) { g = { k, items: [] }; groups.push(g); } g.items.push(x); });
-  const chip = (id, label, icon) => `<button type="button" class="chip" data-filter="${id}" aria-pressed="${S.filter === id}">${icon ? ic(icon) : ''}${label}</button>`;
+  list.forEach((x) => { const k = dayLabel(x.at); let g = groups.find((gg) => gg.k === k); if (!g) { g = { k, d: x.at.getDate(), items: [] }; groups.push(g); } g.items.push(x); });
+  const tones = treeTones();
+  const chip = (k, label, icon) => `<button type="button" class="chip" data-filter="${k}" aria-pressed="${S.filter === k}">${icon ? ic(icon) : ''}${label}</button>`;
   return `${statusBar()}<div class="scroll">
     <div class="head"><span class="t-title1">${t('history')}</span>${segCurrency('hist')}</div>
-    <div style="position:relative;margin-bottom:12px">
-      <span class="ic" style="position:absolute;left:12px;top:13px;color:var(--fg3);font-size:20px">search</span>
+    <div style="position:relative;margin-bottom:12px"><span class="ic" style="position:absolute;left:12px;top:13px;color:var(--fg3);font-size:20px">search</span>
       <input class="input" id="q" type="search" placeholder="Search people, shops, categories" value="${esc(S.q)}" style="padding-left:40px" autocomplete="off"></div>
     <div class="chips" style="margin-bottom:20px">${chip('all', 'All')}${chip('usd', 'US$')}${chip('zig', 'ZiG')}${chip('ecocash', 'EcoCash', 'smartphone')}${chip('bank', 'Bank', 'account_balance')}${chip('manual', 'Cash', 'edit')}</div>
-    <div id="histList">${groups.length ? groups.map((g) => {
-      const out = g.items.filter((x) => x.dir === 'out' && CATS[x.cat].kind === 'expense').reduce((a, x) => a + inDisp(x), 0);
-      return `<div class="section"><div class="sec-head"><span class="t-caption fg2">${g.k}</span><span class="t-footnote fg2 num">${out ? `−${fmt(out, S.disp)}` : ''}</span></div>
+    ${groups.length ? groups.map((g) => {
+      const out = g.items.filter(isSpend).reduce((a, x) => a + inDisp(x), 0);
+      const tone = tones[g.d];
+      return `<div class="section" style="margin-top:0;margin-bottom:22px"><div class="sec-head"><span class="t-caption fg2" style="display:flex;align-items:center;gap:6px">${tone ? `<i style="width:9px;height:7px;border-radius:50%;background:var(${TONE_VAR[tone]})"></i>` : ''}${g.k}</span><span class="t-footnote fg2 num">${out ? `−${fmt(out, S.disp)}` : ''}</span></div>
         <div class="card">${g.items.map(txnRow).join('')}</div></div>`;
-    }).join('') : `<div class="empty">${ic('search_off')}<b>Nothing matches</b><p>Try a shop name like “Spar”, or clear the filter.</p></div>`}</div>
+    }).join('') : `<div class="empty">${ic('search_off')}<b>Nothing matches</b><p>Try a shop name like “Spar”, or clear the filter.</p></div>`}
   </div>${tabbar()}`;
 };
 
 SCREENS.budgets = () => {
-  const T = totals(); const sb = spentByCat();
-  const p = T.spent / T.budget;
+  const T = totals(); const sb = spentByCat(); const p = T.spent / T.budget;
   const unbudgeted = Object.keys(CATS).filter((k) => CATS[k].kind === 'expense' && !BUDGETS[k]);
   return `${statusBar()}<div class="scroll">
     <div class="head"><span class="t-title1">${t('budgets')}</span>${segCurrency('bud')}</div>
@@ -726,96 +941,82 @@ SCREENS.budgets = () => {
       <div class="t-caption fg2">Spent in October</div>
       <div class="num" style="display:flex;align-items:baseline;gap:8px;margin:6px 0 12px;flex-wrap:wrap"><span class="t-title1">${fmt(toDisp(T.spent), S.disp)}</span><span class="t-callout fg2">${t('of')} ${fmt(toDisp(T.budget), S.disp, { noCents: true })}</span></div>
       <div class="bar ${barClass(p)}" style="height:8px"><i style="width:${Math.min(100, p * 100)}%"></i></div>
-      <div class="t-footnote fg2" style="margin-top:10px">Day 10 of 31. You've used ${Math.round(p * 100)}% of the month's budget in ${Math.round(10 / 31 * 100)}% of the month.</div>
+      <div class="t-footnote fg2" style="margin-top:10px">Day ${TODAY.getDate()} of 31. You've used ${Math.round(p * 100)}% of the budget in ${Math.round(TODAY.getDate() / 31 * 100)}% of the month.</div>
     </div>
-    <div class="section"><div class="sec-head"><span class="t-caption fg2">Monthly limits</span></div>
+    <div class="section" style="margin-top:0"><div class="sec-head"><span class="t-caption fg2">Monthly limits</span></div>
       <div class="card">${Object.keys(BUDGETS).map((k) => `<button type="button" style="display:block;width:100%;text-align:left" data-budget="${k}">${budgetRow(k, sb[k] || 0, BUDGETS[k])}</button>`).join('')}</div></div>
     <div class="section"><div class="sec-head"><span class="t-caption fg2">No limit yet</span></div>
-      <div class="list">${unbudgeted.map((k) => `<button type="button" class="li" data-budget="${k}">${ic(CATS[k].icon, 'lead')}<span class="grow t-callout">${CATS[k].en}</span><span class="t-callout" style="color:var(--accent)">Set limit</span></button>`).join('')}</div></div>
+      <div class="list">${unbudgeted.map((k) => `<button type="button" class="li" data-budget="${k}"><span class="mini" style="${tintStyle(k)}">${ic(CATS[k].icon)}</span><span class="grow t-callout">${CATS[k].en}</span><span class="t-callout" style="color:var(--accent)">Set limit</span></button>`).join('')}</div></div>
   </div>${tabbar()}`;
 };
 
 SCREENS.insights = () => {
   const sb = spentByCat(); const T = totals();
-  const rows = Object.entries(sb).sort((a, b) => b[1] - a[1]);
-  const max = rows[0][1];
-  const delta = (T.spent - LAST_MONTH_SPEND_USD) / LAST_MONTH_SPEND_USD;
-  const [bigCat, bigVal] = rows[0];
+  const rows = Object.entries(sb).sort((a, b) => b[1] - a[1]); const max = rows[0][1];
+  const delta = (T.spent - LAST_MONTH_SAME_DAYS_USD) / LAST_MONTH_SAME_DAYS_USD;
+  const tones = treeTones(); const counts = {}; Object.values(tones).forEach((x) => { counts[x] = (counts[x] || 0) + 1; });
+  const within = Object.keys(BUDGETS).filter((k) => (sb[k] || 0) <= BUDGETS[k]).length;
+  const sel = S.season;
+  const recap = sel
+    ? `<b>${sel.name} in a sentence:</b> you used ${Math.round(sel.used * 100)}% of your budget, ${esc(sel.big.toLowerCase())} took the most, and the tree grew ${sel.days - Object.values(seasonTones(sel)).filter((x) => x === 'bud').length} leaves.`
+    : `<b>October so far:</b> ${counts.light || 0} light days, ${counts.steady || 0} steady, ${(counts.full || 0) + (counts.heavy || 0)} full or heavy. You're inside ${within} of ${Object.keys(BUDGETS).length} limits, and ${rows[0] ? CATS[rows[0][0]].en.toLowerCase() : 'nothing'} is where most of it went.`;
   return `${statusBar()}<div class="scroll">
     <div class="head"><span class="t-title1">${t('insights')}</span>${segCurrency('ins')}</div>
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
-      <button type="button" class="iconbtn" aria-label="Previous month" data-act="noop">${ic('chevron_left')}</button>
-      <span class="t-headline">October 2026</span>
-      <button type="button" class="iconbtn" aria-label="Next month" data-act="noop" style="opacity:.4">${ic('chevron_right')}</button></div>
-    <div class="card" style="margin-bottom:24px">
-      <div class="stat"><div class="t-caption fg2">Spent against budget</div>
-        <div class="num" style="display:flex;align-items:baseline;gap:8px;margin:6px 0 10px;flex-wrap:wrap"><span class="t-title1">${Math.round(T.spent / T.budget * 100)}%</span><span class="t-callout fg2">${fmt(toDisp(T.spent), S.disp, { noCents: true })} ${t('of')} ${fmt(toDisp(T.budget), S.disp, { noCents: true })}</span></div>
-        <div class="bar" style="height:8px"><i style="width:${T.spent / T.budget * 100}%"></i></div></div>
-      <div class="stat"><div class="t-caption fg2">Biggest category</div>
-        <div style="display:flex;align-items:center;gap:12px;margin-top:8px"><span class="tile">${ic(CATS[bigCat].icon)}</span>
-        <span style="flex:1"><span class="t-headline" style="display:block">${CATS[bigCat].en}</span><span class="t-footnote fg2 num">${Math.round(bigVal / T.spent * 100)}% of everything you spent</span></span>
-        <span class="t-headline num">${fmt(toDisp(bigVal), S.disp, { noCents: true })}</span></div></div>
-      <div class="stat"><div class="t-caption fg2">Compared with September</div>
+    <div class="recap"><div class="t-caption" style="color:var(--accent)">${sel ? `${sel.name} 2026` : 'This month'}</div><p>${recap}</p></div>
+    <div class="section"><div class="sec-head"><span class="t-title2">Seasons</span><span class="t-footnote fg2">One tree a month</span></div>
+      <div class="shelf">
+        <button type="button" class="season" data-season="" aria-current="${!sel}"><span class="tag">Growing</span><canvas data-thumb="current"></canvas><b>October</b><small class="num">${Object.values(tones).filter((x) => x !== 'bud').length} leaves so far</small></button>
+        ${[...SEASONS].reverse().map((s) => `<button type="button" class="season" data-season="${s.m}" aria-current="${sel && sel.m === s.m}"><canvas data-thumb="${s.m}"></canvas><b>${s.name}</b><small class="num">${Math.round(s.used * 100)}% of budget · ${s.big}</small></button>`).join('')}
+      </div></div>
+    ${sel ? '' : `<div class="section"><div class="card">
+      <div class="stat"><div class="t-caption fg2">Compared with this point in September</div>
         <div class="num" style="display:flex;align-items:baseline;gap:8px;margin-top:6px;flex-wrap:wrap"><span class="t-title1 ${delta < 0 ? 'inc' : 'spd'}">${delta < 0 ? '−' : '+'}${Math.abs(Math.round(delta * 100))}%</span>
-        <span class="t-callout fg2">${fmt(toDisp(Math.abs(T.spent - LAST_MONTH_SPEND_USD)), S.disp, { noCents: true })} ${delta < 0 ? 'less' : 'more'} so far</span></div></div>
-    </div>
+        <span class="t-callout fg2">${fmt(toDisp(Math.abs(T.spent - LAST_MONTH_SAME_DAYS_USD)), S.disp, { noCents: true })} ${delta < 0 ? 'less' : 'more'} so far</span></div></div>
+      </div></div>
     <div class="section"><div class="sec-head"><span class="t-title2">Where it went</span></div>
-      <div class="card" style="padding:10px 16px">${rows.map(([k, v], i) => `<div class="hbar"><span class="lab">${CATS[k].en}</span><span class="track"><i class="${i === 0 ? 'top' : ''}" style="width:${(v / max * 100).toFixed(1)}%"></i></span><span class="v num">${fmt(toDisp(v), S.disp, { noCents: true })}</span></div>`).join('')}</div>
-      <p class="t-footnote fg3" style="margin:10px 4px 0">Each payment is converted at the rate on the day it happened, so past months never shift when the rate moves. Cash-outs are moves between your own money and are left out.</p></div>
+      <div class="card" style="padding:10px 16px">${rows.map(([k, v], i) => `<div class="hbar"><span class="lab">${CATS[k].en}</span><span class="track"><i style="width:${(v / max * 100).toFixed(1)}%;background:var(--c-${CATS[k].tint});opacity:${i === 0 ? 1 : 0.75}"></i></span><span class="v num">${fmt(toDisp(v), S.disp, { noCents: true })}</span></div>`).join('')}</div></div>`}
   </div>${tabbar()}`;
 };
 
 SCREENS.review = () => {
-  const showPaste = !PENDING.length || S.reviewIdx >= PENDING.length;
+  const showPaste = !PENDING.length;
   let card = '';
-  if (!showPaste) {
-    const p = PENDING[S.reviewIdx];
-    const r = window.MariParser.parse(p.text, PARSER);
-    card = reviewCard(p.text, r, p.app, p.time, true);
-  }
+  if (!showPaste) { const p = PENDING[Math.min(S.reviewIdx, PENDING.length - 1)]; card = reviewCard(p.text, window.MariParser.parse(p.text, PARSER), p.app, p.time, true); }
   return `${statusBar()}<div class="scroll">
     <div class="head"><button type="button" class="back" data-go="home">${ic('chevron_left')}${t('home')}</button><span></span></div>
     <div class="t-title1" style="margin-bottom:4px">Review</div>
-    <p class="t-callout fg2" style="margin:0 0 18px">Nothing is saved until you confirm it.</p>
-    ${showPaste ? `<div class="empty" style="padding:20px 24px 28px">${ic('task_alt')}<b>All caught up</b><p>New alerts from EcoCash and your bank will wait here.</p></div>` : card}
-    ${PENDING.length > 1 && !showPaste ? `<div class="pager">${PENDING.map((_, i) => `<i class="${i === S.reviewIdx ? 'on' : ''}"></i>`).join('')}</div>` : ''}
+    <p class="t-callout fg2" style="margin:0 0 18px">Each one you confirm adds to today's leaf.</p>
+    ${showPaste ? `<div class="card"><div class="empty">${ic('task_alt')}<b>All caught up</b><p>New alerts from EcoCash and your bank will wait here.</p></div></div>` : card}
+    ${PENDING.length > 1 ? `<div class="pager">${PENDING.map((_, i) => `<i class="${i === S.reviewIdx ? 'on' : ''}"></i>`).join('')}</div>` : ''}
     <div class="section" style="margin-top:32px"><div class="sec-head"><span class="t-title2">Paste a message</span></div>
-      <p class="t-footnote fg2" style="margin:0 0 10px">On iPhone, copy an EcoCash or bank SMS and paste it here. Mari reads it on your phone; nothing is uploaded. This box runs the app's real parser.</p>
+      <p class="t-footnote fg2" style="margin:0 0 10px">Copy an EcoCash or bank SMS and paste it here. This box runs the app's real parser.</p>
       <textarea class="input" id="paste" rows="4" placeholder="You have received ZiG150.00 from…">${esc(S.pasteText)}</textarea>
-      <div style="display:flex;gap:8px;margin-top:10px">
-        <button type="button" class="btn small secondary" data-act="sample">Try a sample</button>
-        <button type="button" class="btn small primary" data-act="parse" style="margin-left:auto">Read message</button></div>
-      <div id="pasteOut" style="margin-top:14px">${S.pasteResult === undefined ? '' : S.pasteResult === null
-        ? `<div class="card" style="padding:16px"><span class="badge low">${ic('help')}Not a transaction</span><p class="t-callout" style="margin:10px 0 12px">Mari couldn't find an amount with a currency in this message. You can still add it yourself.</p><button type="button" class="btn small secondary" data-act="add">Enter it manually</button></div>`
+      <div style="display:flex;gap:8px;margin-top:10px"><button type="button" class="btn small secondary" data-act="sample">Try a sample</button><button type="button" class="btn small primary" data-act="parse" style="margin-left:auto">Read message</button></div>
+      <div style="margin-top:14px">${S.pasteResult === undefined ? '' : S.pasteResult === null
+        ? `<div class="card" style="padding:16px"><span class="badge low">${ic('help')}Not a transaction</span><p class="t-callout" style="margin:10px 0 12px">Mari couldn't find an amount with a currency in this message.</p><button type="button" class="btn small secondary" data-act="add">Enter it yourself</button></div>`
         : reviewCard(S.pasteText, S.pasteResult, 'Pasted', 'now', false)}</div></div>
   </div>`;
 };
 function highlight(text, r) {
-  let h = esc(text);
-  if (!r) return h;
-  const amt = (r.amountMinor / 100).toFixed(2);
-  const re = new RegExp(`((?:ZiG|ZWG|USD|US\\$|\\$)\\s?${group(Math.floor(r.amountMinor / 100)).replace(/,/g, ',')}(?:\\.${amt.split('.')[1]})?)`, 'i');
-  return h.replace(re, '<mark>$1</mark>');
+  const h = esc(text); if (!r) return h;
+  const whole = group(Math.floor(r.amountMinor / 100)).replace(/,/g, ',?');
+  return h.replace(new RegExp(`((?:ZiG|ZWG|USD|US\\$|\\$)\\s?${whole}(?:\\.\\d{1,2})?)`, 'i'), '<mark>$1</mark>');
 }
 function reviewCard(text, r, app, time, queued) {
-  const conf = { high: ['high', 'verified', 'Matched a known format'], medium: ['medium', 'help', 'Best guess — check it'], low: ['low', 'warning', 'Direction unclear'] }[r.confidence];
-  const cat = r.category && CATS[r.category] ? CATS[r.category].en : 'Choose…';
-  const amt = fmt(r.amountMinor, r.currency);
+  const conf = { high: ['high', 'verified', 'Matched a known format'], medium: ['medium', 'help', 'Best guess, check it'], low: ['low', 'warning', 'Direction unclear'] }[r.confidence];
+  const cat = r.category && CATS[r.category] ? CATS[r.category].en : 'Choose';
   const eq = r.currency === 'usd' ? fmt(Math.round(r.amountMinor * RATE), 'zig') : fmt(Math.round(r.amountMinor / RATE), 'usd');
   return `<div class="card" style="padding:16px;display:grid;gap:14px">
     <div class="quote"><div class="from">${ic('sms')}${esc(app)} · ${esc(time)}</div>${highlight(text, r)}</div>
     <span class="badge ${conf[0]}" style="justify-self:start">${ic(conf[1])}${conf[2]}</span>
-    <div style="text-align:center"><div class="t-display num ${r.direction === 'in' ? 'inc' : ''}">${r.direction === 'in' ? '+' : ''}${amt}</div><div class="t-footnote fg3 num">≈ ${eq} at ${RATE}</div></div>
+    <div style="text-align:center"><div class="t-display num ${r.direction === 'in' ? 'inc' : ''}">${r.direction === 'in' ? '+' : ''}${fmt(r.amountMinor, r.currency)}</div><div class="t-footnote fg3 num">≈ ${eq} at ${RATE}</div></div>
     <div class="list" style="box-shadow:inset 0 0 0 1px var(--sep)">
-      <div class="kv"><span>Type</span><span>${r.direction === 'in' ? 'Money in' : r.direction === 'out' ? 'Money out' : '<span style="color:var(--spend)">Choose in or out</span>'}</span></div>
+      <div class="kv"><span>Type</span><span style="color:var(--accent)">${r.direction === 'in' ? 'Money in' : 'Money out'}</span></div>
       <div class="kv"><span>${r.direction === 'in' ? 'From' : 'To'}</span><span>${esc(r.counterparty || '—')}</span></div>
       <div class="kv"><span>Category</span><span style="color:var(--accent)">${cat}</span></div>
-      ${r.reference ? `<div class="kv"><span>Reference</span><span class="num t-footnote" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:62%">${esc(r.reference)}</span></div>` : ''}
-      ${r.feeMinor ? `<div class="kv"><span>Log ${fmt(r.feeMinor, r.currency)} fees separately</span><span><span class="switch" role="switch" aria-checked="true" style="display:inline-block;vertical-align:middle"></span></span></div>` : ''}
+      ${r.feeMinor ? `<div class="kv"><span>Log ${fmt(r.feeMinor, r.currency)} fees separately</span><span><span class="switch" role="switch" aria-checked="true" style="vertical-align:middle"></span></span></div>` : ''}
     </div>
-    <div style="display:grid;grid-template-columns:1fr 2fr;gap:8px">
-      <button type="button" class="btn secondary" data-act="${queued ? 'discard' : 'clearpaste'}">Discard</button>
-      <button type="button" class="btn primary" data-act="${queued ? 'confirm' : 'confirmpaste'}" ${r.direction ? '' : 'disabled style="opacity:.45"'}>Confirm</button></div>
+    <div style="display:grid;grid-template-columns:1fr 2fr;gap:8px"><button type="button" class="btn secondary" data-act="${queued ? 'discard' : 'clearpaste'}">Discard</button><button type="button" class="btn primary" data-act="${queued ? 'confirm' : 'confirmpaste'}">Confirm</button></div>
   </div>`;
 }
 
@@ -824,49 +1025,32 @@ SCREENS.settings = () => {
   return `${statusBar()}<div class="scroll">
     <div class="head"><button type="button" class="back" data-go="home">${ic('chevron_left')}${t('home')}</button><span></span></div>
     <div class="t-title1" style="margin-bottom:20px">Settings</div>
-    <div class="group"><div class="group-label t-caption">Money</div><div class="list">
-      ${row('currency_exchange', 'Show amounts in', S.disp === 'usd' ? 'US$' : 'ZiG')}
-      ${row('home', 'Home currency', 'US$')}
-      ${row('trending_flat', 'Exchange rate', `<span class="num">${RATE}</span> · official`)}
-    </div><p class="t-footnote fg3" style="margin:8px 16px 0">Updated today at 08:00. Prefer the street rate? Set your own and Mari uses it until you switch back.</p></div>
+    <div class="group"><div class="group-label t-caption">Money</div><div class="list">${row('currency_exchange', 'Show amounts in', S.disp === 'usd' ? 'US$' : 'ZiG')}${row('home', 'Home currency', 'US$')}${row('trending_flat', 'Exchange rate', `<span class="num">${RATE}</span> · official`)}</div></div>
+    <div class="group"><div class="group-label t-caption">Evening check-in</div><div class="list">
+      <div class="li">${ic('nights_stay', 'lead')}<span class="grow"><span class="t-callout" style="display:block">A gentle note at 19:30</span><span class="t-footnote fg2">Only on days with nothing logged</span></span><span class="switch" role="switch" aria-checked="true"></span></div>
+    </div><p class="t-footnote fg3" style="margin:8px 16px 0">One quiet line, never a count of missed days.</p></div>
     <div class="group"><div class="group-label t-caption">Capture</div><div class="list">
       <div class="li">${ic('notifications_active', 'lead')}<span class="grow"><span class="t-callout" style="display:block">Read money alerts</span><span class="t-footnote fg2">Android · EcoCash and bank notifications</span></span>
         <button type="button" class="switch" role="switch" aria-checked="${S.capture}" aria-label="Read money alerts" data-act="capture"></button></div>
-      ${row('bolt', 'iPhone Shortcut', 'Set up', 'data-act="noop"')}
-    </div><p class="t-footnote fg3" style="margin:8px 16px 0">iPhone doesn't let any app read your messages. A Shortcut can pass EcoCash texts to Mari when they arrive, with your permission.</p></div>
-    <div class="group"><div class="group-label t-caption">App</div><div class="list">
-      ${row('translate', 'Language', { en: 'English', sn: 'chiShona', nd: 'isiNdebele' }[S.lang], 'data-go="onboarding" data-ob="1"')}
-      ${row('dark_mode', 'Appearance', 'System')}
-    </div></div>
-    <div class="group"><div class="group-label t-caption">Your data</div><div class="list">
-      ${row('ios_share', 'Export as CSV', '')}
-      <button type="button" class="li" data-act="delete">${ic('delete', 'lead')}<span class="grow t-callout spd">Delete all my data</span></button>
-    </div><p class="t-footnote fg3" style="margin:8px 16px 0">Everything lives on this phone. Mari has no account and no server.</p></div>
-    <p class="t-footnote fg3" style="text-align:center">Mari 1.0.0</p>
+      ${row('bolt', 'iPhone Shortcut', 'Set up', 'data-act="noop"')}</div></div>
+    <div class="group"><div class="group-label t-caption">App</div><div class="list">${row('translate', 'Language', { en: 'English', sn: 'chiShona', nd: 'isiNdebele' }[S.lang], 'data-go="onboarding" data-ob="1"')}${row('dark_mode', 'Appearance', 'Auto')}</div></div>
+    <div class="group"><div class="group-label t-caption">Your data</div><div class="list">${row('ios_share', 'Export as CSV', '')}
+      <button type="button" class="li" data-act="delete">${ic('delete', 'lead')}<span class="grow t-callout spd">Delete all my data</span></button></div>
+      <p class="t-footnote fg3" style="margin:8px 16px 0">Everything lives on this phone. Mari has no account and no server.</p></div>
   </div>`;
 };
 
 SCREENS.consent = () => `${statusBar()}<div class="scroll">
   <div class="head"><button type="button" class="back" data-go="settings">${ic('chevron_left')}Settings</button><span></span></div>
-  <div class="t-title1" style="margin-bottom:8px;text-wrap:balance">Let Mari read money alerts</div>
+  <div class="t-title1" style="margin-bottom:8px">Let Mari read money alerts</div>
   <p class="t-callout fg2" style="margin:0 0 20px">When EcoCash or your bank sends an alert, Mari can read the notification and prepare the transaction for you to confirm.</p>
-  <div class="card" style="padding:16px;display:grid;gap:14px;margin-bottom:14px">
-    <div class="t-caption inc">Mari reads</div>
+  <div class="card" style="padding:16px;display:grid;gap:14px;margin-bottom:14px"><div class="t-caption inc">Mari reads</div>
     <div class="promise">${ic('check_circle', 'inc')}<span class="t-callout">Notifications from the apps you tick below, and in messaging apps only texts from the senders you list.</span></div>
-    <div class="promise">${ic('check_circle', 'inc')}<span class="t-callout">Only the amount, currency, who and a reference, which stay on this phone.</span></div>
-  </div>
-  <div class="card" style="padding:16px;display:grid;gap:14px;margin-bottom:24px">
-    <div class="t-caption spd">Mari never</div>
+    <div class="promise">${ic('check_circle', 'inc')}<span class="t-callout">Only the amount, currency, who and a reference, which stay on this phone.</span></div></div>
+  <div class="card" style="padding:16px;display:grid;gap:14px;margin-bottom:24px"><div class="t-caption spd">Mari never</div>
     <div class="promise">${ic('block', 'spd')}<span class="t-callout">Opens your SMS inbox. Android gives Mari notifications, not your messages.</span></div>
-    <div class="promise">${ic('block', 'spd')}<span class="t-callout">Keeps any other notification. Chats, OTPs and promos are discarded the moment they arrive.</span></div>
-    <div class="promise">${ic('block', 'spd')}<span class="t-callout">Sends anything off your phone, or saves a transaction without your tap.</span></div>
-  </div>
-  <div class="sec-head"><span class="t-caption fg2">Read alerts from</span></div>
-  <div class="list" style="margin-bottom:12px">
-    ${[['EcoCash app', 'smartphone', true], ['Google Messages', 'sms', true], ['Samsung Messages', 'sms', false]].map(([n, i, on]) => `<div class="li">${ic(i, 'lead')}<span class="grow t-callout">${n}</span><span class="switch" role="switch" aria-checked="${on}"></span></div>`).join('')}
-  </div>
-  <div class="sec-head"><span class="t-caption fg2">Texts from these senders</span></div>
-  <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px">${['EcoCash', 'CBZ', 'Stanbic', 'Steward', 'FBC', 'NMB', 'InnBucks', 'OneMoney'].map((s) => `<span class="chip">${s}</span>`).join('')}<span class="chip" style="color:var(--accent)">${ic('add')}Add</span></div>
+    <div class="promise">${ic('block', 'spd')}<span class="t-callout">Keeps any other notification. Chats, OTPs and promotions are dropped on arrival.</span></div>
+    <div class="promise">${ic('block', 'spd')}<span class="t-callout">Sends anything off your phone, or saves a transaction without your tap.</span></div></div>
   <button type="button" class="btn primary" data-act="consentGo">Continue to Android settings</button>
   <button type="button" class="btn ghost" data-go="settings" style="margin-top:6px">Not now</button>
 </div>`;
@@ -874,201 +1058,203 @@ SCREENS.consent = () => `${statusBar()}<div class="scroll">
 SCREENS.onboarding = () => {
   const dots = `<div class="pager" style="margin:0 0 6px">${[0, 1, 2, 3].map((i) => `<i class="${i === S.ob ? 'on' : ''}"></i>`).join('')}</div>`;
   const steps = [
-    `<div class="body"><div class="wordmark">Mari<i>.</i></div><div class="t-title2" style="color:var(--fg2);font-weight:500">Money, made clear.</div>
-      <p class="t-body fg2" style="margin:12px 0 0;max-width:300px">US dollars and ZiG, EcoCash and cash, in one honest picture of your month.</p></div>
+    `<div class="body"><div class="tree-card" style="margin:0"><div class="tree-slot" id="treeSlot" data-reveal="1" data-demo="1" style="height:220px;margin:6px 0 4px"><canvas id="tree2d"></canvas></div></div>
+      <div class="wordmark" style="margin-top:12px">Mari<i>.</i></div><div class="t-title2" style="color:var(--fg2);font-weight:500">Money, made clear.</div>
+      <p class="t-body fg2" style="margin:0;max-width:310px">Every month grows a tree. Check in for a few seconds a day and watch it fill.</p></div>
      <div class="foot">${dots}<button type="button" class="btn primary" data-act="obNext">Get started</button></div>`,
     `<div class="body" style="justify-content:flex-start;padding-top:40px"><div class="t-title1">Choose your language</div><p class="t-callout fg2" style="margin:0 0 10px">You can change this any time.</p>
-      ${[['en', 'English', 'Money, made clear.'], ['sn', 'chiShona', 'Mari, yakajeka.'], ['nd', 'isiNdebele', 'Imali, ecacileyo.']].map(([k, n, s]) => `<button type="button" class="choice" data-lang="${k}" aria-pressed="${S.lang === k}"><span class="grow"><span class="t-headline" style="display:block">${n}</span><span class="t-footnote fg2">${s}</span></span><span class="tick">${S.lang === k ? ic('check') : ''}</span></button>`).join('')}</div>
+      ${[['en', 'English', 'Money, made clear.'], ['sn', 'chiShona', 'Mari, yakajeka.'], ['nd', 'isiNdebele', 'Imali, ecacileyo.']].map(([k, nm, s]) => `<button type="button" class="choice" data-lang="${k}" aria-pressed="${S.lang === k}"><span class="grow"><span class="t-headline" style="display:block">${nm}</span><span class="t-footnote fg2">${s}</span></span><span class="tick">${S.lang === k ? ic('check') : ''}</span></button>`).join('')}</div>
      <div class="foot">${dots}<button type="button" class="btn primary" data-act="obNext">Continue</button></div>`,
-    `<div class="body" style="justify-content:flex-start;padding-top:40px"><div class="t-title1">How do you think about money?</div><p class="t-callout fg2" style="margin:0 0 10px">Your home currency is the one budgets start in. Every amount is still shown in both.</p>
-      ${[['usd', 'US dollars', 'Most salaries, rent and school fees'], ['zig', 'ZiG', 'Most EcoCash and day-to-day spending']].map(([k, n, s]) => `<button type="button" class="choice" data-homecur="${k}" aria-pressed="${S.homeCur === k}"><span class="grow"><span class="t-headline" style="display:block">${n}</span><span class="t-footnote fg2">${s}</span></span><span class="tick">${S.homeCur === k ? ic('check') : ''}</span></button>`).join('')}
-      <div class="field" style="margin-top:14px"><label for="obRate">Today's rate (ZiG for 1 US$)</label><input class="input num" id="obRate" inputmode="decimal" value="${esc(S.obRate)}">
-      <span class="t-footnote fg3">Official rate fetched this morning. Use the rate you actually pay if it's different.</span></div></div>
+    `<div class="body" style="justify-content:flex-start;padding-top:40px"><div class="t-title1">How do you think about money?</div><p class="t-callout fg2" style="margin:0 0 10px">Budgets start in your home currency. Every amount still shows in both.</p>
+      ${[['usd', 'US dollars', 'Most salaries, rent and school fees'], ['zig', 'ZiG', 'Most EcoCash and day-to-day spending']].map(([k, nm, s]) => `<button type="button" class="choice" data-homecur="${k}" aria-pressed="${S.homeCur === k}"><span class="grow"><span class="t-headline" style="display:block">${nm}</span><span class="t-footnote fg2">${s}</span></span><span class="tick">${S.homeCur === k ? ic('check') : ''}</span></button>`).join('')}
+      <label class="t-footnote fg2" for="obRate" style="margin-top:12px">Today's rate (ZiG for 1 US$)</label><input class="input num" id="obRate" inputmode="decimal" value="${esc(S.obRate)}"></div>
      <div class="foot">${dots}<button type="button" class="btn primary" data-act="obNext">Continue</button></div>`,
-    `<div class="body" style="justify-content:flex-start;padding-top:40px"><div class="t-title1">Private by design</div>
+    `<div class="body" style="justify-content:flex-start;padding-top:40px"><div class="t-title1">How the tree works</div>
       <div style="display:grid;gap:18px;margin-top:14px">
-      <div class="promise">${ic('smartphone')}<span><span class="t-headline" style="display:block">Stays on your phone</span><span class="t-callout fg2">No account, no server, no ads. Works with no data at all.</span></span></div>
-      <div class="promise">${ic('touch_app')}<span><span class="t-headline" style="display:block">You confirm everything</span><span class="t-callout fg2">Captured alerts wait for your tap before they count.</span></span></div>
-      <div class="promise">${ic('delete')}<span><span class="t-headline" style="display:block">Gone when you say so</span><span class="t-callout fg2">One tap in Settings erases everything.</span></span></div></div></div>
-     <div class="foot">${dots}<button type="button" class="btn primary" data-act="obDone">Start using Mari</button></div>`,
+      <div class="promise">${ic('eco')}<span><span class="t-headline" style="display:block">One leaf a day</span><span class="t-callout fg2">Log or confirm anything and that day gets a leaf. Its colour shows how the day went.</span></span></div>
+      <div class="promise">${ic('spa')}<span><span class="t-headline" style="display:block">No wrong colours</span><span class="t-callout fg2">Copper, amber, gold and green are all msasa colours. A missed day just stays a bud.</span></span></div>
+      <div class="promise">${ic('collections_bookmark')}<span><span class="t-headline" style="display:block">A year of seasons</span><span class="t-callout fg2">Each finished month joins your shelf. Twelve trees later, you can see your year.</span></span></div>
+      <div class="promise">${ic('lock')}<span><span class="t-headline" style="display:block">Private by design</span><span class="t-callout fg2">No account, no server, works with no data.</span></span></div></div></div>
+     <div class="foot">${dots}<button type="button" class="btn primary" data-act="obDone">Plant October's tree</button></div>`,
   ];
-  return `${statusBar()}<div style="position:relative;flex:1">
-    ${S.ob > 0 ? `<button type="button" class="back" data-act="obBack" style="position:absolute;top:0;left:20px;z-index:2">${ic('chevron_left')}Back</button>` : ''}
-    <div class="ob">${steps[S.ob]}</div></div>`;
+  return `${statusBar()}<div style="position:relative;flex:1">${S.ob > 0 ? `<button type="button" class="back" data-act="obBack" style="position:absolute;top:0;left:20px;z-index:2">${ic('chevron_left')}Back</button>` : ''}<div class="ob">${steps[S.ob]}</div></div>`;
 };
 
 SCREENS.styleguide = () => {
-  const cs = getComputedStyle(document.documentElement);
-  const sw = (name, v) => `<div class="sw"><i style="background:var(${v})"></i><span>${name}<em class="num">${cs.getPropertyValue(v).trim()}</em></span></div>`;
+  const sw = (nm, v) => `<div class="sw"><i style="background:var(${v})"></i><span>${nm}<em class="num">${cssVar(v)}</em></span></div>`;
   const tr = (cls, label, spec) => `<div class="typerow"><span class="${cls}">${label}</span><small>${spec}</small></div>`;
   return `${statusBar()}<div class="scroll sg">
     <div class="head"><span class="t-title1">Style guide</span><span class="t-footnote fg2">${document.documentElement.dataset.theme || 'system'}</span></div>
-    <h3 class="t-caption fg2">Colour</h3>
-    <div class="swatches">${sw('Background', '--bg')}${sw('Surface', '--surface')}${sw('Sunken', '--sunken')}${sw('Text', '--fg')}${sw('Secondary', '--fg2')}${sw('Tertiary', '--fg3')}${sw('Jacaranda', '--accent')}${sw('Income', '--income')}${sw('Spend', '--spend')}${sw('Warning', '--warn')}${sw('Accent soft', '--accent-soft')}${sw('Separator', '--sep')}</div>
+    <h3 class="t-caption fg2">Core</h3>
+    <div class="swatches">${sw('Mist', '--bg')}${sw('Surface', '--surface')}${sw('Sunken', '--sunken')}${sw('Ink', '--fg')}${sw('Secondary', '--fg2')}${sw('Tertiary', '--fg3')}${sw('Kariba teal', '--accent')}${sw('Msasa amber', '--warm')}${sw('Teal soft', '--accent-soft')}${sw('Money in', '--income')}${sw('Over / copper', '--spend')}${sw('Near limit', '--warn')}</div>
+    <h3 class="t-caption fg2">Leaves (how a day went)</h3>
+    <div class="swatches">${sw('Light', '--leaf-light')}${sw('Steady', '--leaf-steady')}${sw('Full', '--leaf-full')}${sw('Heavy', '--leaf-heavy')}${sw('Money in', '--leaf-gold')}${sw('Bud', '--bud')}</div>
+    <h3 class="t-caption fg2">Category tints</h3>
+    <div style="display:flex;flex-wrap:wrap;gap:8px">${['teal', 'amber', 'sage', 'clay', 'sky', 'plum', 'sand', 'moss'].map((k) => `<span class="chip" style="background:var(--t-${k});color:var(--c-${k});box-shadow:none">${k}</span>`).join('')}</div>
     <h3 class="t-caption fg2">Type · system face, tabular money</h3>
-    ${tr('t-display num', 'US$254.30', '44/48 · 600 · −1.4')}${tr('t-title1', 'Budgets', '28/34 · 600 · −0.6')}${tr('t-title2', 'Recent', '22/28 · 600 · −0.3')}${tr('t-headline', 'Headline', '17/22 · 600')}${tr('t-body', 'Body text', '17/24 · 400')}${tr('t-callout', 'Callout', '15/20 · 400')}${tr('t-subhead', 'Subhead', '15/20 · 500')}${tr('t-footnote', 'Footnote', '13/18 · 400')}${tr('t-caption', 'Caption', '12/16 · 600 · +0.4')}
-    <h3 class="t-caption fg2">Spacing · 8pt grid</h3>
-    ${[4, 8, 12, 16, 24, 32, 48].map((v) => `<div class="spacerow"><i style="width:${v * 2.4}px"></i><span class="num">${v}</span></div>`).join('')}
+    ${tr('t-display num', 'US$125.30', '44/48 · 600')}${tr('t-title1', 'Budgets', '28/34 · 600')}${tr('greet', 'Mangwanani', '26/32 · 600')}${tr('t-headline', 'Headline', '17/22 · 600')}${tr('t-callout', 'Callout', '15/20 · 400')}${tr('t-caption', 'Caption', '12/16 · 600')}
     <h3 class="t-caption fg2">Components</h3>
     <div style="display:grid;gap:8px"><button type="button" class="btn primary">Confirm</button><button type="button" class="btn secondary">Discard</button><button type="button" class="btn destructive">Delete all my data</button></div>
-    <div style="display:flex;gap:10px;align-items:center;margin:14px 0;flex-wrap:wrap">${segCurrency('sg')}<span class="switch" role="switch" aria-checked="true"></span><span class="switch" role="switch" aria-checked="false"></span></div>
-    <div class="chips" style="margin-bottom:14px"><span class="chip" aria-pressed="true">${ic('shopping_basket')}Groceries</span><span class="chip">${ic('bolt')}ZESA tokens</span><span class="chip">${ic('church')}Church & tithe</span></div>
-    <div class="card" style="margin-bottom:14px">${budgetRow('airtime', 0, 2500)}${budgetRow('transport', 3840, 6000)}${budgetRow('electricity', 2760, 3000)}${budgetRow('fees', 1130, 1000)}</div>
-    <div class="card" style="margin-bottom:14px">${txnRow(TX[0])}${txnRow(TX[4])}</div>
-    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px"><span class="badge high">${ic('verified')}Matched a known format</span><span class="badge medium">${ic('help')}Best guess</span><span class="badge low">${ic('warning')}Direction unclear</span></div>
-    <div class="card"><div class="empty">${ic('receipt_long')}<b>No transactions yet</b><p>Add one with the + button, or paste an EcoCash message.</p></div></div>
-    <h3 class="t-caption fg2">Motion</h3>
-    <div class="card" style="padding:16px;display:grid;gap:10px">
-      <div class="t-display num" id="sgRoll"><span data-roll="25430">US$254.30</span></div>
-      <button type="button" class="btn small secondary" data-act="replay" style="justify-self:start">Replay balance roll</button>
-      <p class="t-footnote fg2" style="margin:0">Balance roll 520ms ease-out. Sheet rise 380ms with the screen behind scaling to 0.94. Currency swap 260ms, old figure up and out, new one up from below.</p></div>
+    <div class="pace">${ic('wb_sunny')}<span><b>About US$25.06 a day</b><small>for the 5 days left in October.</small></span></div>
+    <div class="card" style="margin:14px 0">${budgetRow('airtime', 0, 2500)}${budgetRow('transport', 3840, 6000)}${budgetRow('electricity', 2760, 3000)}${budgetRow('fees', 1130, 1000)}</div>
+    <div class="card">${txnRow(TX[TX.length - 2])}${txnRow(TX[0])}</div>
     <div style="height:20px"></div>
   </div>`;
 };
 
-/* ------------------------------------------------------------------ add / edit sheet */
+/* ------------------------------------------------------------------ sheets */
 function openSheet(html) {
   const sheet = document.getElementById('sheet');
   sheet.innerHTML = `<div class="grabber"></div>${html}`;
-  document.getElementById('app').classList.add('behind');
-  document.getElementById('scrim').classList.add('on');
+  document.getElementById('app').classList.add('behind'); document.getElementById('scrim').classList.add('on');
   requestAnimationFrame(() => sheet.classList.add('on'));
 }
 function closeSheet() {
-  document.getElementById('sheet').classList.remove('on');
-  document.getElementById('scrim').classList.remove('on');
-  document.getElementById('app').classList.remove('behind');
+  document.getElementById('sheet').classList.remove('on'); document.getElementById('scrim').classList.remove('on'); document.getElementById('app').classList.remove('behind');
   S.draft = null;
 }
 function entrySheet() {
-  const dft = S.draft;
-  const shown = dft.digits || '0';
+  const dft = S.draft; const shown = dft.digits || '0';
   const minor = Math.round(parseFloat(shown || '0') * 100) || 0;
   const eq = minor ? (dft.cur === 'usd' ? `≈ ${fmt(Math.round(minor * RATE), 'zig')}` : `≈ ${fmt(Math.round(minor / RATE), 'usd')}`) + ` at ${RATE}` : '';
   const cats = Object.keys(CATS).filter((k) => (dft.dir === 'in' ? CATS[k].kind === 'income' : CATS[k].kind !== 'income'));
   return `<div class="sheet-head"><button type="button" data-act="close">Cancel</button><span class="t-headline">${dft.id ? 'Edit' : 'New transaction'}</span><button type="button" data-act="save" style="font-weight:600;${minor ? '' : 'opacity:.4'}">Save</button></div>
   <div class="scroll">
-    <div class="seg wide" data-seg="dir" style="margin-bottom:6px"><span class="thumb"></span>
-      <button type="button" data-dir="out" aria-pressed="${dft.dir === 'out'}">Money out</button><button type="button" data-dir="in" aria-pressed="${dft.dir === 'in'}">Money in</button></div>
-    <div class="amount-display"><span class="cur">${dft.cur === 'usd' ? 'US$' : 'ZiG'}</span><span class="val num">${group(shown.split('.')[0] || '0')}${shown.includes('.') ? '.' + shown.split('.')[1] : ''}</span>
-      <div class="eq num">${eq}</div></div>
-    <div style="display:flex;justify-content:center;margin:6px 0 14px"><div class="seg" data-seg="dcur"><span class="thumb"></span>
-      <button type="button" data-dcur="usd" aria-pressed="${dft.cur === 'usd'}">US$</button><button type="button" data-dcur="zig" aria-pressed="${dft.cur === 'zig'}">ZiG</button></div></div>
-    <div class="chips" style="margin-bottom:14px">${cats.map((k) => `<button type="button" class="chip" data-cat="${k}" aria-pressed="${dft.cat === k}">${ic(CATS[k].icon)}${CATS[k].en}</button>`).join('')}</div>
-    <div style="display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px">
-      <input class="input" id="who" placeholder="${dft.dir === 'in' ? 'From (optional)' : 'To or where (optional)'}" value="${esc(dft.who || '')}" autocomplete="off">
-      <button type="button" class="chip" style="height:48px;border-radius:12px">${ic('calendar_today')}Today</button></div>
+    <div class="seg wide" data-seg="dir" style="margin-bottom:6px"><span class="thumb"></span><button type="button" data-dir="out" aria-pressed="${dft.dir === 'out'}">Money out</button><button type="button" data-dir="in" aria-pressed="${dft.dir === 'in'}">Money in</button></div>
+    <div class="amount-display"><span class="cur">${dft.cur === 'usd' ? 'US$' : 'ZiG'}</span><span class="val num">${group(shown.split('.')[0] || '0')}${shown.includes('.') ? '.' + shown.split('.')[1] : ''}</span><div class="eq num">${eq}</div></div>
+    <div style="display:flex;justify-content:center;margin:6px 0 14px"><div class="seg" data-seg="dcur"><span class="thumb"></span><button type="button" data-dcur="usd" aria-pressed="${dft.cur === 'usd'}">US$</button><button type="button" data-dcur="zig" aria-pressed="${dft.cur === 'zig'}">ZiG</button></div></div>
+    <div class="chips" style="margin-bottom:14px">${cats.map((k) => `<button type="button" class="chip" data-cat="${k}" aria-pressed="${dft.cat === k}"><span class="ic" style="color:var(--c-${CATS[k].tint})">${CATS[k].icon}</span>${CATS[k].en}</button>`).join('')}</div>
+    <input class="input" id="who" placeholder="${dft.dir === 'in' ? 'From (optional)' : 'To or where (optional)'}" value="${esc(dft.who || '')}" autocomplete="off">
     <div class="keypad num">${['1', '2', '3', '4', '5', '6', '7', '8', '9', '.', '0', 'del'].map((k) => `<button type="button" data-key="${k}" aria-label="${k === 'del' ? 'Delete digit' : k}">${k === 'del' ? ic('backspace') : k}</button>`).join('')}</div>
   </div>`;
 }
-function renderSheet() { const s = document.getElementById('sheet'); const sc = s.querySelector('.scroll'); const top = sc ? sc.scrollTop : 0; s.innerHTML = `<div class="grabber"></div>${entrySheet()}`; const n = s.querySelector('.scroll'); if (n) n.scrollTop = top; positionThumbs(s); }
+function renderSheet() { const s = document.getElementById('sheet'); s.innerHTML = `<div class="grabber"></div>${entrySheet()}`; positionThumbs(s); }
+function daySheet(d) {
+  const dt = dayTotals(d); const tone = treeTones()[d] || 'bud'; const date = new Date(2026, 9, d);
+  const pace = dailyPace();
+  const line = {
+    bud: `Nothing logged. If you spent something you remember, add it and this bud becomes a leaf.`,
+    gold: `${fmt(toDisp(dt.income), S.disp)} came in, more than went out.`,
+    light: `${fmt(toDisp(dt.spend), S.disp)} spent, well under your ${fmt(toDisp(pace), S.disp)} daily pace.`,
+    steady: `${fmt(toDisp(dt.spend), S.disp)} spent, within your ${fmt(toDisp(pace), S.disp)} daily pace.`,
+    full: `${fmt(toDisp(dt.spend), S.disp)} spent, a bit over the ${fmt(toDisp(pace), S.disp)} daily pace. Normal for a shopping day.`,
+    heavy: `${fmt(toDisp(dt.spend), S.disp)} spent. Big days happen; the month absorbs them.`,
+  }[tone];
+  openSheet(`<div class="sheet-head"><span style="width:52px"></span><span class="t-headline">${DAYS_LONG[date.getDay()]} ${d} October</span><button type="button" data-act="close">Done</button></div>
+  <div class="scroll" style="display:grid;gap:14px">
+    <div class="card" style="padding:16px;display:flex;gap:14px;align-items:center"><span style="width:34px;height:26px;border-radius:50%;background:var(${TONE_VAR[tone]});flex:none"></span>
+      <span><b class="t-headline" style="display:block">${TONE_WORD[tone]}</b><span class="t-footnote fg2 num">${esc(line)}</span></span></div>
+    ${dt.list.length ? `<div class="card">${dt.list.map(txnRow).join('')}</div>` : ''}
+    <button type="button" class="btn ${dt.list.length ? 'secondary' : 'primary'}" data-act="addForDay" data-day="${d}">${ic('add')}Add to this day</button>
+  </div>`);
+}
 function budgetSheet(cat) {
   const cur = BUDGETS[cat] || 0;
   openSheet(`<div class="sheet-head"><button type="button" data-act="close">Cancel</button><span class="t-headline">${CATS[cat].en}</span><button type="button" data-act="saveBudget" data-cat="${cat}" style="font-weight:600">Save</button></div>
   <div class="scroll" style="display:grid;gap:16px;padding-top:8px">
-    <div class="field"><label for="bAmt">Monthly limit</label><div style="display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:center">
-      <input class="input num" id="bAmt" inputmode="decimal" value="${cur ? (cur / 100).toFixed(2) : ''}" placeholder="0.00">
-      <div class="seg" data-seg="bcur"><span class="thumb"></span><button type="button" aria-pressed="true">US$</button><button type="button" aria-pressed="false">ZiG</button></div></div></div>
-    <div class="list"><div class="li"><span class="grow"><span class="t-callout" style="display:block">Carry over what's left</span><span class="t-footnote fg2">Unspent money adds to next month's limit</span></span><span class="switch" role="switch" aria-checked="false"></span></div></div>
-    ${cur ? `<button type="button" class="btn destructive" data-act="removeBudget" data-cat="${cat}">Remove limit</button>` : ''}
-  </div>`);
-  positionThumbs(document.getElementById('sheet'));
+    <label class="t-footnote fg2" for="bAmt">Monthly limit</label><input class="input num" id="bAmt" inputmode="decimal" value="${cur ? (cur / 100).toFixed(2) : ''}" placeholder="0.00">
+    ${cur ? `<button type="button" class="btn destructive" data-act="removeBudget" data-cat="${cat}">Remove limit</button>` : ''}</div>`);
 }
 
-/* ------------------------------------------------------------------ notes shown beside the phone */
+/* ------------------------------------------------------------------ notes beside the phone */
 const NOTES = {
-  home: ['Home', 'One number that matters', 'The hero answers the only question people open a budget app to ask: how much can I still spend this month. Everything else sits below it, quieter.', [
-    ['visibility', 'Deference: no chrome competes with the figure. The currency switch is small and sits beside the rate, because the two belong together.'],
-    ['swap_vert', 'Tap US$ / ZiG. The figure swaps with a short vertical move, and every row below converts at the rate frozen on its own day.'],
-    ['notifications_active', 'The violet card is the review queue. Captured alerts never count until confirmed.']]],
-  add: ['Add', 'A keypad, not a form', 'Amount first, in big tabular figures. Direction, currency and category are one tap each. Save is disabled until there is an amount.', [
-    ['layers', 'Depth: the sheet rises over the screen and the screen behind scales back, so you know where you are and how to get back.'],
-    ['currency_exchange', 'The equivalent line updates live at today’s rate, and that rate is frozen into the record when you save.'],
-    ['category', 'Categories are Zimbabwean: ZESA tokens, Mukando, Family support, Mobile money fees, Cash out.']]],
-  review: ['Review', 'Captured, then confirmed', 'Alerts from EcoCash or a bank arrive here with the amount highlighted in the original message, so a person can check Mari’s reading against the source in one glance.', [
-    ['verified', 'Confidence is shown, not hidden. A known format, a best guess, or a missing direction each look different.'],
-    ['content_paste', 'The paste box runs the same parser the app ships with. Try your own EcoCash message.'],
-    ['receipt_long', 'Fees and the 2% IMTT tax are found and can be logged as their own line, which is where many people’s money quietly goes.']]],
-  budgets: ['Budgets', 'Pace, not just totals', 'Each limit shows spent against budget with a bar that turns amber at 85% and terracotta when over. The summary compares budget used with month elapsed.', [
-    ['palette', 'Warning and over are semantic colours, separate from the jacaranda accent, so state reads at a glance.'],
-    ['edit', 'Tap any row to change its limit in either currency, or to carry over what’s left.'],
-    ['savings', 'Categories with no limit stay listed, one tap from having one.']]],
-  history: ['History', 'Find anything fast', 'Search runs over people, shops and categories. Filters cover currency and where the record came from: EcoCash, bank or cash.', [
-    ['calendar_month', 'Grouped by day, each with the day’s spend in the display currency.'],
-    ['search', 'Try “zesa”, or the ZiG filter.'],
-    ['history', 'Original amount first, converted amount under it, so the record stays true to what happened.']]],
-  insights: ['Insights', 'Three numbers, said plainly', 'No dashboard of fifteen charts. Spent against budget, the biggest category, and the change from last month, then one ranked bar list.', [
-    ['bar_chart', 'The largest bar takes the accent; the rest stay neutral.'],
-    ['lock_clock', 'Past months don’t shift with the exchange rate, because each payment is converted at its own day’s rate.'],
-    ['swap_horiz', 'Cash-outs are excluded: moving money from EcoCash to your pocket isn’t spending.']]],
-  settings: ['Settings', 'Trust lives here', 'Rate source with a manual override, language, capture, export and a delete-everything control, in plain words.', [
-    ['notifications_active', 'Turn on “Read money alerts” to see the Android consent screen that appears before the system permission.'],
-    ['smartphone', 'The iPhone row explains the platform limit honestly and offers a Shortcut instead.'],
-    ['delete', 'Delete all my data is one row, always visible, never buried.']]],
-  consent: ['Capture consent', 'Exactly what is read', 'Shown before Android’s own permission screen. It lists what Mari reads and what it never does, and lets people choose apps and senders.', [
-    ['rule', 'Messaging apps only pass on texts from listed senders, so personal chats are dropped at the door.'],
-    ['policy', 'Mari uses notification access, not SMS permission, which Google Play reserves for SMS apps.'],
-    ['phonelink_off', 'Nothing leaves the phone.']]],
-  onboarding: ['Onboarding', 'Four calm steps', 'Welcome, language, home currency with today’s rate, and the privacy promises. Under a minute.', [
-    ['translate', 'Pick chiShona or isiNdebele and the home screen labels change. Translations are a first pass for native-speaker review.'],
-    ['currency_exchange', 'The rate is editable from day one, because many people pay the street rate, not the official one.'],
-    ['wifi_off', 'Works fully offline; the rate fetch is the only network call the app makes.']]],
-  styleguide: ['Style guide', 'Every token in one place', 'Colours, the type scale, spacing, components and motion, rendered live in the current theme. Toggle the theme above to compare.', [
-    ['dark_mode', 'Dark mode is its own palette: warmer blacks, lifted accent, softened semantics. Not an inversion.'],
-    ['format_size', 'System faces (SF Pro, Roboto) cost no download and feel native. Money always uses tabular figures.'],
-    ['animation', 'Replay the balance roll to see digits count without jitter.']]],
+  home: ['Home', 'A tree that grows with your month', 'The msasa tree is the reason to open Mari. Each day with anything logged gets a leaf, coloured by how the day went. Tap any leaf to see that day.', [
+    ['eco', 'Every tone is a real msasa colour: green for light days, olive for steady, amber for full, copper for heavy, gold when money came in. None of them means failure.'],
+    ['wb_sunny', 'The amber card answers the question people actually ask each morning: how much can I spend today? It changes every day, so it is worth a look.'],
+    ['view_in_ar', 'Built with three.js: a Timer-driven loop, an AnimationMixer clip per leaf (a small overshoot as it grows), and damped procedural sway. Leaves stay facing you as the crown turns.']]],
+  day: ['A day', 'Tap a leaf', 'Each leaf opens its day: what was spent, one kind sentence about it, and a way to add something forgotten. A bud invites a back-fill instead of scolding.', [
+    ['history_edu', 'The copy is warm and factual. "Big days happen; the month absorbs them."'],
+    ['add', 'Adding to a past day turns its bud into a leaf with the same grow animation.']]],
+  add: ['Add', 'A keypad, and a leaf', 'Amount first, in big tabular figures. Save it and you land back on Home just as today\'s leaf grows or changes colour. That small, immediate result is what makes logging feel worth it.', [
+    ['palette', 'Categories carry soft tints (sage, sky, amber, clay, plum…) so lists feel lively without fighting the teal.'],
+    ['currency_exchange', 'Both currencies, with the equivalent shown live and the rate frozen on save.']]],
+  review: ['Review', 'Captured, then confirmed', 'Alerts wait here with the amount highlighted in the original message. Confirming one counts toward today\'s leaf.', [
+    ['verified', 'Confidence is shown, never hidden.'], ['content_paste', 'The paste box runs the same parser the app ships with.']]],
+  budgets: ['Budgets', 'Pace, not just totals', 'Bars turn amber at 85% and copper when over. Category tints carry through from the lists.', [
+    ['pie_chart', 'Semantic colours (amber, copper) stay separate from the teal brand colour.']]],
+  history: ['History', 'Every day has a colour', 'Day headers carry their leaf colour, so scrolling back through the month reads like the tree, unrolled.', [
+    ['search', 'Search people, shops and categories; filter by currency or source.']]],
+  insights: ['Insights', 'Seasons', 'The month in one plain sentence, then the Seasons shelf: one tree per month. Finished months stay exactly as they grew, which is what turns a budget app into something people keep.', [
+    ['collections_bookmark', 'Tap a past tree to read that month\'s sentence.'],
+    ['block', 'No scores, no streaks, no badges. The shelf is a record, not a competition.']]],
+  settings: ['Settings', 'One gentle nudge', 'An optional evening note, sent only on days with nothing logged, and worded as an invitation ("Today\'s leaf is still a bud"). Never a count of missed days.', [
+    ['nights_stay', 'Off by default until someone has logged three days, so it arrives once the habit has started, not before.']]],
+  consent: ['Capture consent', 'Exactly what is read', 'Shown before Android\'s own permission screen.', [['policy', 'Notification access only; no SMS permission.']]],
+  onboarding: ['Onboarding', 'Start with a tree', 'The first screen is the tree growing a sample month, so people see the payoff before typing anything. The last step explains the tree in four lines, then plants this month\'s.', [
+    ['spa', '"No wrong colours" is said out loud, early. People who expect a budget app to judge them relax.']]],
+  styleguide: ['Style guide', 'Kariba teal and msasa amber', 'A calm lake blue-green carries the brand and every action; amber is the warm second voice, kept for moments worth a smile. Grounds are a soft mist, not cream or stark white.', [
+    ['dark_mode', 'Dark mode is "Kariba at night": deep teal-black grounds, lifted teal, warm amber.'],
+    ['visibility', 'Money in is teal, over-limit is copper: easier to tell apart for colour-blind people than green and red.']]],
 };
-function renderNotes(key) {
-  const [eyebrow, title, body, bullets] = NOTES[key] || NOTES.home;
-  document.getElementById('notes').innerHTML = `<div class="eyebrow">${eyebrow}</div><h1>${title}</h1><p>${body}</p>
-    <ul>${bullets.map(([i, txt]) => `<li>${ic(i)}<span>${txt}</span></li>`).join('')}</ul>`;
+function renderNotes(k) {
+  const [eyebrow, title, body, bullets] = NOTES[k] || NOTES.home;
+  document.getElementById('notes').innerHTML = `<div class="eyebrow">${eyebrow}</div><h1>${title}</h1><p>${body}</p><ul>${bullets.map(([i, x]) => `<li>${ic(i)}<span>${x}</span></li>`).join('')}</ul>`;
 }
 
-/* ------------------------------------------------------------------ render + motion */
-const TAB_LIST = [['onboarding', 'Onboarding'], ['home', 'Home'], ['add', 'Add'], ['review', 'Review'], ['budgets', 'Budgets'], ['history', 'History'], ['insights', 'Insights'], ['settings', 'Settings'], ['consent', 'Capture consent'], ['styleguide', 'Style guide']];
-function renderTabs(active) {
-  document.getElementById('tabs').innerHTML = TAB_LIST.map(([k, l]) => `<button type="button" data-tab="${k}" aria-current="${k === active}">${l}</button>`).join('');
-}
+/* ------------------------------------------------------------------ render */
+const TAB_LIST = [['onboarding', 'Onboarding'], ['home', 'Home'], ['day', 'A day'], ['add', 'Add'], ['review', 'Review'], ['budgets', 'Budgets'], ['history', 'History'], ['insights', 'Insights'], ['settings', 'Settings'], ['consent', 'Consent'], ['styleguide', 'Style guide']];
 let currentTab = 'home';
+function renderTabs() { document.getElementById('tabs').innerHTML = TAB_LIST.map(([k, l]) => `<button type="button" data-tab="${k}" aria-current="${k === currentTab}">${l}</button>`).join(''); }
 function render(opts = {}) {
   const app = document.getElementById('app');
   const sc = app.querySelector('.scroll'); const top = opts.keepScroll && sc ? sc.scrollTop : 0;
   app.innerHTML = SCREENS[S.screen]();
   const nsc = app.querySelector('.scroll'); if (nsc) nsc.scrollTop = top;
   positionThumbs(app);
-  if (!opts.silentTabs) { currentTab = S.screen === 'home' && document.getElementById('sheet').classList.contains('on') ? 'add' : S.screen; }
-  renderTabs(currentTab); renderNotes(currentTab);
+  if (!opts.silentTabs) currentTab = S.screen;
+  renderTabs(); renderNotes(currentTab);
+  paintTrees();
+  S.reveal = false;
 }
+function treeState(slot) {
+  if (slot && slot.dataset.demo) {
+    const tones = {}; const r = MT.rng(424242);
+    for (let d = 1; d <= 31; d++) { const v = r(); tones[d] = v < 0.07 ? 'bud' : v < 0.15 ? 'gold' : v < 0.45 ? 'light' : v < 0.72 ? 'steady' : v < 0.9 ? 'full' : 'heavy'; }
+    return { year: 2026, month: 9, tones, demo: true };
+  }
+  return { year: YEAR, month: MONTH, tones: treeTones() };
+}
+function paintTrees() {
+  const slot = document.getElementById('treeSlot');
+  if (slot) {
+    const st = treeState(slot);
+    const c = document.getElementById('tree2d');
+    if (window.MariScene && window.MariScene.ready) { c.hidden = true; window.MariScene.attach(slot, st); }
+    else drawTree2D(c, st.year, st.month, st.tones);
+  } else if (window.MariScene) window.MariScene.detach();
+  document.querySelectorAll('canvas[data-thumb]').forEach((cv) => {
+    const k = cv.dataset.thumb;
+    if (k === 'current') drawTree2D(cv, YEAR, MONTH, treeTones(), { pad: 0.08 });
+    else { const s = SEASONS.find((x) => String(x.m) === k); drawTree2D(cv, s.y, s.m, seasonTones(s), { pad: 0.08 }); }
+  });
+}
+window.MariApp = { state: () => treeState(document.getElementById('treeSlot')), openDay: (d) => { if (d <= TODAY.getDate()) { currentTab = 'day'; renderTabs(); renderNotes('day'); daySheet(d); } }, repaint: paintTrees };
 function positionThumbs(rootEl) {
   rootEl.querySelectorAll('.seg').forEach((seg) => {
     const on = seg.querySelector('button[aria-pressed="true"]'); const th = seg.querySelector('.thumb');
-    if (!on || !th) return;
-    th.style.width = `${on.offsetWidth}px`; th.style.transform = `translateX(${on.offsetLeft - 3}px)`;
+    if (!on || !th) return; th.style.width = `${on.offsetWidth}px`; th.style.transform = `translateX(${on.offsetLeft - 3}px)`;
   });
 }
 function roll(el, from, to, cur) {
-  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const start = performance.now(); const dur = reduce ? 1 : 520;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches; const start = performance.now(); const dur = reduce ? 1 : 520;
   const ease = (x) => 1 - Math.pow(1 - x, 3);
-  function frame(now) {
-    const p = Math.min(1, (now - start) / dur);
-    el.textContent = fmt(Math.round(from + (to - from) * ease(p)), cur);
-    if (p < 1) requestAnimationFrame(frame);
-  }
-  requestAnimationFrame(frame);
+  (function frame(now) { const p = Math.min(1, (now - start) / dur); el.textContent = fmt(Math.round(from + (to - from) * ease(p)), cur); if (p < 1) requestAnimationFrame(frame); })(start);
 }
-function toast(msg, undo) {
+function toast(msg, opts = {}) {
   const el = document.getElementById('toast');
-  el.innerHTML = `<span>${esc(msg)}</span>${undo ? '<button type="button" data-act="undo">Undo</button>' : ''}`;
+  el.innerHTML = `<span>${opts.leaf ? ic('eco') : ''}${esc(msg)}</span>${opts.undo ? '<button type="button" data-act="undo">Undo</button>' : ''}`;
   el.classList.add('on'); clearTimeout(toast.t); toast.t = setTimeout(() => el.classList.remove('on'), 2600);
 }
 function setDisplayCurrency(cur) {
   if (S.disp === cur) return;
   const fig = document.getElementById('heroFig');
-  if (fig && S.screen === 'home') {
-    fig.classList.add('swap-out');
-    setTimeout(() => { S.disp = cur; render({ keepScroll: true, silentTabs: true }); const f2 = document.getElementById('heroFig'); if (f2) { f2.classList.add('swap-in'); } }, 130);
-  } else { S.disp = cur; render({ keepScroll: true, silentTabs: true }); }
+  if (fig && S.screen === 'home') { fig.classList.add('swap-out'); setTimeout(() => { S.disp = cur; render({ keepScroll: true, silentTabs: true }); const f2 = document.getElementById('heroFig'); if (f2) f2.classList.add('swap-in'); }, 130); }
+  else { S.disp = cur; render({ keepScroll: true, silentTabs: true }); }
+}
+function afterLeafChange(day, before) {
+  const now = treeTones()[day];
+  if (now !== before && window.MariScene && window.MariScene.ready) window.MariScene.grow(day);
+  return now !== before;
 }
 
 /* ------------------------------------------------------------------ events */
@@ -1078,39 +1264,45 @@ document.addEventListener('click', (e) => {
   const ds = b.dataset;
   if (ds.tab) {
     closeSheet();
-    if (ds.tab === 'add') { S.screen = 'home'; render(); currentTab = 'add'; renderTabs('add'); renderNotes('add'); openAdd(); return; }
-    S.screen = ds.tab; if (ds.tab === 'onboarding') S.ob = 0; render(); return;
+    if (ds.tab === 'add') { S.screen = 'home'; render(); currentTab = 'add'; renderTabs(); renderNotes('add'); openAdd('45'); return; }
+    if (ds.tab === 'day') { S.screen = 'home'; render(); window.MariApp.openDay(24); return; }
+    S.screen = ds.tab; if (ds.tab === 'onboarding') S.ob = 0; if (ds.tab === 'home') S.reveal = true; if (ds.tab === 'insights') S.season = null;
+    render(); return;
   }
-  if (ds.go) { closeSheet(); S.screen = ds.go; if (ds.ob) S.ob = +ds.ob; render(); return; }
+  if (ds.go) { closeSheet(); S.screen = ds.go; if (ds.ob) S.ob = +ds.ob; if (ds.go === 'home') S.reveal = true; render(); return; }
   if (ds.cur) { setDisplayCurrency(ds.cur); return; }
   if (ds.filter) { S.filter = ds.filter; render({ keepScroll: true }); return; }
   if (ds.lang) { S.lang = ds.lang; render(); return; }
   if (ds.homecur) { S.homeCur = ds.homecur; render(); return; }
+  if (ds.season !== undefined) { S.season = ds.season ? SEASONS.find((s) => String(s.m) === ds.season) : null; render({ keepScroll: true, silentTabs: true }); return; }
   if (ds.budget) { budgetSheet(ds.budget); return; }
-  if (ds.edit) { const x = TX.find((y) => y.id === ds.edit); S.draft = { id: x.id, dir: x.dir, cur: x.cur, digits: String(x.minor / 100), cat: x.cat, who: x.who }; openSheet(entrySheet()); positionThumbs(document.getElementById('sheet')); return; }
+  if (ds.edit) { const x = TX.find((y) => y.id === ds.edit); S.draft = { id: x.id, day: x.at.getDate(), dir: x.dir, cur: x.cur, digits: String(x.minor / 100), cat: x.cat, who: x.who }; openSheet(entrySheet()); positionThumbs(document.getElementById('sheet')); return; }
   if (ds.dir) { S.draft.dir = ds.dir; S.draft.cat = ds.dir === 'in' ? 'salary' : 'groceries'; renderSheet(); return; }
   if (ds.dcur) { S.draft.cur = ds.dcur; renderSheet(); return; }
   if (ds.cat && S.draft) { S.draft.cat = ds.cat; renderSheet(); return; }
   if (ds.key) {
     let v = S.draft.digits || '';
-    if (ds.key === 'del') v = v.slice(0, -1);
-    else if (ds.key === '.') { if (!v.includes('.')) v = (v || '0') + '.'; }
+    if (ds.key === 'del') v = v.slice(0, -1); else if (ds.key === '.') { if (!v.includes('.')) v = (v || '0') + '.'; }
     else if (!(v.includes('.') && v.split('.')[1].length >= 2) && v.replace('.', '').length < 9) v = v === '0' ? ds.key : v + ds.key;
     S.draft.digits = v; renderSheet(); return;
   }
-  const act = ds.act;
-  if (!act) return;
-  if (act === 'add') { S.draft = { dir: 'out', cur: S.disp, digits: '', cat: 'groceries', who: '' }; if (S.screen !== 'home' && S.screen !== 'history' && S.screen !== 'budgets' && S.screen !== 'insights') { S.screen = 'home'; render(); } openSheet(entrySheet()); positionThumbs(document.getElementById('sheet')); return; }
+  const act = ds.act; if (!act) return;
+  if (act === 'add') { openAdd(''); return; }
+  if (act === 'addForDay') { const d = +ds.day; closeSheet(); setTimeout(() => openAdd('', d), 200); return; }
   if (act === 'close') { closeSheet(); return; }
   if (act === 'save') {
     const dft = S.draft; const minor = Math.round(parseFloat(dft.digits || '0') * 100); if (!minor) return;
     const whoEl = document.getElementById('who'); const who = (whoEl && whoEl.value.trim()) || CATS[dft.cat].en;
-    const T0 = totals();
+    const day = dft.day || TODAY.getDate(); const before = treeTones()[day]; const T0 = totals();
     if (dft.id) { const i = TX.findIndex((y) => y.id === dft.id); const old = TX[i]; TX[i] = mk(old.id, old.at.getDate(), old.at.getHours(), old.at.getMinutes(), dft.dir, dft.cur, minor / 100, dft.cat, who, old.src); }
-    else TX.push(mk('n' + Date.now(), 10, 9, 41, dft.dir, dft.cur, minor / 100, dft.cat, who, 'manual'));
-    closeSheet(); render({ keepScroll: true, silentTabs: true });
+    else TX.push(mk(id(), day, day === TODAY.getDate() ? 18 : 12, 40, dft.dir, dft.cur, minor / 100, dft.cat, who, 'manual'));
+    closeSheet();
+    if (S.screen !== 'home') S.screen = 'home';
+    render({ keepScroll: true, silentTabs: true });
+    const changed = afterLeafChange(day, before);
     const span = document.querySelector('#heroFig span'); if (span) roll(span, toDisp(T0.left), toDisp(totals().left), S.disp);
-    toast(dft.id ? 'Saved' : 'Added'); return;
+    toast(changed ? (before === 'bud' ? `A new leaf for ${day === TODAY.getDate() ? 'today' : dayLabel(new Date(2026, 9, day))}` : 'Saved. The leaf changed colour') : 'Saved', { leaf: changed });
+    return;
   }
   if (act === 'saveBudget') { const v = parseFloat(document.getElementById('bAmt').value); if (v > 0) BUDGETS[ds.cat] = Math.round(v * 100); closeSheet(); render({ keepScroll: true }); toast('Limit saved'); return; }
   if (act === 'removeBudget') { delete BUDGETS[ds.cat]; closeSheet(); render({ keepScroll: true }); toast('Limit removed'); return; }
@@ -1118,54 +1310,251 @@ document.addEventListener('click', (e) => {
     const p = PENDING[S.reviewIdx];
     if (act === 'confirm') {
       const r = window.MariParser.parse(p.text, PARSER);
-      TX.push(mk('c' + Date.now(), 10, 11, 12, r.direction, r.currency, r.amountMinor / 100, r.category || 'other', r.counterparty || 'EcoCash', 'ecocash'));
-      if (r.feeMinor) TX.push(mk('f' + Date.now(), 10, 11, 12, 'out', r.currency, r.feeMinor / 100, 'fees', 'EcoCash fee + IMTT', 'ecocash'));
+      TX.push(mk(id(), TODAY.getDate(), 11, 12, r.direction || 'out', r.currency, r.amountMinor / 100, r.category || 'other', r.counterparty || 'EcoCash', 'ecocash'));
+      if (r.feeMinor) TX.push(mk(id(), TODAY.getDate(), 11, 12, 'out', r.currency, r.feeMinor / 100, 'fees', 'EcoCash fee + IMTT', 'ecocash'));
     }
     lastDeleted = act === 'discard' ? { p, idx: S.reviewIdx } : null;
-    PENDING.splice(S.reviewIdx, 1); if (S.reviewIdx >= PENDING.length) S.reviewIdx = Math.max(0, PENDING.length - 1);
-    if (!PENDING.length) S.reviewIdx = 0;
-    render({ silentTabs: true }); toast(act === 'confirm' ? 'Added to October' : 'Discarded', act === 'discard'); return;
+    PENDING.splice(S.reviewIdx, 1); S.reviewIdx = Math.max(0, Math.min(S.reviewIdx, PENDING.length - 1));
+    render({ silentTabs: true }); toast(act === 'confirm' ? 'Added to today' : 'Discarded', { undo: act === 'discard', leaf: act === 'confirm' }); return;
   }
-  if (act === 'undo' && lastDeleted) { PENDING.splice(lastDeleted.idx, 0, lastDeleted.p); lastDeleted = null; render({ silentTabs: true }); document.getElementById('toast').classList.remove('on'); return; }
+  if (act === 'undo' && lastDeleted) { PENDING.splice(lastDeleted.idx, 0, lastDeleted.p); lastDeleted = null; render({ silentTabs: true }); return; }
   if (act === 'sample') { S.pasteText = 'Dear Customer, ZWG 1,200.00 has been debited from your account 0123XXXX89 for POS purchase at SPAR. Bal ZWG 3,400.00'; S.pasteResult = undefined; render({ keepScroll: true, silentTabs: true }); return; }
   if (act === 'parse') { S.pasteText = document.getElementById('paste').value; S.pasteResult = window.MariParser.parse(S.pasteText, PARSER); render({ keepScroll: true, silentTabs: true }); return; }
   if (act === 'clearpaste') { S.pasteText = ''; S.pasteResult = undefined; render({ keepScroll: true, silentTabs: true }); return; }
-  if (act === 'confirmpaste') {
-    const r = S.pasteResult; TX.push(mk('p' + Date.now(), 10, 9, 41, r.direction, r.currency, r.amountMinor / 100, r.category || 'other', r.counterparty || 'Pasted message', 'manual'));
-    S.pasteText = ''; S.pasteResult = undefined; render({ keepScroll: true, silentTabs: true }); toast('Added to October'); return;
-  }
+  if (act === 'confirmpaste') { const r = S.pasteResult; TX.push(mk(id(), TODAY.getDate(), 18, 40, r.direction || 'out', r.currency, r.amountMinor / 100, r.category || 'other', r.counterparty || 'Pasted message', 'manual')); S.pasteText = ''; S.pasteResult = undefined; render({ keepScroll: true, silentTabs: true }); toast('Added to today', { leaf: true }); return; }
   if (act === 'capture') { if (!S.capture) { S.screen = 'consent'; render(); } else { S.capture = false; render({ keepScroll: true }); } return; }
   if (act === 'consentGo') { S.capture = true; S.screen = 'settings'; render(); toast('Notification access granted'); return; }
   if (act === 'delete') { toast('In the app this asks you to confirm first'); return; }
   if (act === 'obNext') { S.ob = Math.min(3, S.ob + 1); render(); return; }
   if (act === 'obBack') { S.ob = Math.max(0, S.ob - 1); render(); return; }
-  if (act === 'obDone') { S.screen = 'home'; render(); return; }
-  if (act === 'replay') { const s = document.querySelector('#sgRoll span'); roll(s, 0, 25430, 'usd'); return; }
+  if (act === 'obDone') { S.screen = 'home'; S.reveal = true; render(); return; }
 });
 document.addEventListener('input', (e) => {
-  if (e.target.id === 'q') {
-    S.q = e.target.value; const pos = e.target.selectionStart;
-    render({ keepScroll: true, silentTabs: true });
-    const q = document.getElementById('q'); q.focus(); q.setSelectionRange(pos, pos);
-  }
+  if (e.target.id === 'q') { S.q = e.target.value; const pos = e.target.selectionStart; render({ keepScroll: true, silentTabs: true }); const q = document.getElementById('q'); q.focus(); q.setSelectionRange(pos, pos); }
   if (e.target.id === 'who' && S.draft) S.draft.who = e.target.value;
   if (e.target.id === 'paste') S.pasteText = e.target.value;
   if (e.target.id === 'obRate') S.obRate = e.target.value;
 });
 document.getElementById('scrim').addEventListener('click', closeSheet);
+function openAdd(digits, day) { S.draft = { dir: 'out', cur: S.disp, digits, cat: 'groceries', who: '', day }; openSheet(entrySheet()); positionThumbs(document.getElementById('sheet')); }
 
-function openAdd() { S.draft = { dir: 'out', cur: S.disp, digits: '45', cat: 'groceries', who: '' }; openSheet(entrySheet()); positionThumbs(document.getElementById('sheet')); }
-
-/* theme toggle: system → light → dark */
 const THEMES = ['system', 'light', 'dark'];
+function themeChanged() { render({ keepScroll: true, silentTabs: true }); if (window.MariScene && window.MariScene.ready) window.MariScene.retheme(); }
 document.getElementById('themeBtn').addEventListener('click', () => {
   S.theme = THEMES[(THEMES.indexOf(S.theme) + 1) % 3];
   if (S.theme === 'system') delete document.documentElement.dataset.theme; else document.documentElement.dataset.theme = S.theme;
   document.getElementById('themeLabel').textContent = S.theme[0].toUpperCase() + S.theme.slice(1);
-  if (S.screen === 'styleguide') render({ keepScroll: true, silentTabs: true });
+  themeChanged();
 });
-window.addEventListener('resize', () => positionThumbs(document.getElementById('screen')));
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change', themeChanged);
+window.addEventListener('resize', () => { positionThumbs(document.getElementById('screen')); paintTrees(); });
 
+S.reveal = true;
 render();
 if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => positionThumbs(document.getElementById('screen')));
+</script>
+
+<script type="importmap">{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.module.js" } }</script>
+<script type="module">
+// The month tree in three.js. If this module can't load (offline, blocked CDN),
+// the page keeps the 2D drawing above — the same picture, without depth.
+import * as THREE from 'three';
+
+const MT = window.MariTree;
+const TAU = Math.PI * 2;
+const YAW = 0.4, TILT = 0.18;
+const SWAY_PERIOD = 11.4, SWAY_YAW = 0.07, FLUTTER_PERIOD = 3.7, FLUTTER = 0.015;
+const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
+const css = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const TONE_VAR = { bud: '--bud', light: '--leaf-light', steady: '--leaf-steady', full: '--leaf-full', heavy: '--leaf-heavy', gold: '--leaf-gold' };
+
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.setClearColor(0x000000, 0);
+renderer.domElement.setAttribute('aria-hidden', 'true');
+
+const scene = new THREE.Scene();
+const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 50);
+camera.position.set(0, 0, 20);
+const hemi = new THREE.HemisphereLight(0xffffff, 0x8a7a6a, 2.2);
+const sun = new THREE.DirectionalLight(0xffffff, 1.1);
+sun.position.set(-3, 6, 8);
+scene.add(hemi, sun);
+
+const timer = new THREE.Timer();
+timer.connect(document);
+
+// pivot tips the tree toward the viewer; crown turns around the trunk (wind).
+let pivot = null, crown = null, mixer = null, built = '', fit = null;
+const leaves = new Map(); // day -> { wrap, mesh, base, phase }
+const pickables = [];
+const mats = { bark: new THREE.MeshLambertMaterial(), haze: new THREE.MeshBasicMaterial({ transparent: true, opacity: 0.12, depthWrite: false }), shadow: new THREE.MeshBasicMaterial({ color: 0x000000, transparent: true, opacity: 0.05, depthWrite: false }) };
+const toneMats = {};
+for (const k of Object.keys(TONE_VAR)) toneMats[k] = new THREE.MeshBasicMaterial({ side: THREE.DoubleSide });
+const leafGeo = new THREE.CircleGeometry(1, 24);
+const hazeGeo = new THREE.CircleGeometry(0.55, 32);
+const growClips = new Map();
+let slotEl = null, state = null;
+
+function retheme() {
+  mats.bark.color.set(css('--bark'));
+  mats.haze.color.set(css('--haze'));
+  hemi.groundColor.set(css('--bark'));
+  for (const [k, v] of Object.entries(TONE_VAR)) toneMats[k].color.set(css(v));
+}
+
+function build(year, month) {
+  if (pivot) { scene.remove(pivot); mixer.stopAllAction(); mixer.uncacheRoot(crown); }
+  leaves.clear(); pickables.length = 0; growClips.clear();
+  const tree = MT.generate(year, month);
+  pivot = new THREE.Group(); pivot.rotation.x = TILT; scene.add(pivot);
+  crown = new THREE.Group(); crown.rotation.y = YAW; pivot.add(crown);
+
+  const shadow = new THREE.Mesh(new THREE.CircleGeometry(1, 48), mats.shadow);
+  shadow.rotation.x = -Math.PI / 2; shadow.scale.set(1.4, 1.4, 1); shadow.position.y = -0.01; shadow.renderOrder = -2;
+  pivot.add(shadow);
+
+  for (const s of tree.segments) {
+    const a = new THREE.Vector3(...s.a), b = new THREE.Vector3(...s.b);
+    const len = a.distanceTo(b);
+    const geo = new THREE.CylinderGeometry(s.w * 0.5 * 0.82, s.w * 0.5, len + s.w * 0.4, 10);
+    const m = new THREE.Mesh(geo, mats.bark);
+    m.position.copy(a).lerp(b, 0.5);
+    m.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), b.clone().sub(a).normalize());
+    crown.add(m);
+  }
+  for (const tp of tree.tips) {
+    const h = new THREE.Mesh(hazeGeo, mats.haze);
+    h.position.set(tp[0], tp[1] - 0.05, tp[2]); h.renderOrder = -1; h.userData.billboard = true;
+    crown.add(h);
+  }
+  for (const l of tree.leaves) {
+    const wrap = new THREE.Object3D();
+    wrap.name = `leaf${l.day}`; // animation tracks bind to this name
+    wrap.position.set(...l.pos); wrap.userData.billboard = true;
+    const mesh = new THREE.Mesh(leafGeo, toneMats.light);
+    mesh.rotation.z = l.rot; mesh.userData.day = l.day; mesh.visible = false;
+    wrap.add(mesh); crown.add(wrap);
+    leaves.set(l.day, { wrap, mesh, base: new THREE.Vector3(...l.pos), phase: l.phase, size: l.size });
+    pickables.push(mesh);
+  }
+  mixer = new THREE.AnimationMixer(crown);
+  fit = bounds(tree);
+  built = `${year}-${month}`;
+}
+
+function bounds(tree) {
+  let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+  const take = (p, r) => { const q = MT.project(p, YAW, TILT); minX = Math.min(minX, q[0] - r); maxX = Math.max(maxX, q[0] + r); minY = Math.min(minY, q[1] - r); maxY = Math.max(maxY, q[1] + r); };
+  tree.segments.forEach((s) => { take(s.a, s.w); take(s.b, s.w); });
+  tree.leaves.forEach((l) => take(l.pos, l.size));
+  tree.tips.forEach((tp) => take(tp, 0.55));
+  minY = Math.min(minY, -0.25);
+  return { minX, maxX, minY, maxY };
+}
+
+function fitCamera() {
+  const w = slotEl.clientWidth, h = slotEl.clientHeight;
+  renderer.setSize(w, h, false);
+  const pad = 0.12;
+  const bw = (fit.maxX - fit.minX) * (1 + pad * 2), bh = (fit.maxY - fit.minY) * (1 + pad * 2);
+  const aspect = w / h;
+  let vw = bw, vh = bw / aspect;
+  if (vh < bh) { vh = bh; vw = bh * aspect; }
+  const cx = (fit.minX + fit.maxX) / 2, cy = (fit.minY + fit.maxY) / 2 - vh * 0.04;
+  camera.left = cx - vw / 2; camera.right = cx + vw / 2; camera.top = cy + vh / 2; camera.bottom = cy - vh / 2;
+  camera.updateProjectionMatrix();
+}
+
+// A new day's leaf overshoots a little, then settles (tokens.json → motion.leafGrow).
+function growClip(day) {
+  if (!growClips.has(day)) {
+    const track = new THREE.VectorKeyframeTrack(`leaf${day}.scale`, [0, 0.35, 0.6], [0, 0, 0, 1.25, 1.25, 1.25, 1, 1, 1]);
+    growClips.set(day, new THREE.AnimationClip(`grow${day}`, 0.6, [track]));
+  }
+  return growClips.get(day);
+}
+function grow(day, delay = 0) {
+  const leaf = leaves.get(day); if (!leaf) return;
+  applyTone(day);
+  if (reduceMotion.matches) { leaf.wrap.scale.setScalar(1); return; }
+  const action = mixer.clipAction(growClip(day));
+  action.setLoop(THREE.LoopOnce, 1);
+  action.clampWhenFinished = true;
+  leaf.wrap.scale.setScalar(0);
+  action.reset().startAt(mixer.time + delay).play();
+}
+
+function applyTone(day) {
+  const leaf = leaves.get(day); const tone = state.tones[day];
+  if (!leaf) return;
+  if (!tone) { leaf.mesh.visible = false; return; }
+  leaf.mesh.visible = true;
+  leaf.mesh.material = toneMats[tone];
+  const s = tone === 'bud' ? leaf.size * 0.32 : leaf.size;
+  leaf.mesh.scale.set(s, s * 0.72, 1);
+}
+
+function attach(slot, nextState) {
+  const key = `${nextState.year}-${nextState.month}`;
+  const fresh = slotEl !== slot;
+  slotEl = slot; state = nextState;
+  if (built !== key) build(nextState.year, nextState.month);
+  if (renderer.domElement.parentNode !== slot) slot.appendChild(renderer.domElement);
+  fitCamera();
+  const reveal = fresh && slot.dataset.reveal === '1';
+  const days = [...leaves.keys()].sort((a, b) => a - b);
+  for (const d of days) {
+    if (reveal && state.tones[d]) grow(d, (d - 1) * 0.045);
+    else { applyTone(d); if (!mixer.existingAction(growClip(d))?.isScheduled()) leaves.get(d).wrap.scale.setScalar(1); }
+  }
+  renderer.setAnimationLoop(animate);
+}
+
+function detach() { renderer.setAnimationLoop(null); slotEl = null; }
+
+const q = new THREE.Quaternion();
+function animate() {
+  timer.update(); // first thing each frame
+  const delta = timer.getDelta();
+  const t = timer.getElapsed();
+  if (!slotEl || !slotEl.isConnected) { detach(); return; }
+  const still = reduceMotion.matches;
+  crown.rotation.y = YAW + (still ? 0 : SWAY_YAW * Math.sin((t * TAU) / SWAY_PERIOD));
+  mixer.update(delta);
+  // Leaves and haze face the viewer whatever the crown's turn: undo the parents' rotation.
+  crown.getWorldQuaternion(q).invert();
+  crown.children.forEach((o) => { if (o.userData.billboard) o.quaternion.copy(q); });
+  if (!still) for (const leaf of leaves.values()) {
+    leaf.wrap.position.set(
+      leaf.base.x + FLUTTER * Math.sin((t * TAU) / FLUTTER_PERIOD + leaf.phase),
+      leaf.base.y + FLUTTER * 0.6 * Math.cos((t * TAU) / FLUTTER_PERIOD + leaf.phase),
+      leaf.base.z,
+    );
+  }
+  renderer.render(scene, camera);
+}
+
+// Tap a leaf → that day.
+const ray = new THREE.Raycaster(); const ndc = new THREE.Vector2(); let down = null;
+renderer.domElement.addEventListener('pointerdown', (e) => { down = [e.clientX, e.clientY]; });
+renderer.domElement.addEventListener('pointerup', (e) => {
+  if (!down || Math.hypot(e.clientX - down[0], e.clientY - down[1]) > 8 || state.demo) return;
+  const r = renderer.domElement.getBoundingClientRect();
+  ndc.set(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
+  ray.setFromCamera(ndc, camera);
+  const hit = ray.intersectObjects(pickables.filter((m) => m.visible), false)[0];
+  if (hit) window.MariApp.openDay(hit.object.userData.day);
+  else {
+    // Nearest leaf within a finger's reach.
+    let best = null, bestD = 0.35;
+    for (const m of pickables) { if (!m.visible) continue; const p = new THREE.Vector3(); m.getWorldPosition(p); p.project(camera); const d = Math.hypot((p.x - ndc.x) * (camera.right - camera.left) / 2, (p.y - ndc.y) * (camera.top - camera.bottom) / 2); if (d < bestD) { bestD = d; best = m; } }
+    if (best) window.MariApp.openDay(best.userData.day);
+  }
+});
+window.addEventListener('resize', () => { if (slotEl) fitCamera(); });
+
+retheme();
+window.MariScene = { ready: true, attach, detach, retheme, grow: (day) => { state = window.MariApp.state(); grow(day); } };
+window.MariApp.repaint();
 </script>

@@ -1,6 +1,6 @@
 # Mari
 
-**Money, made clear.** An offline-first budgeting app for Zimbabwe: US dollars and ZiG side by side, EcoCash and bank alerts turned into transactions you confirm, and a design that gets out of the way of your numbers.
+**Money, made clear.** An offline-first budgeting app for Zimbabwe: US dollars and ZiG side by side, EcoCash and bank alerts turned into transactions you confirm, and a msasa tree that grows a leaf for every day you check in. Finished months stay on a Seasons shelf.
 
 Flutter (Android + iOS) · Drift/SQLite · Riverpod · English, chiShona, isiNdebele
 
@@ -30,6 +30,7 @@ Commit the generated `android/` and `ios/` folders afterwards so the project bui
 flutter analyze --no-fatal-infos
 flutter test                 # parser fixtures, money, budget maths, DB + capture pipeline, widgets
 node tool/test_parser.js     # same fixtures against the JavaScript reference parser
+node tool/month_tree.js --fixture   # regenerate the tree parity fixture after changing the generator
 ```
 
 `.github/workflows/ci.yml` runs all of that on every push and attaches a debug APK to the run.
@@ -43,7 +44,9 @@ node tool/test_parser.js     # same fixtures against the JavaScript reference pa
 | Area | Where |
 |---|---|
 | Design tokens (single source of truth) | `design/tokens.json` → `lib/core/theme/tokens.dart` |
-| Clickable design prototype | `design/prototype.html` (built from `prototype.src.html` by `node tool/build_prototype.js`) |
+| Month tree generator (JS reference + Dart port, parity-tested) | `tool/month_tree.js`, `lib/domain/month_tree.dart` |
+| Tree painter, day sheet, Seasons | `lib/features/tree/`, `lib/domain/tree_tones.dart`, `lib/features/insights/` |
+| Clickable design prototype (three.js tree) | `design/prototype.html` (built from `prototype.src.html` by `node tool/build_prototype.js`) |
 | Money in integer minor units, USD ⇄ ZiG | `lib/core/money/money.dart` |
 | Database (Drift) and repositories | `lib/data/db/`, `lib/data/repositories/` |
 | Budget maths (pure, tested) | `lib/domain/budget_math.dart` |

@@ -160,7 +160,13 @@ class _ShellState extends ConsumerState<Shell> with WidgetsBindingObserver {
         child: Scaffold(
           backgroundColor: c.background,
           extendBody: false,
-          body: SafeArea(bottom: false, child: IndexedStack(index: _tab, children: pages)),
+          // Only the visible tab animates: the tree stops swaying when you're elsewhere.
+          body: SafeArea(
+            bottom: false,
+            child: IndexedStack(index: _tab, children: [
+              for (var i = 0; i < pages.length; i++) TickerMode(enabled: i == _tab, child: pages[i]),
+            ]),
+          ),
           bottomNavigationBar: ClipRect(
             child: BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
@@ -174,7 +180,7 @@ class _ShellState extends ConsumerState<Shell> with WidgetsBindingObserver {
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(10, 6, 10, 4),
                     child: Row(children: [
-                      tab(0, Icons.home_outlined, Icons.home_rounded, s[K.home]),
+                      tab(0, Icons.park_outlined, Icons.park_rounded, s[K.home]),
                       tab(1, Icons.receipt_long_outlined, Icons.receipt_long_rounded, s[K.history]),
                       addButton,
                       tab(2, Icons.pie_chart_outline_rounded, Icons.pie_chart_rounded, s[K.budgets]),

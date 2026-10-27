@@ -45,7 +45,7 @@ class _CategoryPicker extends ConsumerWidget {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: Space.md, vertical: 10),
                       child: Row(children: [
-                        IconTile(icon: categoryIcon(cat.icon), income: cat.kind == CategoryKind.income, size: 34),
+                        IconTile(icon: categoryIcon(cat.icon), tint: categoryTint(cat.id), size: 34),
                         const SizedBox(width: Space.sm),
                         Expanded(child: Text(cat.name(lang), style: MariType.callout.copyWith(color: c.textPrimary))),
                         if (cat.id == selected) Icon(Icons.check_rounded, color: c.accent, size: 20),

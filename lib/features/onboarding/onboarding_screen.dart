@@ -8,7 +8,26 @@ import '../../core/l10n/strings.dart';
 import '../../core/money/money.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/theme/tokens.dart';
+import '../../domain/month_tree.dart';
 import '../../widgets/primitives.dart';
+import '../tree/month_tree_view.dart';
+
+/// A sample month for the welcome screen, so people see the payoff first.
+final Map<int, DayTone> _demoTones = () {
+  final r = treeRng(424242);
+  return {
+    for (var d = 1; d <= 30; d++)
+      d: () {
+        final v = r();
+        if (v < 0.07) return DayTone.bud;
+        if (v < 0.15) return DayTone.gold;
+        if (v < 0.45) return DayTone.light;
+        if (v < 0.72) return DayTone.steady;
+        if (v < 0.9) return DayTone.full;
+        return DayTone.heavy;
+      }(),
+  };
+}();
 
 /// Four calm steps: welcome, language, home currency and today's rate, privacy.
 class OnboardingScreen extends ConsumerStatefulWidget {
@@ -162,9 +181,18 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
         button: s[K.getStarted],
         onButton: () => _go(1),
         body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Container(
+            height: 220,
+            decoration: BoxDecoration(
+              borderRadius: Radii.cardAll,
+              gradient: RadialGradient(center: Alignment.bottomCenter, radius: 1.25, colors: [c.surface, c.sky]),
+            ),
+            child: MonthTreeView(year: 2026, month: 9, tones: _demoTones, reveal: true),
+          ),
+          const SizedBox(height: Space.lg),
           Text.rich(TextSpan(children: [
             TextSpan(text: 'Mari', style: MariType.display.copyWith(fontSize: 64, height: 1, fontWeight: FontWeight.w700, letterSpacing: -3, color: c.textPrimary)),
-            TextSpan(text: '.', style: MariType.display.copyWith(fontSize: 64, height: 1, fontWeight: FontWeight.w700, color: c.accent)),
+            TextSpan(text: '.', style: MariType.display.copyWith(fontSize: 64, height: 1, fontWeight: FontWeight.w700, color: c.warm)),
           ])),
           const SizedBox(height: Space.sm),
           Text(lang.tagline, style: MariType.title2.copyWith(fontWeight: FontWeight.w500, color: c.textSecondary)),
@@ -217,14 +245,15 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
         ]),
       ),
       page(
-        button: s[K.startUsingMari],
+        button: s[K.plantTree],
         onButton: _finish,
         body: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-          Text(s[K.privateByDesign], style: MariType.title1.copyWith(color: c.textPrimary)),
+          Text(s[K.treeHowTitle], style: MariType.title1.copyWith(color: c.textPrimary)),
           const SizedBox(height: Space.lg),
-          promise(Icons.smartphone_rounded, K.promiseLocalTitle, K.promiseLocalBody),
-          promise(Icons.touch_app_rounded, K.promiseConfirmTitle, K.promiseConfirmBody),
-          promise(Icons.delete_rounded, K.promiseDeleteTitle, K.promiseDeleteBody),
+          promise(Icons.eco_rounded, K.treeHow1Title, K.treeHow1Body),
+          promise(Icons.spa_rounded, K.treeHow2Title, K.treeHow2Body),
+          promise(Icons.collections_bookmark_rounded, K.treeHow3Title, K.treeHow3Body),
+          promise(Icons.lock_rounded, K.promiseLocalTitle, K.promiseLocalBody),
         ]),
       ),
     ];

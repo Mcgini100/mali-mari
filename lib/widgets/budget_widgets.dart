@@ -8,6 +8,7 @@ import '../core/theme/app_theme.dart';
 import '../core/theme/category_icons.dart';
 import '../core/theme/tokens.dart';
 import '../domain/budget_math.dart';
+import 'money.dart';
 import 'primitives.dart';
 
 /// Thin progress bar. Accent while on track, amber from 85%, terracotta over.
@@ -78,7 +79,7 @@ class BudgetLineTile extends ConsumerWidget {
       padding: const EdgeInsets.symmetric(horizontal: Space.md, vertical: Space.sm),
       child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
         Row(children: [
-          Icon(categoryIcon(line.category.icon), size: 18, color: c.textSecondary),
+          IconTile(icon: categoryIcon(line.category.icon), tint: categoryTint(line.category.id), size: 26),
           const SizedBox(width: 10),
           Expanded(
             child: Text(line.category.name(lang),

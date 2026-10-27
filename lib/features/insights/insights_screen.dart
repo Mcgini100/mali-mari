@@ -9,12 +9,16 @@ import '../../core/theme/category_icons.dart';
 import '../../core/theme/tokens.dart';
 import '../../core/util/dates.dart';
 import '../../domain/budget_math.dart';
+import '../../domain/month_tree.dart';
+import '../../domain/tree_tones.dart';
 import '../../widgets/budget_widgets.dart';
 import '../../widgets/money.dart';
 import '../../widgets/primitives.dart';
 import '../budgets/budgets_screen.dart';
+import '../tree/month_tree_view.dart';
 
-/// Three numbers said plainly, then one ranked list. No chart wall.
+/// The month in one plain sentence, the Seasons shelf (one tree per month),
+/// then a few honest numbers. No scores, no streaks, no badges.
 class InsightsScreen extends ConsumerStatefulWidget {
   const InsightsScreen({super.key});
 
@@ -32,52 +36,96 @@ class _InsightsScreenState extends ConsumerState<InsightsScreen> {
     final lang = ref.watch(settingsProvider.select((x) => x.language));
     final current = ref.watch(currentMonthProvider);
     final month = _month ?? current;
+    final isCurrent = month.isSameAs(current);
     final display = ref.watch(displayCurrencyProvider);
     final cats = ref.watch(categoryMapProvider);
     final entries = ref.watch(monthEntriesProvider(month)).asData?.value;
     final prev = ref.watch(monthEntriesProvider(month.previous)).asData?.value;
     final summary = ref.watch(monthSummaryProvider(month));
-    final isCurrent = month.isSameAs(current);
+    final lines = ref.watch(budgetLinesProvider(month));
+    final seasons = ref.watch(seasonsProvider);
+    final tones = ref.watch(monthTonesProvider(month));
 
-    final header = Padding(
-      padding: const EdgeInsets.only(bottom: 14),
-      child: Row(children: [
-        HeaderIconButton(
-          icon: Icons.chevron_left_rounded,
-          label: s[K.previousMonth],
-          onTap: () => setState(() => _month = month.previous),
-        ),
-        Expanded(
-          child: Text(s.monthYear(month), textAlign: TextAlign.center, style: MariType.headline.copyWith(color: c.textPrimary)),
-        ),
-        HeaderIconButton(
-          icon: Icons.chevron_right_rounded,
-          label: s[K.nextMonth],
-          onTap: isCurrent ? null : () => setState(() => _month = month.next),
-        ),
-      ]),
-    );
-
-    final children = <Widget>[ScreenTitle(title: s[K.insights], trailing: const CurrencySwitch()), header];
-
-    if (entries == null || prev == null || summary == null) {
+    final children = <Widget>[ScreenTitle(title: s[K.insights], trailing: const CurrencySwitch())];
+    if (entries == null || prev == null || summary == null || tones == null) {
       return ListView(padding: const EdgeInsets.symmetric(horizontal: Space.gutter), children: children);
     }
 
     final byCat = spendByCategory(entries, cats, display);
     final spent = summary.spent;
-    // For the month in progress, compare with the same days of last month, not all of it.
-    final today = DateTime.now().day;
-    final prevComparable = isCurrent ? prev.where((e) => e.occurredAt.day <= today) : prev;
-    final prevSpent = totalSpent(prevComparable, cats, display);
+    final topName = byCat.isEmpty ? '' : (cats[byCat.first.key]?.name(lang) ?? s[K.uncategorised]).toLowerCase();
+    final leaves = tones.values.where((t) => t != DayTone.bud).length;
+    int count(Set<DayTone> which) => tones.values.where(which.contains).length;
 
+    // The recap sentence.
+    final String recap;
     if (byCat.isEmpty) {
-      children.add(MariCard(
-        child: EmptyState(icon: Icons.insights_rounded, title: s[K.nothingSpentTitle], body: s[K.nothingSpentBody]),
-      ));
+      recap = s[K.recapEmpty];
+    } else if (isCurrent && summary.hasBudget && lines != null) {
+      recap = s.f(K.recapThisMonth, {
+        'light': '${count({DayTone.light})}',
+        'steady': '${count({DayTone.steady})}',
+        'heavier': '${count({DayTone.full, DayTone.heavy})}',
+        'within': '${lines.where((l) => !l.isOver).length}',
+        'limits': '${lines.length}',
+        'category': topName,
+      });
+    } else if (isCurrent) {
+      recap = s.f(K.recapNoBudget, {
+        'light': '${count({DayTone.light})}',
+        'steady': '${count({DayTone.steady})}',
+        'heavier': '${count({DayTone.full, DayTone.heavy})}',
+        'category': topName,
+      });
     } else {
-      final stats = <Widget>[];
+      recap = s.f(K.recapPast, {'amount': Money.format(spent, display, cents: false), 'leaves': '$leaves', 'category': topName});
+    }
 
+    children.add(Container(
+      padding: const EdgeInsets.fromLTRB(Space.md, 18, Space.md, 18),
+      decoration: BoxDecoration(color: c.accentSoft, borderRadius: Radii.cardAll),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Text((isCurrent ? s[K.thisMonth] : s.monthYear(month)).toUpperCase(), style: MariType.caption.copyWith(color: c.accent)),
+        const SizedBox(height: 6),
+        Text(recap, style: MariType.body.copyWith(color: c.textPrimary, height: 25 / 17)),
+      ]),
+    ));
+
+    // Seasons shelf.
+    if (seasons != null && seasons.isNotEmpty) {
+      children.add(const SizedBox(height: 26));
+      children.add(SectionHeader(
+        title: s[K.seasons],
+        trailing: Text(s[K.oneTreeAMonth], style: MariType.footnote.copyWith(color: c.textSecondary)),
+      ));
+      children.add(GridView.count(
+        crossAxisCount: 2,
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        mainAxisSpacing: 10,
+        crossAxisSpacing: 10,
+        childAspectRatio: 0.92,
+        children: [
+          for (final season in seasons)
+            _SeasonTile(
+              season: season,
+              selected: season.month.isSameAs(month),
+              subtitle: season.isCurrent
+                  ? s.f(K.seasonLeavesSoFar, {'leaves': '${season.leaves}'})
+                  : s.f(K.seasonSpent, {
+                      'amount': Money.format(Money.convert(season.spentUsd, Currency.usd, display, ref.watch(currentRateProvider)), display, cents: false),
+                      'category': season.topCategoryId == null ? '—' : (cats[season.topCategoryId]?.name(lang) ?? s[K.uncategorised]),
+                    }),
+              title: s.month(season.month.month),
+              growingLabel: s[K.growing],
+              onTap: () => setState(() => _month = season.isCurrent ? null : season.month),
+            ),
+        ],
+      ));
+    }
+
+    if (byCat.isNotEmpty) {
+      final stats = <Widget>[];
       if (summary.hasBudget) {
         stats.add(_Stat(
           label: s[K.spentAgainstBudget],
@@ -92,24 +140,10 @@ class _InsightsScreenState extends ConsumerState<InsightsScreen> {
         ));
       }
 
-      final top = byCat.first;
-      final topCat = cats[top.key];
-      stats.add(_Stat(
-        label: s[K.biggestCategory],
-        child: Row(children: [
-          IconTile(icon: categoryIcon(topCat?.icon)),
-          const SizedBox(width: Space.sm),
-          Expanded(
-            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text(topCat?.name(lang) ?? s[K.uncategorised], style: MariType.headline.copyWith(color: c.textPrimary)),
-              Text(s.f(K.shareOfSpending, {'percent': '${(top.value / spent * 100).round()}'}),
-                  style: MariType.footnote.copyWith(color: c.textSecondary)),
-            ]),
-          ),
-          Text(Money.format(top.value, display, cents: false), style: MariType.headline.copyWith(color: c.textPrimary)),
-        ]),
-      ));
-
+      // For the month in progress, compare with the same days of last month.
+      final today = DateTime.now().day;
+      final prevComparable = isCurrent ? prev.where((e) => e.occurredAt.day <= today) : prev;
+      final prevSpent = totalSpent(prevComparable, cats, display);
       if (prevSpent > 0) {
         final delta = (spent - prevSpent) / prevSpent;
         final less = spent < prevSpent;
@@ -124,11 +158,13 @@ class _InsightsScreenState extends ConsumerState<InsightsScreen> {
           ),
         ));
       }
+      if (stats.isNotEmpty) {
+        children.add(const SizedBox(height: 26));
+        children.add(MariCard(child: SeparatedColumn(children: stats)));
+      }
 
-      children.add(MariCard(child: SeparatedColumn(children: stats)));
-      children.add(const SizedBox(height: Space.lg));
+      children.add(const SizedBox(height: 26));
       children.add(SectionHeader(title: s[K.whereItWent]));
-
       final max = byCat.first.value;
       children.add(MariCard(
         padding: const EdgeInsets.symmetric(horizontal: Space.md, vertical: 10),
@@ -137,8 +173,10 @@ class _InsightsScreenState extends ConsumerState<InsightsScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 7),
               child: Row(children: [
+                IconTile(icon: categoryIcon(cats[byCat[i].key]?.icon), tint: categoryTint(byCat[i].key), size: 26),
+                const SizedBox(width: 10),
                 SizedBox(
-                  width: 112,
+                  width: 96,
                   child: Text(cats[byCat[i].key]?.name(lang) ?? s[K.uncategorised],
                       maxLines: 1, overflow: TextOverflow.ellipsis, style: MariType.callout.copyWith(fontSize: 14, color: c.textPrimary)),
                 ),
@@ -155,7 +193,7 @@ class _InsightsScreenState extends ConsumerState<InsightsScreen> {
                         heightFactor: 1,
                         child: DecoratedBox(
                           decoration: BoxDecoration(
-                            color: i == 0 ? c.accent : c.textPrimary.withValues(alpha: 0.82),
+                            color: c.tint(categoryTint(byCat[i].key)).ink.withValues(alpha: i == 0 ? 1 : 0.75),
                             borderRadius: BorderRadius.circular(Radii.pill),
                           ),
                         ),
@@ -164,8 +202,7 @@ class _InsightsScreenState extends ConsumerState<InsightsScreen> {
                   ),
                 ),
                 const SizedBox(width: 10),
-                Text(Money.format(byCat[i].value, display, cents: false),
-                    style: MariType.footnote.copyWith(color: c.textSecondary)),
+                Text(Money.format(byCat[i].value, display, cents: false), style: MariType.footnote.copyWith(color: c.textSecondary)),
               ]),
             ),
         ]),
@@ -179,6 +216,74 @@ class _InsightsScreenState extends ConsumerState<InsightsScreen> {
     return ListView(
       padding: const EdgeInsets.fromLTRB(Space.gutter, 0, Space.gutter, Space.xxl),
       children: children,
+    );
+  }
+}
+
+class _SeasonTile extends StatelessWidget {
+  const _SeasonTile({
+    required this.season,
+    required this.selected,
+    required this.title,
+    required this.subtitle,
+    required this.growingLabel,
+    required this.onTap,
+  });
+
+  final Season season;
+  final bool selected;
+  final String title;
+  final String subtitle;
+  final String growingLabel;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final c = context.colors;
+    return Pressable(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.fromLTRB(10, 10, 10, 12),
+        decoration: BoxDecoration(
+          color: c.surface,
+          borderRadius: BorderRadius.circular(18),
+          border: Border.all(color: selected ? c.accent : c.separator, width: selected ? 2 : 0.5),
+        ),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Expanded(
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                gradient: RadialGradient(center: Alignment.bottomCenter, radius: 1.25, colors: [c.surface, c.sky]),
+              ),
+              child: Stack(children: [
+                Positioned.fill(
+                  child: MonthTreeView(
+                    year: season.month.year,
+                    month: season.month.month,
+                    tones: season.tones,
+                    animate: false,
+                  ),
+                ),
+                if (season.isCurrent)
+                  Positioned(
+                    left: 6,
+                    top: 6,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
+                      decoration: BoxDecoration(color: c.surface, borderRadius: BorderRadius.circular(Radii.pill)),
+                      child: Text(growingLabel.toUpperCase(),
+                          style: MariType.caption.copyWith(fontSize: 10, letterSpacing: 0.3, color: c.accent)),
+                    ),
+                  ),
+              ]),
+            ),
+          ),
+          const SizedBox(height: Space.xs),
+          Text(title, style: MariType.subhead.copyWith(fontWeight: FontWeight.w600, color: c.textPrimary)),
+          Text(subtitle, maxLines: 1, overflow: TextOverflow.ellipsis, style: MariType.footnote.copyWith(fontSize: 12, height: 16 / 12, color: c.textSecondary)),
+        ]),
+      ),
     );
   }
 }

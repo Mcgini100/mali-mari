@@ -11,6 +11,7 @@ import '../../core/theme/category_icons.dart';
 import '../../core/theme/tokens.dart';
 import '../../core/util/dates.dart';
 import '../../domain/models.dart';
+import '../../domain/month_tree.dart';
 import '../../widgets/primitives.dart';
 import '../../widgets/sheet.dart';
 
@@ -26,19 +27,28 @@ enum EntrySheetMode {
 }
 
 /// Opens the add/edit sheet. Returns the saved (or, in review mode, edited) entry.
-Future<Entry?> showEntrySheet(BuildContext context, {Entry? entry, EntrySheetMode mode = EntrySheetMode.create, String? prefillNote}) {
+Future<Entry?> showEntrySheet(
+  BuildContext context, {
+  Entry? entry,
+  EntrySheetMode mode = EntrySheetMode.create,
+  String? prefillNote,
+  DateTime? initialDate,
+}) {
   return showMariSheet<Entry>(
     context,
-    builder: (_) => EntrySheet(entry: entry, mode: mode, prefillNote: prefillNote),
+    builder: (_) => EntrySheet(entry: entry, mode: mode, prefillNote: prefillNote, initialDate: initialDate),
   );
 }
 
 class EntrySheet extends ConsumerStatefulWidget {
-  const EntrySheet({super.key, this.entry, this.mode = EntrySheetMode.create, this.prefillNote});
+  const EntrySheet({super.key, this.entry, this.mode = EntrySheetMode.create, this.prefillNote, this.initialDate});
 
   final Entry? entry;
   final EntrySheetMode mode;
   final String? prefillNote;
+
+  /// For a new record on a past day (from a leaf's day sheet).
+  final DateTime? initialDate;
 
   @override
   ConsumerState<EntrySheet> createState() => _EntrySheetState();
@@ -63,7 +73,7 @@ class _EntrySheetState extends ConsumerState<EntrySheet> {
     _currency = e?.currency ?? settings.displayCurrency;
     _digits = e == null ? '' : _minorToDigits(e.amountMinor);
     _categoryId = e?.categoryId;
-    _when = e?.occurredAt ?? DateTime.now();
+    _when = e?.occurredAt ?? _startOf(widget.initialDate) ?? DateTime.now();
     _who = TextEditingController(text: e?.counterparty ?? '');
     _note = TextEditingController(text: e?.note.isNotEmpty == true ? e!.note : (widget.prefillNote ?? ''));
   }
@@ -147,11 +157,33 @@ class _EntrySheetState extends ConsumerState<EntrySheet> {
       createdAt: existing?.createdAt ?? now,
     );
 
+    // A day that had no leaf yet gets one: say so, it's the small reward for logging.
+    final month = MonthRange.of(_when);
+    final toneBefore = ref.read(monthTonesProvider(month))?[_when.day];
+    final firstForDay = widget.mode == EntrySheetMode.create && (toneBefore == null || toneBefore == DayTone.bud);
+
     if (widget.mode != EntrySheetMode.review) {
       await ref.read(entryRepositoryProvider).save(entry);
       HapticFeedback.lightImpact();
     }
-    if (mounted) Navigator.of(context).pop(entry);
+    if (!mounted) return;
+    final messenger = ScaffoldMessenger.maybeOf(context);
+    final s = ref.read(stringsProvider);
+    Navigator.of(context).pop(entry);
+    if (firstForDay && !_when.isAfter(now)) {
+      final isToday = daysBetween(_when, now) == 0;
+      messenger?.showSnackBar(SnackBar(
+        content: Text(isToday ? s[K.newLeafToday] : s.f(K.newLeafDay, {'day': s.dayLabel(_when, now)})),
+      ));
+    }
+  }
+
+  /// A past day starts at midday; today keeps the current time.
+  static DateTime? _startOf(DateTime? day) {
+    if (day == null) return null;
+    final now = DateTime.now();
+    if (daysBetween(day, now) == 0) return now;
+    return DateTime(day.year, day.month, day.day, 12);
   }
 
   Future<void> _delete() async {
@@ -263,6 +295,7 @@ class _EntrySheetState extends ConsumerState<EntrySheet> {
                   return Pill(
                     label: cat.name(lang),
                     icon: categoryIcon(cat.icon),
+                    iconColor: c.tint(categoryTint(cat.id)).ink,
                     selected: cat.id == _categoryId,
                     onTap: () => setState(() => _categoryId = cat.id == _categoryId ? null : cat.id),
                   );

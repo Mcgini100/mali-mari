@@ -10,6 +10,8 @@ import '../data/repositories/entry_repository.dart';
 import '../data/seed/default_categories.dart';
 import '../domain/budget_math.dart';
 import '../domain/models.dart';
+import '../domain/month_tree.dart';
+import '../domain/tree_tones.dart';
 import 'settings.dart';
 
 // ---------------------------------------------------------------- data layer
@@ -136,5 +138,52 @@ final monthSummaryProvider = Provider.family<MonthSummary?, MonthRange>((ref, mo
     categories: ref.watch(categoryMapProvider),
     display: ref.watch(displayCurrencyProvider),
     zigPerUsd: ref.watch(currentRateProvider),
+  );
+});
+
+// ---------------------------------------------------------------- the month tree
+
+/// Budget total in US$ at today's rate (0 when there are no limits).
+final budgetTotalUsdProvider = Provider<int>((ref) {
+  final budgets = ref.watch(budgetsProvider).asData?.value ?? const <Budget>[];
+  return budgetTotalUsd(budgets, ref.watch(currentRateProvider));
+});
+
+/// Spend, income and records per day of [month], or null while loading.
+final dayTotalsProvider = Provider.family<Map<int, DayTotals>?, MonthRange>((ref, month) {
+  final entries = ref.watch(monthEntriesProvider(month)).asData?.value;
+  if (entries == null) return null;
+  return totalsByDay(entries, ref.watch(categoryMapProvider));
+});
+
+/// The daily pace leaves are measured against, in US$ minor units.
+final dailyPaceUsdProvider = Provider.family<int, MonthRange>((ref, month) {
+  return dailyPaceUsd(
+    budgetUsd: ref.watch(budgetTotalUsdProvider),
+    month: month,
+    days: ref.watch(dayTotalsProvider(month)) ?? const {},
+  );
+});
+
+/// One tone per day that has happened so far in [month], or null while loading.
+final monthTonesProvider = Provider.family<Map<int, DayTone>?, MonthRange>((ref, month) {
+  final days = ref.watch(dayTotalsProvider(month));
+  if (days == null) return null;
+  return toneMonth(
+    days: days,
+    pace: ref.watch(dailyPaceUsdProvider(month)),
+    lastDay: lastLeafDay(month, DateTime.now()),
+  );
+});
+
+/// The Seasons shelf: up to 12 months, newest first, the current month always included.
+final seasonsProvider = Provider<List<Season>?>((ref) {
+  final all = ref.watch(allEntriesProvider).asData?.value;
+  if (all == null) return null;
+  return buildSeasons(
+    allConfirmed: all,
+    cats: ref.watch(categoryMapProvider),
+    budgetUsd: ref.watch(budgetTotalUsdProvider),
+    now: DateTime.now(),
   );
 });

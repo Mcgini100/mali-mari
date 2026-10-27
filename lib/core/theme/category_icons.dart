@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'tokens.dart';
+
 /// Category icons are stored as stable string keys so the database never
 /// depends on Flutter's icon codepoints.
 IconData categoryIcon(String? key) {
@@ -42,5 +44,36 @@ IconData categoryIcon(String? key) {
       return Icons.payments_rounded;
     default:
       return Icons.more_horiz_rounded;
+  }
+}
+
+/// Each category's soft tint, keyed by the stable category id.
+CategoryTint categoryTint(String? id) {
+  switch (id) {
+    case 'groceries':
+      return CategoryTint.sage;
+    case 'transport':
+    case 'school':
+    case 'water_council':
+      return CategoryTint.sky;
+    case 'airtime':
+    case 'church':
+      return CategoryTint.plum;
+    case 'rent':
+    case 'family':
+    case 'health':
+      return CategoryTint.clay;
+    case 'electricity':
+    case 'eating_out':
+      return CategoryTint.amber;
+    case 'mukando':
+      return CategoryTint.moss;
+    case 'salary':
+    case 'side_hustle':
+    case 'remittance':
+    case 'income_other':
+      return CategoryTint.teal;
+    default:
+      return CategoryTint.sand;
   }
 }

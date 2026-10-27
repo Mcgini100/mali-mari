@@ -94,21 +94,23 @@ class AmountWithEquivalent extends StatelessWidget {
   }
 }
 
-/// The 38pt rounded tile that carries a category icon.
+/// The rounded tile that carries a category icon, in the category's soft tint.
 class IconTile extends StatelessWidget {
-  const IconTile({super.key, required this.icon, this.income = false, this.size = 38});
+  const IconTile({super.key, required this.icon, this.tint, this.income = false, this.size = 38});
   final IconData icon;
+  final CategoryTint? tint;
   final bool income;
   final double size;
 
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
+    final pair = tint != null ? c.tint(tint!) : (income ? TintPair(c.income, c.incomeSoft) : TintPair(c.textSecondary, c.surfaceSunken));
     return Container(
       width: size,
       height: size,
-      decoration: BoxDecoration(color: income ? c.incomeSoft : c.surfaceSunken, borderRadius: BorderRadius.circular(size * 0.32)),
-      child: Icon(icon, size: size * 0.53, color: income ? c.income : c.textSecondary),
+      decoration: BoxDecoration(color: pair.wash, borderRadius: BorderRadius.circular(size * 0.32)),
+      child: Icon(icon, size: size * 0.53, color: pair.ink),
     );
   }
 }

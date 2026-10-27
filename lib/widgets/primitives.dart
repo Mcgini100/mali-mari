@@ -267,13 +267,14 @@ class MariSwitch extends StatelessWidget {
 }
 
 class Pill extends StatelessWidget {
-  const Pill({super.key, required this.label, this.icon, this.selected = false, this.onTap, this.color});
+  const Pill({super.key, required this.label, this.icon, this.selected = false, this.onTap, this.color, this.iconColor});
 
   final String label;
   final IconData? icon;
   final bool selected;
   final VoidCallback? onTap;
   final Color? color;
+  final Color? iconColor;
 
   @override
   Widget build(BuildContext context) {
@@ -291,7 +292,7 @@ class Pill extends StatelessWidget {
           border: Border.all(color: selected ? c.textPrimary : c.separator),
         ),
         child: Row(mainAxisSize: MainAxisSize.min, children: [
-          if (icon != null) ...[Icon(icon, size: 17, color: selected ? c.background : c.textSecondary), const SizedBox(width: 6)],
+          if (icon != null) ...[Icon(icon, size: 17, color: selected ? c.background : (iconColor ?? c.textSecondary)), const SizedBox(width: 6)],
           Text(label, style: MariType.subhead.copyWith(fontSize: 14, color: fg)),
         ]),
       ),
@@ -300,13 +301,14 @@ class Pill extends StatelessWidget {
 }
 
 class SectionHeader extends StatelessWidget {
-  const SectionHeader({super.key, required this.title, this.action, this.onAction, this.caption = false, this.trailing});
+  const SectionHeader({super.key, required this.title, this.action, this.onAction, this.caption = false, this.trailing, this.leading});
 
   final String title;
   final String? action;
   final VoidCallback? onAction;
   final bool caption;
   final Widget? trailing;
+  final Widget? leading;
 
   @override
   Widget build(BuildContext context) {
@@ -314,8 +316,9 @@ class SectionHeader extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.end,
+        crossAxisAlignment: caption ? CrossAxisAlignment.center : CrossAxisAlignment.end,
         children: [
+          if (leading != null) ...[leading!, const SizedBox(width: 6)],
           Expanded(
             child: Text(
               caption ? title.toUpperCase() : title,

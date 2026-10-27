@@ -13,6 +13,7 @@ import '../../widgets/primitives.dart';
 import '../budgets/budgets_screen.dart';
 import '../entry/category_picker.dart';
 import '../entry/entry_sheet.dart';
+import '../tree/month_tree_view.dart';
 
 class HistoryScreen extends ConsumerStatefulWidget {
   const HistoryScreen({super.key});
@@ -177,9 +178,18 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
         final kind = cats[e.categoryId]?.kind ?? CategoryKind.expense;
         if (e.direction == Direction.moneyOut && kind == CategoryKind.expense) dayOut += e.amountIn(display);
       }
+      final tone = ref.watch(monthTonesProvider(MonthRange.of(day)))?[day.day];
       children.add(SectionHeader(
         title: s.dayLabel(day, now),
         caption: true,
+        // The day's leaf colour, so scrolling back reads like the tree unrolled.
+        leading: tone == null
+            ? null
+            : Container(
+                width: 9,
+                height: 7,
+                decoration: BoxDecoration(color: toneColor(tone, c), borderRadius: BorderRadius.circular(9)),
+              ),
         trailing: dayOut > 0
             ? Text('−${Money.format(dayOut, display)}', style: MariType.footnote.copyWith(color: c.textSecondary))
             : null,
