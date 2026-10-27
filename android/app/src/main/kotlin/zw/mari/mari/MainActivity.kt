@@ -2,6 +2,7 @@ package zw.mari.mari
 
 import android.content.ComponentName
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.provider.Settings
 import io.flutter.embedding.android.FlutterActivity
@@ -41,6 +42,7 @@ class MainActivity : FlutterActivity() {
                     initialShare = null
                 }
                 "isListenerEnabled" -> result.success(isListenerEnabled())
+                "isListenerAvailable" -> result.success(isListenerAvailable())
                 "openListenerSettings" -> {
                     startActivity(
                         Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS)
@@ -66,6 +68,14 @@ class MainActivity : FlutterActivity() {
         if (intent.action != Intent.ACTION_SEND || intent.type?.startsWith("text/") != true) return null
         val text = intent.getStringExtra(Intent.EXTRA_TEXT)?.trim()
         return if (text.isNullOrEmpty()) null else text
+    }
+
+    /** The sideload build's manifest removes the listener, so it may not exist. */
+    private fun isListenerAvailable(): Boolean = try {
+        packageManager.getServiceInfo(ComponentName(this, MariNotificationListener::class.java), 0)
+        true
+    } catch (e: PackageManager.NameNotFoundException) {
+        false
     }
 
     private fun isListenerEnabled(): Boolean {

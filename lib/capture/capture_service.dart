@@ -167,6 +167,10 @@ class CaptureService {
 
   Future<bool> isListenerEnabled() async => (await _invoke<bool>('isListenerEnabled')) ?? false;
 
+  /// False in the sideload test build, whose manifest leaves the listener out
+  /// so Play Protect lets it install.
+  Future<bool> isListenerAvailable() async => (await _invoke<bool>('isListenerAvailable')) ?? false;
+
   Future<void> openListenerSettings() => _invoke<void>('openListenerSettings');
 
   /// Pushes the person's choices to the native listener, which filters

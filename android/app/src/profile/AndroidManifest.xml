@@ -1,0 +1,15 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <!-- The profile build is Mari's "sideload" test build: compiled ahead of
+         time like a release, but without notification access. Google Play
+         Protect blocks apps installed from outside the Play Store that ask to
+         read notifications, so this build leaves the alert reader out and
+         installs straight from a download. Settings explains the difference;
+         sharing and pasting messages still work. -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <application>
+        <service
+            android:name="zw.mari.mari.MariNotificationListener"
+            tools:node="remove" />
+    </application>
+</manifest>

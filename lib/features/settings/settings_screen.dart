@@ -25,6 +25,9 @@ class SettingsScreen extends ConsumerStatefulWidget {
 class _SettingsScreenState extends ConsumerState<SettingsScreen> with WidgetsBindingObserver {
   bool? _listenerOn;
 
+  /// False in the sideload test build, which leaves notification access out.
+  bool _listenerAvailable = true;
+
   @override
   void initState() {
     super.initState();
@@ -46,8 +49,14 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> with WidgetsBin
   Future<void> _checkListener() async {
     final svc = ref.read(captureServiceProvider);
     if (!svc.supportsNotificationCapture) return;
-    final on = await svc.isListenerEnabled();
-    if (mounted) setState(() => _listenerOn = on);
+    final available = await svc.isListenerAvailable();
+    final on = available && await svc.isListenerEnabled();
+    if (mounted) {
+      setState(() {
+        _listenerAvailable = available;
+        _listenerOn = on;
+      });
+    }
   }
 
   Future<void> _toggleCapture(bool on) async {
@@ -157,9 +166,17 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> with WidgetsBin
               ]),
               MariList(
                 label: s[K.capture],
-                footer: android ? s[K.captureFooterAndroid] : s[K.captureFooterIos],
+                footer: !android
+                    ? s[K.captureFooterIos]
+                    : (_listenerAvailable ? s[K.captureFooterAndroid] : s[K.captureFooterTestBuild]),
                 children: [
-                  if (android) ...[
+                  if (android && !_listenerAvailable)
+                    MariListTile(
+                      icon: Icons.notifications_off_rounded,
+                      title: s[K.readMoneyAlerts],
+                      subtitle: s[K.captureNotInThisBuild],
+                    ),
+                  if (android && _listenerAvailable) ...[
                     MariListTile(
                       icon: Icons.notifications_active_rounded,
                       title: s[K.readMoneyAlerts],

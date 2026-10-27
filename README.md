@@ -24,6 +24,17 @@ flutter run
 
 Commit the generated `android/` and `ios/` folders afterwards so the project builds without the script.
 
+### Installing a test build on an Android phone
+
+Every CI run attaches two APKs (Actions → the run → Artifacts):
+
+| Build | What's in it | How to install |
+|---|---|---|
+| **mari-sideload-apk** | Everything except reading EcoCash/bank notifications | Download and open it on the phone. Play Protect lets it through. |
+| **mari-full-apk** | Everything, including alert reading | `adb install mari-full.apk` from a computer, or a Play Console internal-testing track |
+
+Why two: Google Play Protect blocks apps installed from a download if they ask for notification access ("app blocked to protect your device… sensitive data"), because scam apps use that access to read banking OTPs. Mari only asks for it to read money alerts the person chooses, but Play Protect can't tell the difference for a sideloaded app. Apps from the Play Store with an approved declaration (see docs/CAPTURE.md) aren't blocked. The sideload build leaves the alert reader out via `android/app/src/profile/AndroidManifest.xml`, and Settings explains that the feature isn't in this build.
+
 ### Checks
 
 ```bash
@@ -33,7 +44,7 @@ node tool/test_parser.js     # same fixtures against the JavaScript reference pa
 node tool/month_tree.js --fixture   # regenerate the tree parity fixture after changing the generator
 ```
 
-`.github/workflows/ci.yml` runs all of that on every push and attaches a debug APK to the run.
+`.github/workflows/ci.yml` runs all of that on every push and attaches the two test APKs described above.
 
 > **Build status.** This project was written in an environment that could not download the Flutter SDK, so the Dart code has been syntax-checked and the parser logic tested in Node, but it has **not** been compiled. The first CI run (or your first `flutter run`) is the real compile. Expect at most a small fix or two, most likely around a package API version.
 

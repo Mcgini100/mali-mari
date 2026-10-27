@@ -51,10 +51,25 @@ jobs:
         if: failure()
         run: flutter test --reporter github || true
 
-      - name: Build debug APK
-        run: flutter build apk --debug
+      # Two test builds, both signed with the debug key:
+      #  sideload: no notification access, so it installs from a download
+      #            without Play Protect blocking it (android/app/src/profile).
+      #  full:     everything, including reading EcoCash/bank alerts. Install it
+      #            with adb, or via a Play Console testing track.
+      - name: Build test APKs
+        run: |
+          flutter build apk --profile
+          flutter build apk --release
+          mkdir -p dist
+          cp build/app/outputs/flutter-apk/app-profile.apk dist/mari-sideload.apk
+          cp build/app/outputs/flutter-apk/app-release.apk dist/mari-full.apk
 
       - uses: actions/upload-artifact@v5
         with:
-          name: mari-debug-apk
-          path: build/app/outputs/flutter-apk/app-debug.apk
+          name: mari-sideload-apk
+          path: dist/mari-sideload.apk
+
+      - uses: actions/upload-artifact@v5
+        with:
+          name: mari-full-apk
+          path: dist/mari-full.apk

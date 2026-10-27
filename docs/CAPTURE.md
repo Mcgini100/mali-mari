@@ -15,6 +15,10 @@
    capture enabled → app is one the person ticked → for Messages apps, the sender name matches the list → the text mentions a currency and a number.
 5. What passes is queued on-device. Flutter drains the queue on launch, on resume and every 5 s while open, parses each item, discards low-confidence ones (promotions), de-duplicates, and stores the rest as **pending** entries for Review.
 
+### Sideloaded test builds
+
+Google Play Protect's fraud protection blocks apps installed outside the Play Store (from a browser, WhatsApp or a file manager) that request notification access, the same as SMS access. That's why CI also builds `mari-sideload-apk`, which removes the listener from the manifest (`android/app/src/profile/AndroidManifest.xml`). The app checks at runtime (`isListenerAvailable`) and shows "Not in this test build" in Settings. To test alert reading itself, install `mari-full-apk` with `adb install`, or publish to a Play Console internal-testing track.
+
 ### Play Console declarations
 
 - **Permissions declaration:** none needed for SMS (not requested).
