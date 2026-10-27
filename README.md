@@ -16,11 +16,12 @@ You need Flutter (stable, 3.27 or newer) and, for Android, a JDK 17.
 flutter run
 ```
 
-`setup.sh` does three things, once:
+`setup.sh` does four things, once:
 
 1. `flutter create .` fills in what Flutter owns (Gradle files, the Xcode project, launcher icons). Mari's own files, including `AndroidManifest.xml` and the Kotlin capture code, are kept.
 2. On macOS it registers the `mari://` URL scheme in `ios/Runner/Info.plist` and turns off Flutter's built-in deep-link routing (the `app_links` package handles links).
 3. `flutter pub get` and `dart run build_runner build` to generate `lib/data/db/database.g.dart`.
+4. `dart run flutter_launcher_icons` to replace Flutter's logo with Mari's icon (`assets/icon/`, drawn by `tool/make_icon.js`; `play-store-512.png` is the Play Console listing icon).
 
 Commit the generated `android/` and `ios/` folders afterwards so the project builds without the script.
 

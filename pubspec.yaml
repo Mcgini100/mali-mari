@@ -34,6 +34,19 @@ dev_dependencies:
   flutter_lints: ">=4.0.0 <7.0.0"
   drift_dev: ^2.26.0
   build_runner: ^2.4.13
+  flutter_launcher_icons: ^0.14.1
+
+# App icon: the month tree on Kariba teal (drawn by tool/make_icon.js).
+# tool/setup.sh runs `dart run flutter_launcher_icons` to replace Flutter's logo.
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/icon/icon.png"
+  adaptive_icon_background: "#11756B"
+  adaptive_icon_foreground: "assets/icon/foreground.png"
+  adaptive_icon_monochrome: "assets/icon/monochrome.png"
+  remove_alpha_ios: true
+  min_sdk_android: 21
 
 flutter:
   uses-material-design: true

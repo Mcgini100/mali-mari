@@ -1,0 +1,10 @@
+# Same as the flutter_launcher_icons block in pubspec.yaml, for setups that
+# only generated Android (e.g. CI on Linux): no ios folder to write to.
+flutter_launcher_icons:
+  android: true
+  ios: false
+  image_path: "assets/icon/icon.png"
+  adaptive_icon_background: "#11756B"
+  adaptive_icon_foreground: "assets/icon/foreground.png"
+  adaptive_icon_monochrome: "assets/icon/monochrome.png"
+  min_sdk_android: 21

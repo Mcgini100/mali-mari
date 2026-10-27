@@ -39,5 +39,12 @@ flutter pub get
 echo "→ Generating Drift database code"
 dart run build_runner build --delete-conflicting-outputs
 
+echo "→ Generating app icons from assets/icon (the month tree on Kariba teal)"
+if [[ -d ios ]]; then
+  dart run flutter_launcher_icons
+else
+  dart run flutter_launcher_icons -f tool/icons_android.yaml
+fi
+
 echo
 echo "Done. Run the app with:  flutter run"
