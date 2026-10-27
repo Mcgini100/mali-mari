@@ -130,7 +130,10 @@ class _ShellState extends ConsumerState<Shell> with WidgetsBindingObserver {
     }
 
     final addButton = Expanded(
+      // heightFactor: 1 keeps the bar as tall as its content; a plain Center
+      // grows to all the height offered and pushes the bar over the page.
       child: Center(
+        heightFactor: 1,
         child: Semantics(
           button: true,
           label: s[K.newTransaction],
