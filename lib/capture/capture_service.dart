@@ -30,6 +30,7 @@ class IngestResult {
 
 String newId() {
   final rand = Random().nextInt(1 << 31).toRadixString(36);
+  // clock-ok: ids must be unique in real time, even when a test pins the clock.
   return '${DateTime.now().microsecondsSinceEpoch.toRadixString(36)}$rand';
 }
 
@@ -127,7 +128,7 @@ class CaptureService {
       return const IngestResult(IngestOutcome.notTransaction);
     }
 
-    final when = at ?? DateTime.now();
+    final when = at ?? _ref.read(clockProvider)();
     final repo = _ref.read(entryRepositoryProvider);
     final hasUsableRef = parsed.reference != null && RegExp(r'\d').hasMatch(parsed.reference!);
     final sourceRef = hasUsableRef ? 'ref:${parsed.reference}' : 'h:${fingerprint(text)}';
@@ -157,7 +158,7 @@ class CaptureService {
       rawSourceText: text.trim(),
       status: EntryStatus.pendingReview,
       sourceRef: sourceRef,
-      createdAt: DateTime.now(),
+      createdAt: _ref.read(clockProvider)(),
     );
     await repo.save(entry);
     return IngestResult(IngestOutcome.added, entryId: entry.id);
@@ -225,7 +226,7 @@ class CaptureService {
         rawSourceText: null,
         status: EntryStatus.confirmed,
         sourceRef: edited.sourceRef == null ? null : '${edited.sourceRef}:fee',
-        createdAt: DateTime.now(),
+        createdAt: _ref.read(clockProvider)(),
       ));
     }
   }

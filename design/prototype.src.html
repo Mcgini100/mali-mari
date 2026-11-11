@@ -3,15 +3,15 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,300..500,0..1,0&display=block">
 <style>
 /* Layout: presentation stage — notes column + one phone; the phone is the product.
-   Palette v2: Kariba teal + msasa amber on mist. Mirrors design/tokens.json and lib/core/theme/tokens.dart. */
+   Palette v3: Kariba teal + msasa amber on mist, with text inks that meet WCAG AA. Mirrors design/tokens.json and lib/core/theme/tokens.dart. */
 :root {
   --bg: #F3F5F2; --surface: #FFFFFF; --raised: #FFFFFF; --sunken: #E8ECE8; --sep: #DCE2DD;
-  --fg: #14211F; --fg2: #5B6B67; --fg3: #94A29E;
+  --fg: #14211F; --fg2: #4C5C58; --fg3: #63726D;
   --accent: #11756B; --accent-soft: #DDEFEA; --on-accent: #FFFFFF;
   --warm: #D9822B; --warm-soft: #FBEBD7;
-  --income: #0E7C66; --income-soft: #DCF0E9;
-  --spend: #B5483A; --spend-soft: #F7E4DF;
-  --warn: #B7791F; --warn-soft: #FAEFD9;
+  --income: #0B7460; --income-soft: #DCF0E9;
+  --spend: #A94032; --spend-soft: #F7E4DF;
+  --warn: #B7791F; --warn-ink: #96600F; --warn-soft: #FAEFD9;
   --sky: #E3EEEA; --bark: #6E4E3A; --bud: #B9C4B4; --haze: #8FB59A;
   --leaf-light: #5E9B57; --leaf-steady: #A3A03C; --leaf-full: #E0A13A; --leaf-heavy: #C8652E; --leaf-gold: #E9BE45;
   --c-teal: #11756B; --t-teal: #DDEFEA; --c-amber: #B66A1C; --t-amber: #FBEBD7; --c-sage: #4E7A4A; --t-sage: #E2EEDD;
@@ -24,19 +24,19 @@
   --font: -apple-system, "SF Pro Text", "SF Pro Display", system-ui, Roboto, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
   --icons: "Material Symbols Rounded";
   --gutter: 20px;
-  --r-control: 12px; --r-card: 20px; --r-sheet: 28px;
+  --r-control: 12px; --r-card: 20px; --r-hero: 28px; --r-sheet: 28px;
   --ease-sheet: cubic-bezier(0.2, 0.9, 0.25, 1);
   --ease-quart: cubic-bezier(0.25, 1, 0.5, 1);
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --bg: #0C1514; --surface: #142120; --raised: #1B2B29; --sunken: #0A1110; --sep: #243433;
-    --fg: #E9F1EE; --fg2: #93A6A1; --fg3: #5F716C;
+    --fg: #E9F1EE; --fg2: #A6B8B3; --fg3: #84968F;
     --accent: #4FC3B0; --accent-soft: #143A35; --on-accent: #06201C;
     --warm: #F0A54C; --warm-soft: #3A2812;
     --income: #57C9A0; --income-soft: #12302A;
     --spend: #F08A6E; --spend-soft: #3A1D16;
-    --warn: #E9B44C; --warn-soft: #33260F;
+    --warn: #E9B44C; --warn-ink: #E9B44C; --warn-soft: #33260F;
     --sky: #112523; --bark: #9A7760; --bud: #3E504B; --haze: #3F8F7E;
     --c-teal: #4FC3B0; --t-teal: #143A35; --c-amber: #F0A54C; --t-amber: #3A2812; --c-sage: #8CC183; --t-sage: #1D3020;
     --c-clay: #EE9A80; --t-clay: #3A1F17; --c-sky: #7DB9DE; --t-sky: #14293A; --c-plum: #CF9ACB; --t-plum: #2E1C2D;
@@ -49,12 +49,12 @@
 }
 :root[data-theme="dark"] {
   --bg: #0C1514; --surface: #142120; --raised: #1B2B29; --sunken: #0A1110; --sep: #243433;
-  --fg: #E9F1EE; --fg2: #93A6A1; --fg3: #5F716C;
+  --fg: #E9F1EE; --fg2: #A6B8B3; --fg3: #84968F;
   --accent: #4FC3B0; --accent-soft: #143A35; --on-accent: #06201C;
   --warm: #F0A54C; --warm-soft: #3A2812;
   --income: #57C9A0; --income-soft: #12302A;
   --spend: #F08A6E; --spend-soft: #3A1D16;
-  --warn: #E9B44C; --warn-soft: #33260F;
+  --warn: #E9B44C; --warn-ink: #E9B44C; --warn-soft: #33260F;
   --sky: #112523; --bark: #9A7760; --bud: #3E504B; --haze: #3F8F7E;
   --c-teal: #4FC3B0; --t-teal: #143A35; --c-amber: #F0A54C; --t-amber: #3A2812; --c-sage: #8CC183; --t-sage: #1D3020;
   --c-clay: #EE9A80; --t-clay: #3A1F17; --c-sky: #7DB9DE; --t-sky: #14293A; --c-plum: #CF9ACB; --t-plum: #2E1C2D;
@@ -134,7 +134,7 @@ input, textarea { font: inherit; color: inherit; }
 .back .ic { font-size: 26px; }
 
 /* greeting + tree */
-.greet { font-size: 26px; line-height: 32px; font-weight: 600; letter-spacing: -0.5px; }
+.greet { font-size: 22px; line-height: 28px; font-weight: 600; letter-spacing: -0.3px; }
 .greet small { display: block; font-size: 15px; line-height: 20px; font-weight: 400; letter-spacing: -0.1px; color: var(--fg2); margin-top: 2px; }
 .tree-card { position: relative; border-radius: var(--r-card); background: radial-gradient(120% 90% at 50% 100%, var(--surface) 0%, var(--sky) 100%); overflow: hidden; margin: 14px 0 0; }
 .tree-slot { position: relative; height: 236px; margin-top: 34px; }
@@ -144,11 +144,34 @@ input, textarea { font: inherit; color: inherit; }
 .legend span { display: inline-flex; align-items: center; gap: 5px; }
 .legend i { width: 9px; height: 7px; border-radius: 50%; display: inline-block; }
 
-.hero { padding: 20px 0 6px; }
-.hero .figure { display: block; overflow: hidden; height: 50px; margin: 4px 0 8px; }
-.hero .figure span { display: inline-block; }
-.hero .figure.swap-out span { animation: swapOut 130ms var(--ease-quart) forwards; }
-.hero .figure.swap-in span { animation: swapIn 260ms var(--ease-quart); }
+/* v3 Home: the number and the tree are one object. Number first. */
+.month-card { position: relative; border-radius: var(--r-hero); background: radial-gradient(120% 90% at 50% 100%, var(--surface) 0%, var(--sky) 100%); overflow: hidden; margin: 12px 0 0; padding: 16px var(--gutter) 4px; }
+.month-card .top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.month-card .top .lbl { font-size: 15px; line-height: 20px; font-weight: 500; letter-spacing: -0.1px; color: var(--fg2); }
+.month-card .figure { display: block; overflow: hidden; height: 50px; margin: 4px 0 0; }
+.month-card .figure span { display: inline-block; }
+.month-card .figure.swap-out span { animation: swapOut 130ms var(--ease-quart) forwards; }
+.month-card .figure.swap-in span { animation: swapIn 260ms var(--ease-quart); }
+.month-card .tree-slot { height: 208px; margin: 0 calc(var(--gutter) * -0.5); }
+.month-card .foot { display: flex; align-items: center; justify-content: space-between; min-height: 48px; }
+.pace-track { position: relative; height: 16px; margin: 8px 0; }
+.pace-track .rail { position: absolute; left: 0; right: 0; top: 5px; height: 6px; border-radius: 999px; background: color-mix(in srgb, var(--fg) 10%, transparent); overflow: hidden; }
+.pace-track .rail i { display: block; height: 100%; border-radius: 999px; background: var(--accent); }
+.pace-track.ahead .rail i { background: var(--warn); } .pace-track.over .rail i { background: var(--spend); }
+.pace-track .tick { position: absolute; top: 0; width: 2px; height: 16px; margin-left: -1px; border-radius: 1px; background: var(--fg); }
+.pace-line { font-size: 15px; line-height: 20px; letter-spacing: -0.1px; } .pace-line b { font-weight: 600; }
+.leafkey { display: inline-flex; align-items: center; gap: 3px; min-height: 48px; padding-left: 12px; color: var(--fg2); }
+.leafkey i { width: 11px; height: 8.5px; border-radius: 50%; display: inline-block; }
+.leafkey .ic { font-size: 18px; margin-left: 3px; }
+.today-row { display: flex; align-items: center; gap: 12px; width: 100%; text-align: left; padding: 14px 16px; margin-top: 12px; border-radius: var(--r-card); background: var(--surface); box-shadow: var(--shadow); font-size: 15px; line-height: 20px; }
+.today-row > i { width: 22px; height: 17px; border-radius: 50%; flex: none; }
+.today-row > span { flex: 1; min-width: 0; }
+.today-row .ic { color: var(--fg3); font-size: 20px; }
+.keyrow { display: flex; gap: 16px; align-items: center; padding: 12px 16px; }
+.keyrow + .keyrow { border-top: 0.5px solid var(--sep); }
+.keyrow > i { width: 30px; height: 23px; border-radius: 50%; flex: none; }
+.keyrow b { display: block; font-size: 15px; line-height: 20px; font-weight: 600; }
+.keyrow small { display: block; font-size: 13px; line-height: 18px; color: var(--fg2); }
 @keyframes swapOut { to { transform: translateY(-8px); opacity: 0; } }
 @keyframes swapIn { from { transform: translateY(8px); opacity: 0; } to { transform: none; opacity: 1; } }
 .cur-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
@@ -196,11 +219,11 @@ input, textarea { font: inherit; color: inherit; }
 .txn .end small { display: block; font-size: 12px; line-height: 16px; color: var(--fg3); }
 
 .tabbar { flex: none; display: grid; grid-template-columns: repeat(5, 1fr); align-items: center; padding: 6px 10px 26px; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(20px); border-top: 0.5px solid var(--sep); }
-.tabbar button { display: grid; justify-items: center; gap: 2px; font-size: 10px; font-weight: 500; color: var(--fg3); padding: 4px 0; }
+.tabbar button { display: grid; justify-items: center; align-content: center; gap: 2px; min-height: 48px; font-size: 11px; line-height: 14px; font-weight: 500; letter-spacing: 0.1px; color: var(--fg2); }
 .tabbar button .ic { font-size: 24px; }
-.tabbar button[aria-current="true"] { color: var(--accent); }
+.tabbar button[aria-current="true"] { color: var(--accent); font-weight: 600; }
 .tabbar button[aria-current="true"] .ic { font-variation-settings: "FILL" 1, "wght" 400; }
-.tabbar .add { justify-self: center; width: 52px; height: 52px; border-radius: 999px; background: var(--accent); color: var(--on-accent); display: grid; place-items: center; box-shadow: 0 6px 16px color-mix(in srgb, var(--accent) 40%, transparent); }
+.tabbar .add { justify-self: center; width: 54px; height: 54px; min-height: 0; border-radius: 999px; background: var(--accent); color: var(--on-accent); display: grid; place-items: center; box-shadow: 0 6px 16px color-mix(in srgb, var(--accent) 40%, transparent); }
 .tabbar .add .ic { font-size: 28px; font-variation-settings: "wght" 500; }
 
 .btn { display: flex; align-items: center; justify-content: center; gap: 8px; height: 52px; border-radius: 16px; font-size: 17px; font-weight: 600; letter-spacing: -0.2px; width: 100%; transition: transform 120ms; }
@@ -327,7 +350,7 @@ mark { background: color-mix(in srgb, var(--accent) 22%, transparent); color: in
 </style>
 
 <header class="topbar">
-  <div class="brand"><b>Mari<i>.</i></b><span>Design prototype · v2</span></div>
+  <div class="brand"><b>Mari<i>.</i></b><span>Design prototype, v3</span></div>
   <nav class="tabs" id="tabs" aria-label="Screens"></nav>
   <button class="theme-btn" id="themeBtn" type="button"><span class="ic" aria-hidden="true">contrast</span><span id="themeLabel">System</span></button>
 </header>
@@ -578,23 +601,26 @@ SCREENS.home = () => {
   const tones = treeTones(); const leaves = Object.values(tones).filter((x) => x !== 'bud').length;
   const perDay = Math.max(0, Math.floor(T.left / daysLeft()));
   const hour = TODAY.getHours(); const gi = hour < 12 ? 0 : hour < 17 ? 1 : 2;
+  const used = T.budget ? T.spent / T.budget : 0; const elapsed = TODAY.getDate() / DAYS_IN_MONTH;
+  const pace = T.left < 0 ? 'over' : (used >= 0.85 || used > elapsed + 0.08) ? 'ahead' : '';
   const todayLine = today.list.length
     ? `Today: ${fmt(toDisp(today.spend), S.disp)} across ${today.list.length} ${today.list.length === 1 ? 'payment' : 'payments'}. ${today.spend <= dailyPace() ? 'A light one so far.' : 'A full one.'}`
     : 'Nothing logged today yet.';
   return `${statusBar()}<div class="scroll">
     <div class="head"><div class="greet">${GREET[S.lang][gi]}<small>${DAYS_LONG[TODAY.getDay()]}, ${TODAY.getDate()} October</small></div>
       <button type="button" class="iconbtn" data-go="settings" aria-label="Settings">${ic('settings')}</button></div>
-    <div class="tree-card">
-      <div class="tree-meta"><span class="t-caption fg2">October's tree</span><span class="t-footnote fg2 num">${leaves} leaves · day ${TODAY.getDate()}</span></div>
-      <div class="tree-slot" id="treeSlot" data-reveal="${S.reveal ? 1 : 0}"><canvas id="tree2d" aria-label="October's tree: ${leaves} leaves. Tap a leaf to see that day."></canvas></div>
-      ${legend()}
-    </div>
-    <div class="hero">
-      <div class="t-caption fg2">${t('left')} · October</div>
+    <div class="month-card">
+      <div class="top"><span class="lbl">${t('left')} in October</span>${segCurrency('hero')}</div>
       <div class="figure t-display num" id="heroFig"><span>${fmt(toDisp(T.left), S.disp)}</span></div>
-      <div class="cur-row">${segCurrency('hero')}<span class="t-footnote fg2 num">1 US$ = ${RATE} ZiG · official</span></div>
+      <div class="pace-track ${pace}" role="img" aria-label="Day ${TODAY.getDate()} of ${DAYS_IN_MONTH}. You have used ${Math.round(used * 100)}% of the budget in ${Math.round(elapsed * 100)}% of the month.">
+        <span class="rail"><i style="width:${Math.min(100, used * 100).toFixed(1)}%"></i></span><span class="tick" style="left:${(elapsed * 100).toFixed(1)}%"></span></div>
+      <div class="pace-line num"><b>About ${fmt(toDisp(perDay), S.disp)} a day</b> <span class="fg2">for the ${daysLeft()} days left in October.</span></div>
+      <div class="t-footnote fg2 num" style="margin-top:2px">1 US$ = ${RATE} ZiG · official</div>
+      <div class="tree-slot" id="treeSlot" data-reveal="${S.reveal ? 1 : 0}"><canvas id="tree2d" aria-label="October's tree: ${leaves} leaves. Tap a leaf to see that day."></canvas></div>
+      <div class="foot"><span class="t-footnote fg2 num">${leaves} leaves · day ${TODAY.getDate()}</span>
+        <button type="button" class="leafkey" data-act="leafKey" aria-label="What the colours mean">${['light', 'steady', 'full', 'heavy', 'gold'].map((k) => `<i style="background:var(${TONE_VAR[k]})"></i>`).join('')}${ic('info')}</button></div>
     </div>
-    <div class="pace">${ic('wb_sunny')}<span><b class="num">About ${fmt(toDisp(perDay), S.disp)} a day</b><small class="num">for the ${daysLeft()} days left in October. ${esc(todayLine)}</small></span></div>
+    <button type="button" class="today-row num" data-act="openToday"><i style="background:var(${TONE_VAR[tones[TODAY.getDate()] || 'bud']})"></i><span>${esc(todayLine)}</span>${ic('chevron_right')}</button>
     ${PENDING.length ? `<button type="button" class="review-cta" data-go="review"><span class="dot num">${PENDING.length}</span>
       <span class="grow"><span class="t-headline" style="display:block">${PENDING.length} ${t('review')}</span><span class="t-footnote fg2">${t('reviewSub')}</span></span>${ic('chevron_right')}</button>` : ''}
     <div class="section"><div class="sec-head"><span class="t-title2">${t('budgets')}</span><button type="button" data-go="budgets">${t('seeAll')}</button></div>
@@ -825,6 +851,15 @@ function entrySheet() {
   </div>`;
 }
 function renderSheet() { const s = document.getElementById('sheet'); s.innerHTML = `<div class="grabber"></div>${entrySheet()}`; positionThumbs(s); }
+function leafKeySheet() {
+  const rows = [
+    ['light', 'Light', 'Half your daily pace or less.'], ['steady', 'Steady', 'Within your daily pace.'], ['full', 'Full', 'A little over your daily pace.'],
+    ['heavy', 'Heavy', 'Well over your daily pace. The month absorbs days like this.'], ['gold', 'Money in', 'More came in than went out.'],
+    ['bud', 'Not logged', 'Nothing logged yet. Add anything and it becomes a leaf.']];
+  openSheet(`<div class="sheet-head"><button type="button" data-act="close">Done</button><span class="t-headline">What the colours mean</span><span style="width:44px"></span></div>
+  <div class="scroll"><p class="fg2" style="margin:0 4px 16px;font-size:15px;line-height:20px">Every day you log grows one leaf. Its colour shows how the day went against your daily pace. None of them means you failed.</p>
+    <div class="card">${rows.map(([k, name, body]) => `<div class="keyrow"><i style="background:var(${TONE_VAR[k]})"></i><span><b>${name}</b><small>${body}</small></span></div>`).join('')}</div></div>`);
+}
 function daySheet(d) {
   const dt = dayTotals(d); const tone = treeTones()[d] || 'bud'; const date = new Date(2026, 9, d);
   const pace = dailyPace();
@@ -854,10 +889,11 @@ function budgetSheet(cat) {
 
 /* ------------------------------------------------------------------ notes beside the phone */
 const NOTES = {
-  home: ['Home', 'A tree that grows with your month', 'The msasa tree is the reason to open Mari. Each day with anything logged gets a leaf, coloured by how the day went. Tap any leaf to see that day.', [
-    ['eco', 'Every tone is a real msasa colour: green for light days, olive for steady, amber for full, copper for heavy, gold when money came in. None of them means failure.'],
-    ['wb_sunny', 'The amber card answers the question people actually ask each morning: how much can I spend today? It changes every day, so it is worth a look.'],
-    ['view_in_ar', 'Built with three.js: a Timer-driven loop, an AnimationMixer clip per leaf (a small overshoot as it grows), and damped procedural sway. Leaves stay facing you as the crown turns.']]],
+  home: ['Home', 'The number first, then the tree it grew', 'One card answers both questions in the order people ask them: how much is left, and how the month has gone. The figure, the pace and the tree are a single object, all on the first screen.', [
+    ['straighten', 'The bar is the budget used. The tick is where the calendar is. Bar short of the tick: spending is behind the month. It turns amber when it runs ahead and copper when the budget is spent.'],
+    ['eco', 'Every leaf colour is a real msasa colour and none of them means failure. The key is five leaves in the corner, one tap away, so it is learned once and then out of the way.'],
+    ['contrast', 'v3 darkens the secondary and tertiary inks so all text meets WCAG AA, makes every control at least 48 high, and honours larger system text up to 1.35x.'],
+    ['view_in_ar', 'The tree is three.js here and a CustomPainter in the app, drawn from the same generator. Leaves grow in with a small overshoot and the crown turns slowly in the wind.']]],
   day: ['A day', 'Tap a leaf', 'Each leaf opens its day: what was spent, one kind sentence about it, and a way to add something forgotten. A bud invites a back-fill instead of scolding.', [
     ['history_edu', 'The copy is warm and factual. "Big days happen; the month absorbs them."'],
     ['add', 'Adding to a past day turns its bud into a leaf with the same grow animation.']]],
@@ -986,6 +1022,8 @@ document.addEventListener('click', (e) => {
   if (act === 'add') { openAdd(''); return; }
   if (act === 'addForDay') { const d = +ds.day; closeSheet(); setTimeout(() => openAdd('', d), 200); return; }
   if (act === 'close') { closeSheet(); return; }
+  if (act === 'leafKey') { leafKeySheet(); return; }
+  if (act === 'openToday') { window.MariApp.openDay(TODAY.getDate()); return; }
   if (act === 'save') {
     const dft = S.draft; const minor = Math.round(parseFloat(dft.digits || '0') * 100); if (!minor) return;
     const whoEl = document.getElementById('who'); const who = (whoEl && whoEl.value.trim()) || CATS[dft.cat].en;

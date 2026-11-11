@@ -72,7 +72,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> with WidgetsBin
   Future<void> _export() async {
     final entries = await ref.read(entryRepositoryProvider).allConfirmed();
     final cats = ref.read(categoryMapProvider);
-    await shareCsv(entries, cats);
+    await shareCsv(entries, cats, now: ref.read(clockProvider)());
   }
 
   Future<void> _deleteAll() async {
@@ -115,7 +115,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> with WidgetsBin
     String rateFooter() {
       if (settings.useManualRate) return s[K.rateFooterManual];
       if (latest == null) return s[K.rateFooterNever];
-      return s.f(K.rateFooterUpdated, {'when': '${s.dayLabel(latest.at, DateTime.now())} ${s.time(latest.at)}'});
+      return s.f(K.rateFooterUpdated, {'when': '${s.dayLabel(latest.at, ref.read(clockProvider)())} ${s.time(latest.at)}'});
     }
 
     final captureSubtitle = !settings.captureEnabled
@@ -313,7 +313,7 @@ class _RateSheetState extends ConsumerState<RateSheet> {
                 Text(
                   _fetchFailed == true
                       ? s[K.rateOffline]
-                      : (latest == null ? s[K.rateFooterNever] : s.f(K.rateFooterUpdated, {'when': '${s.dayLabel(latest.at, DateTime.now())} ${s.time(latest.at)}'})),
+                      : (latest == null ? s[K.rateFooterNever] : s.f(K.rateFooterUpdated, {'when': '${s.dayLabel(latest.at, ref.read(clockProvider)())} ${s.time(latest.at)}'})),
                   style: MariType.footnote.copyWith(color: _fetchFailed == true ? c.spend : c.textSecondary),
                 ),
                 const SizedBox(height: Space.sm),

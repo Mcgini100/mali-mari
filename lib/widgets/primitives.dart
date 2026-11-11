@@ -194,6 +194,8 @@ class Segmented<T> extends StatelessWidget {
     final index = values.indexOf(selected).clamp(0, values.length - 1);
     final textStyle = (large ? MariType.subhead : MariType.footnote).copyWith(fontWeight: FontWeight.w600);
     final segmentHeight = large ? 40.0 : 32.0;
+    // Start from the inherited style so the control uses the app's typeface.
+    final base = DefaultTextStyle.of(context).style;
 
     Widget segment(T v) => Expanded(
           child: Semantics(
@@ -212,7 +214,7 @@ class Segmented<T> extends StatelessWidget {
                 child: Center(
                   child: AnimatedDefaultTextStyle(
                     duration: const Duration(milliseconds: 200),
-                    style: textStyle.copyWith(color: v == selected ? c.textPrimary : c.textSecondary),
+                    style: base.merge(textStyle).copyWith(color: v == selected ? c.textPrimary : c.textSecondary),
                     child: Text(labelOf(v), maxLines: 1, overflow: TextOverflow.ellipsis),
                   ),
                 ),
@@ -503,7 +505,8 @@ class MariListTile extends StatelessWidget {
   }
 }
 
-/// Circular icon button used in screen headers.
+/// Circular icon button used in screen headers. The circle is 42 across; the
+/// area that takes the tap is a full [Space.tapTarget].
 class HeaderIconButton extends StatelessWidget {
   const HeaderIconButton({super.key, required this.icon, required this.onTap, required this.label});
   final IconData icon;
@@ -516,17 +519,23 @@ class HeaderIconButton extends StatelessWidget {
     return Pressable(
       onTap: onTap,
       semanticLabel: label,
-      child: Container(
-        width: 40,
-        height: 40,
-        decoration: BoxDecoration(
-          color: c.surface,
-          shape: BoxShape.circle,
-          boxShadow: Theme.of(context).brightness == Brightness.dark
-              ? null
-              : const [BoxShadow(color: Color(0x1417161A), blurRadius: 12, offset: Offset(0, 3))],
+      child: SizedBox(
+        width: Space.tapTarget,
+        height: Space.tapTarget,
+        child: Center(
+          child: Container(
+            width: 42,
+            height: 42,
+            decoration: BoxDecoration(
+              color: c.surface,
+              shape: BoxShape.circle,
+              boxShadow: Theme.of(context).brightness == Brightness.dark
+                  ? null
+                  : const [BoxShadow(color: Color(0x1417161A), blurRadius: 12, offset: Offset(0, 3))],
+            ),
+            child: Icon(icon, size: 22, color: onTap == null ? c.textTertiary : c.textSecondary),
+          ),
         ),
-        child: Icon(icon, size: 21, color: onTap == null ? c.textTertiary : c.textSecondary),
       ),
     );
   }

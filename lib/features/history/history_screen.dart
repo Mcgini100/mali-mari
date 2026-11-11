@@ -46,7 +46,7 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
       });
 
   Future<void> _pickRange() async {
-    final now = DateTime.now();
+    final now = ref.read(clockProvider)();
     final picked = await showDateRangePicker(
       context: context,
       firstDate: DateTime(2020),
@@ -110,7 +110,7 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
     for (final e in filtered) {
       groups.putIfAbsent(dateOnly(e.occurredAt), () => []).add(e);
     }
-    final now = DateTime.now();
+    final now = ref.read(clockProvider)();
 
     final children = <Widget>[
       ScreenTitle(title: s[K.history], trailing: const CurrencySwitch()),

@@ -79,13 +79,32 @@ class MariDatabase extends _$MariDatabase {
   /// an on-device SQLite file named mari.sqlite.
   MariDatabase([QueryExecutor? executor]) : super(executor ?? driftDatabase(name: 'mari'));
 
+  /// v1: first release. v2: indexes for the queries every screen runs.
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
+
+  /// Month screens filter by status and date; de-duplication looks up a
+  /// reference. Without these both scan the whole table as history grows.
+  static const List<String> _indexes = [
+    'CREATE INDEX IF NOT EXISTS entries_status_occurred ON entries (status, occurred_at)',
+    'CREATE INDEX IF NOT EXISTS entries_source_ref ON entries (source_ref)',
+  ];
+
+  Future<void> _createIndexes() async {
+    for (final sql in _indexes) {
+      await customStatement(sql);
+    }
+  }
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
         onCreate: (m) async {
           await m.createAll();
+          await _createIndexes();
+        },
+        onUpgrade: (m, from, to) async {
+          // Each step is additive and safe to run twice.
+          if (from < 2) await _createIndexes();
         },
         beforeOpen: (details) async {
           if (details.wasCreated) {

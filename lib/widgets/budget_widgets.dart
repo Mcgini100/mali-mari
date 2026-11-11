@@ -14,19 +14,23 @@ import 'primitives.dart';
 /// Thin progress bar. Accent while on track, amber from 85%, terracotta over.
 /// Reads correctly at 0% (empty track) and past 100% (full, in the over colour).
 class BudgetBar extends StatelessWidget {
-  const BudgetBar({super.key, required this.progress, this.height = 6});
+  const BudgetBar({super.key, required this.progress, this.height = 6, this.color, this.trackColor});
   final double progress;
   final double height;
+
+  /// Overrides for a bar that sits on a tinted ground or follows its own rule.
+  final Color? color;
+  final Color? trackColor;
 
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
-    final color = progress > 1 ? c.spend : (progress >= 0.85 ? c.warning : c.accent);
+    final color = this.color ?? (progress > 1 ? c.spend : (progress >= 0.85 ? c.warning : c.accent));
     return ClipRRect(
       borderRadius: BorderRadius.circular(Radii.pill),
       child: Container(
         height: height,
-        color: c.surfaceSunken,
+        color: trackColor ?? c.surfaceSunken,
         alignment: Alignment.centerLeft,
         child: TweenAnimationBuilder<double>(
           tween: Tween<double>(begin: 0, end: progress.clamp(0.0, 1.0)),
@@ -39,6 +43,64 @@ class BudgetBar extends StatelessWidget {
               decoration: BoxDecoration(color: color, borderRadius: BorderRadius.circular(Radii.pill)),
             ),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+/// The budget used so far as a bar, with a tick where the calendar is. Bar
+/// short of the tick: spending is behind the month. Past it: ahead.
+class PaceTrack extends StatelessWidget {
+  const PaceTrack({super.key, required this.used, required this.elapsed, required this.pace, this.semanticLabel});
+
+  final double used;
+  final double elapsed;
+  final Pace pace;
+  final String? semanticLabel;
+
+  static const double _height = 16;
+  static const double _bar = 6;
+
+  @override
+  Widget build(BuildContext context) {
+    final c = context.colors;
+    final fill = switch (pace) {
+      Pace.over => c.spend,
+      Pace.ahead => c.warning,
+      Pace.onTrack || Pace.none => c.accent,
+    };
+    return Semantics(
+      label: semanticLabel,
+      child: ExcludeSemantics(
+        child: SizedBox(
+          height: _height,
+          child: LayoutBuilder(builder: (context, box) {
+            final w = box.maxWidth;
+            final tick = (elapsed.clamp(0.0, 1.0) * w).clamp(1.0, w - 1.0);
+            return Stack(children: [
+              Positioned(
+                left: 0,
+                right: 0,
+                top: (_height - _bar) / 2,
+                child: BudgetBar(
+                  progress: used,
+                  height: _bar,
+                  color: fill,
+                  trackColor: c.textPrimary.withValues(alpha: 0.10),
+                ),
+              ),
+              Positioned(
+                left: tick - 1,
+                top: 0,
+                child: Container(
+                  width: 2,
+                  height: _height,
+                  decoration: BoxDecoration(color: c.textPrimary, borderRadius: BorderRadius.circular(1)),
+                ),
+              ),
+            ]);
+          }),
         ),
       ),
     );
@@ -72,7 +134,7 @@ class BudgetLineTile extends ConsumerWidget {
       stateColor = c.spend;
     } else if (line.isNearLimit) {
       stateText = s.f(K.budgetPercentUsed, {'percent': '${(line.progress * 100).round()}'});
-      stateColor = c.warning;
+      stateColor = c.warningInk;
     }
 
     final body = Padding(

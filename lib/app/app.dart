@@ -6,6 +6,9 @@ import '../features/onboarding/onboarding_screen.dart';
 import '../features/shell/shell.dart';
 import 'providers.dart';
 
+/// The most the system text size may enlarge Mari's type.
+const double kMaxTextScale = 1.35;
+
 class MariApp extends ConsumerWidget {
   const MariApp({super.key});
 
@@ -23,6 +26,12 @@ class MariApp extends ConsumerWidget {
       theme: buildMariTheme(Brightness.light),
       darkTheme: buildMariTheme(Brightness.dark),
       themeMode: themeMode,
+      // Larger system text is honoured up to 1.35x. Past that the hero figure
+      // and the keypad would clip, so Mari stops growing instead of breaking.
+      builder: (context, child) => MediaQuery.withClampedTextScaling(
+        maxScaleFactor: kMaxTextScale,
+        child: child ?? const SizedBox.shrink(),
+      ),
       home: AnimatedSwitcher(
         duration: const Duration(milliseconds: 400),
         child: onboarded ? const Shell(key: ValueKey('shell')) : const OnboardingScreen(key: ValueKey('onboarding')),

@@ -29,7 +29,7 @@ class BudgetsScreen extends ConsumerWidget {
     final cats = ref.watch(categoriesProvider).asData?.value ?? const <Category>[];
     final budgeted = {for (final l in lines ?? const <BudgetLine>[]) l.category.id};
     final unbudgeted = cats.where((x) => x.kind == CategoryKind.expense && !budgeted.contains(x.id)).toList();
-    final now = DateTime.now();
+    final now = ref.watch(todayProvider);
 
     return ListView(
       padding: const EdgeInsets.fromLTRB(Space.gutter, 0, Space.gutter, Space.xxl),
@@ -51,8 +51,12 @@ class BudgetsScreen extends ConsumerWidget {
                 ),
               ]),
               const SizedBox(height: Space.sm),
-              BudgetBar(progress: summary.usedFraction, height: 8),
-              const SizedBox(height: 10),
+              PaceTrack(
+                used: summary.usedFraction,
+                elapsed: now.day / month.days,
+                pace: paceOf(summary, elapsed: now.day / month.days),
+              ),
+              const SizedBox(height: Space.xs),
               Text(
                 s.f(K.paceLine, {
                   'day': '${now.day}',

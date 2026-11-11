@@ -52,7 +52,8 @@ void main() {
     expect(historyLabel.top, greaterThan(screen.height - 120), reason: 'tab bar must sit at the bottom of the screen');
 
     expect(find.byType(MonthTreeView), findsOneWidget);
-    expect(find.textContaining('LEFT TO SPEND').evaluate().isNotEmpty || find.textContaining('SPENT').evaluate().isNotEmpty, isTrue);
+    // No limits in a new database, so the month card leads with what was spent.
+    expect(find.textContaining('Spent in'), findsOneWidget);
 
     // Switching tabs keeps the bar in place and shows the screen.
     await tester.tap(find.text('Budgets').last);
