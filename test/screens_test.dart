@@ -103,7 +103,11 @@ Future<void> _run(
 }
 
 void main() {
-  setUpAll(_loadFonts);
+  setUpAll(() async {
+    TestWidgetsFlutterBinding.ensureInitialized();
+    muteDeepLinks();
+    await _loadFonts();
+  });
 
   testWidgets('light: home, its sheets and every tab', (tester) async {
     await _run(

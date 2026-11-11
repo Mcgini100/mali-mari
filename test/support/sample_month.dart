@@ -1,7 +1,9 @@
 import 'dart:io';
 
 import 'package:drift/native.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mari/app/providers.dart';
 import 'package:mari/app/settings.dart';
@@ -147,4 +149,13 @@ Widget sampleScope(MariDatabase db, {required Widget child, AppSettings settings
     ],
     child: child,
   );
+}
+
+/// The deep-link plugin has no implementation on the machine running tests;
+/// answer its channel so starting capture stays quiet.
+void muteDeepLinks() {
+  final messenger = TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger;
+  for (final name in ['com.llfbandit.app_links/events', 'com.llfbandit.app_links/messages']) {
+    messenger.setMockMethodCallHandler(MethodChannel(name), (call) async => null);
+  }
 }
