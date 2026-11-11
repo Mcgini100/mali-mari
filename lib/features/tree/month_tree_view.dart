@@ -286,28 +286,3 @@ class _TreePainter extends CustomPainter {
   bool shouldRepaint(_TreePainter old) =>
       old.tree != tree || old.tones != tones || old.palette != palette || old.still != still;
 }
-
-/// Small dots explaining the leaf colours.
-class TreeLegend extends StatelessWidget {
-  const TreeLegend({super.key, required this.labels});
-
-  /// Label per tone, in display order.
-  final Map<DayTone, String> labels;
-
-  @override
-  Widget build(BuildContext context) {
-    final c = context.colors;
-    return Wrap(spacing: 12, runSpacing: 4, children: [
-      for (final e in labels.entries)
-        Row(mainAxisSize: MainAxisSize.min, children: [
-          Container(
-            width: 9,
-            height: 7,
-            decoration: BoxDecoration(color: toneColor(e.key, c), borderRadius: BorderRadius.circular(9)),
-          ),
-          const SizedBox(width: 5),
-          Text(e.value, style: MariType.footnote.copyWith(fontSize: 12, height: 16 / 12, color: c.textSecondary)),
-        ]),
-    ]);
-  }
-}

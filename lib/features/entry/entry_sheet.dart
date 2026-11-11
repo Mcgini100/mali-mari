@@ -73,7 +73,8 @@ class _EntrySheetState extends ConsumerState<EntrySheet> {
     _currency = e?.currency ?? settings.displayCurrency;
     _digits = e == null ? '' : _minorToDigits(e.amountMinor);
     _categoryId = e?.categoryId;
-    _when = e?.occurredAt ?? _startOf(widget.initialDate) ?? DateTime.now();
+    final now = ref.read(clockProvider)();
+    _when = e?.occurredAt ?? _startOf(widget.initialDate, now) ?? now;
     _who = TextEditingController(text: e?.counterparty ?? '');
     _note = TextEditingController(text: e?.note.isNotEmpty == true ? e!.note : (widget.prefillNote ?? ''));
   }
@@ -113,7 +114,7 @@ class _EntrySheetState extends ConsumerState<EntrySheet> {
   }
 
   Future<void> _pickDate() async {
-    final now = DateTime.now();
+    final now = ref.read(clockProvider)();
     final picked = await showDatePicker(
       context: context,
       initialDate: _when.isAfter(now) ? now : _when,
@@ -136,7 +137,7 @@ class _EntrySheetState extends ConsumerState<EntrySheet> {
     final amountChanged = existing == null || existing.amountMinor != minor || existing.currency != _currency;
     final rate = amountChanged ? ref.read(currentRateProvider) : existing.rateUsed;
     final eq = Money.equivalents(minor, _currency, rate);
-    final now = DateTime.now();
+    final now = ref.read(clockProvider)();
 
     final entry = Entry(
       id: existing?.id ?? newId(),
@@ -179,9 +180,8 @@ class _EntrySheetState extends ConsumerState<EntrySheet> {
   }
 
   /// A past day starts at midday; today keeps the current time.
-  static DateTime? _startOf(DateTime? day) {
+  static DateTime? _startOf(DateTime? day, DateTime now) {
     if (day == null) return null;
-    final now = DateTime.now();
     if (daysBetween(day, now) == 0) return now;
     return DateTime(day.year, day.month, day.day, 12);
   }
@@ -312,7 +312,7 @@ class _EntrySheetState extends ConsumerState<EntrySheet> {
                 ),
               ),
               const SizedBox(width: Space.xs),
-              Pill(label: s.shortDay(_when, DateTime.now()), icon: Icons.calendar_today_rounded, onTap: _pickDate),
+              Pill(label: s.shortDay(_when, ref.read(clockProvider)()), icon: Icons.calendar_today_rounded, onTap: _pickDate),
             ]),
             const SizedBox(height: Space.xs),
             MariTextField(controller: _note, hint: s[K.noteHint], textInputAction: TextInputAction.done),

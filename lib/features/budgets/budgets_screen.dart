@@ -29,7 +29,7 @@ class BudgetsScreen extends ConsumerWidget {
     final cats = ref.watch(categoriesProvider).asData?.value ?? const <Category>[];
     final budgeted = {for (final l in lines ?? const <BudgetLine>[]) l.category.id};
     final unbudgeted = cats.where((x) => x.kind == CategoryKind.expense && !budgeted.contains(x.id)).toList();
-    final now = DateTime.now();
+    final now = ref.watch(todayProvider);
 
     return ListView(
       padding: const EdgeInsets.fromLTRB(Space.gutter, 0, Space.gutter, Space.xxl),

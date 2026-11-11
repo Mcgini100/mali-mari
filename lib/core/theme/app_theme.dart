@@ -18,6 +18,8 @@ class MariType {
   static const subhead = TextStyle(fontSize: 15, height: 20 / 15, fontWeight: FontWeight.w500, letterSpacing: -0.1, fontFeatures: _tnum);
   static const footnote = TextStyle(fontSize: 13, height: 18 / 13, fontWeight: FontWeight.w400, fontFeatures: _tnum);
   static const caption = TextStyle(fontSize: 12, height: 16 / 12, fontWeight: FontWeight.w600, letterSpacing: 0.4, fontFeatures: _tnum);
+  /// Tab bar labels: the smallest text in the app, and no smaller.
+  static const tab = TextStyle(fontSize: 11, height: 14 / 11, fontWeight: FontWeight.w500, letterSpacing: 0.1);
   static const button = TextStyle(fontSize: 17, height: 22 / 17, fontWeight: FontWeight.w600, letterSpacing: -0.2);
   static const amountEntry = TextStyle(fontSize: 56, height: 64 / 56, fontWeight: FontWeight.w600, letterSpacing: -2, fontFeatures: _tnum);
 }

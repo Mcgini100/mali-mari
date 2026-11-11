@@ -14,19 +14,23 @@ import 'primitives.dart';
 /// Thin progress bar. Accent while on track, amber from 85%, terracotta over.
 /// Reads correctly at 0% (empty track) and past 100% (full, in the over colour).
 class BudgetBar extends StatelessWidget {
-  const BudgetBar({super.key, required this.progress, this.height = 6});
+  const BudgetBar({super.key, required this.progress, this.height = 6, this.color, this.trackColor});
   final double progress;
   final double height;
+
+  /// Overrides for a bar that sits on a tinted ground or follows its own rule.
+  final Color? color;
+  final Color? trackColor;
 
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
-    final color = progress > 1 ? c.spend : (progress >= 0.85 ? c.warning : c.accent);
+    final color = this.color ?? (progress > 1 ? c.spend : (progress >= 0.85 ? c.warning : c.accent));
     return ClipRRect(
       borderRadius: BorderRadius.circular(Radii.pill),
       child: Container(
         height: height,
-        color: c.surfaceSunken,
+        color: trackColor ?? c.surfaceSunken,
         alignment: Alignment.centerLeft,
         child: TweenAnimationBuilder<double>(
           tween: Tween<double>(begin: 0, end: progress.clamp(0.0, 1.0)),
@@ -72,7 +76,7 @@ class BudgetLineTile extends ConsumerWidget {
       stateColor = c.spend;
     } else if (line.isNearLimit) {
       stateText = s.f(K.budgetPercentUsed, {'percent': '${(line.progress * 100).round()}'});
-      stateColor = c.warning;
+      stateColor = c.warningInk;
     }
 
     final body = Padding(

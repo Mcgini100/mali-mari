@@ -1,7 +1,9 @@
 import 'package:flutter/animation.dart';
 import 'package:flutter/painting.dart';
 
-/// Design tokens v2: Kariba teal and msasa amber on mist.
+/// Design tokens v3: Kariba teal and msasa amber on mist. v3 darkens the
+/// secondary and tertiary inks so every text colour meets WCAG AA (4.5:1) on
+/// the grounds it sits on (checked by test/contrast_test.dart).
 /// Mirrors design/tokens.json one to one — change both together.
 class MariPalette {
   const MariPalette({
@@ -23,6 +25,7 @@ class MariPalette {
     required this.spend,
     required this.spendSoft,
     required this.warning,
+    required this.warningInk,
     required this.warningSoft,
     required this.sky,
     required this.bark,
@@ -53,7 +56,10 @@ class MariPalette {
   final Color incomeSoft;
   final Color spend;
   final Color spendSoft;
+  /// Near a limit. [warning] fills bars; [warningInk] is the same amber dark
+  /// enough to read as text.
   final Color warning;
+  final Color warningInk;
   final Color warningSoft;
 
   /// The month tree's ground and wood.
@@ -74,18 +80,19 @@ class MariPalette {
     surfaceSunken: Color(0xFFE8ECE8),
     separator: Color(0xFFDCE2DD),
     textPrimary: Color(0xFF14211F),
-    textSecondary: Color(0xFF5B6B67),
-    textTertiary: Color(0xFF94A29E),
+    textSecondary: Color(0xFF4C5C58),
+    textTertiary: Color(0xFF63726D),
     accent: Color(0xFF11756B),
     accentSoft: Color(0xFFDDEFEA),
     onAccent: Color(0xFFFFFFFF),
     warm: Color(0xFFD9822B),
     warmSoft: Color(0xFFFBEBD7),
-    income: Color(0xFF0E7C66),
+    income: Color(0xFF0B7460),
     incomeSoft: Color(0xFFDCF0E9),
-    spend: Color(0xFFB5483A),
+    spend: Color(0xFFA94032),
     spendSoft: Color(0xFFF7E4DF),
     warning: Color(0xFFB7791F),
+    warningInk: Color(0xFF96600F),
     warningSoft: Color(0xFFFAEFD9),
     sky: Color(0xFFE3EEEA),
     bark: Color(0xFF6E4E3A),
@@ -110,8 +117,8 @@ class MariPalette {
     surfaceSunken: Color(0xFF0A1110),
     separator: Color(0xFF243433),
     textPrimary: Color(0xFFE9F1EE),
-    textSecondary: Color(0xFF93A6A1),
-    textTertiary: Color(0xFF5F716C),
+    textSecondary: Color(0xFFA6B8B3),
+    textTertiary: Color(0xFF84968F),
     accent: Color(0xFF4FC3B0),
     accentSoft: Color(0xFF143A35),
     onAccent: Color(0xFF06201C),
@@ -122,6 +129,7 @@ class MariPalette {
     spend: Color(0xFFF08A6E),
     spendSoft: Color(0xFF3A1D16),
     warning: Color(0xFFE9B44C),
+    warningInk: Color(0xFFE9B44C),
     warningSoft: Color(0xFF33260F),
     sky: Color(0xFF112523),
     bark: Color(0xFF9A7760),
@@ -160,6 +168,7 @@ class MariPalette {
       spend: l(a.spend, b.spend),
       spendSoft: l(a.spendSoft, b.spendSoft),
       warning: l(a.warning, b.warning),
+      warningInk: l(a.warningInk, b.warningInk),
       warningSoft: l(a.warningSoft, b.warningSoft),
       sky: l(a.sky, b.sky),
       bark: l(a.bark, b.bark),
@@ -201,16 +210,24 @@ class Space {
   static const double xxl = 48;
   static const double xxxl = 64;
   static const double gutter = 20;
+
+  /// Smallest size anything tappable may have (Android 48dp, iOS 44pt).
+  static const double tapTarget = 48;
 }
 
 class Radii {
   static const double control = 12;
   static const double card = 20;
   static const double sheet = 28;
+
+  /// The month card on Home: one step rounder than a card, so the screen has
+  /// a clear first object.
+  static const double hero = 28;
   static const double pill = 999;
 
   static const BorderRadius controlAll = BorderRadius.all(Radius.circular(control));
   static const BorderRadius cardAll = BorderRadius.all(Radius.circular(card));
+  static const BorderRadius heroAll = BorderRadius.all(Radius.circular(hero));
 }
 
 class Motion {
