@@ -51,8 +51,12 @@ class BudgetsScreen extends ConsumerWidget {
                 ),
               ]),
               const SizedBox(height: Space.sm),
-              BudgetBar(progress: summary.usedFraction, height: 8),
-              const SizedBox(height: 10),
+              PaceTrack(
+                used: summary.usedFraction,
+                elapsed: now.day / month.days,
+                pace: paceOf(summary, elapsed: now.day / month.days),
+              ),
+              const SizedBox(height: Space.xs),
               Text(
                 s.f(K.paceLine, {
                   'day': '${now.day}',

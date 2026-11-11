@@ -49,6 +49,64 @@ class BudgetBar extends StatelessWidget {
   }
 }
 
+/// The budget used so far as a bar, with a tick where the calendar is. Bar
+/// short of the tick: spending is behind the month. Past it: ahead.
+class PaceTrack extends StatelessWidget {
+  const PaceTrack({super.key, required this.used, required this.elapsed, required this.pace, this.semanticLabel});
+
+  final double used;
+  final double elapsed;
+  final Pace pace;
+  final String? semanticLabel;
+
+  static const double _height = 16;
+  static const double _bar = 6;
+
+  @override
+  Widget build(BuildContext context) {
+    final c = context.colors;
+    final fill = switch (pace) {
+      Pace.over => c.spend,
+      Pace.ahead => c.warning,
+      Pace.onTrack || Pace.none => c.accent,
+    };
+    return Semantics(
+      label: semanticLabel,
+      child: ExcludeSemantics(
+        child: SizedBox(
+          height: _height,
+          child: LayoutBuilder(builder: (context, box) {
+            final w = box.maxWidth;
+            final tick = (elapsed.clamp(0.0, 1.0) * w).clamp(1.0, w - 1.0);
+            return Stack(children: [
+              Positioned(
+                left: 0,
+                right: 0,
+                top: (_height - _bar) / 2,
+                child: BudgetBar(
+                  progress: used,
+                  height: _bar,
+                  color: fill,
+                  trackColor: c.textPrimary.withValues(alpha: 0.10),
+                ),
+              ),
+              Positioned(
+                left: tick - 1,
+                top: 0,
+                child: Container(
+                  width: 2,
+                  height: _height,
+                  decoration: BoxDecoration(color: c.textPrimary, borderRadius: BorderRadius.circular(1)),
+                ),
+              ),
+            ]);
+          }),
+        ),
+      ),
+    );
+  }
+}
+
 /// A budget line shown in the person's display currency (limits convert at
 /// today's rate; spending uses each payment's frozen equivalent).
 class BudgetLineTile extends ConsumerWidget {

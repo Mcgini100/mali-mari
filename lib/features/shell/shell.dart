@@ -136,12 +136,16 @@ class MariTabBar extends StatelessWidget {
               child: Column(mainAxisSize: MainAxisSize.min, mainAxisAlignment: MainAxisAlignment.center, children: [
                 Icon(active ? t.activeIcon : t.icon, size: 24, color: color),
                 const SizedBox(height: 2),
+                // A long label (Shona, Ndebele, large text) shrinks to fit; it is never cut off.
                 ExcludeSemantics(
-                  child: Text(
-                    t.label,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: MariType.tab.copyWith(color: color, fontWeight: active ? FontWeight.w600 : FontWeight.w500),
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      t.label,
+                      maxLines: 1,
+                      softWrap: false,
+                      style: MariType.tab.copyWith(color: color, fontWeight: active ? FontWeight.w600 : FontWeight.w500),
+                    ),
                   ),
                 ),
               ]),

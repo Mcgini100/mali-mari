@@ -194,6 +194,8 @@ class Segmented<T> extends StatelessWidget {
     final index = values.indexOf(selected).clamp(0, values.length - 1);
     final textStyle = (large ? MariType.subhead : MariType.footnote).copyWith(fontWeight: FontWeight.w600);
     final segmentHeight = large ? 40.0 : 32.0;
+    // Start from the inherited style so the control uses the app's typeface.
+    final base = DefaultTextStyle.of(context).style;
 
     Widget segment(T v) => Expanded(
           child: Semantics(
@@ -212,7 +214,7 @@ class Segmented<T> extends StatelessWidget {
                 child: Center(
                   child: AnimatedDefaultTextStyle(
                     duration: const Duration(milliseconds: 200),
-                    style: textStyle.copyWith(color: v == selected ? c.textPrimary : c.textSecondary),
+                    style: base.merge(textStyle).copyWith(color: v == selected ? c.textPrimary : c.textSecondary),
                     child: Text(labelOf(v), maxLines: 1, overflow: TextOverflow.ellipsis),
                   ),
                 ),

@@ -159,7 +159,7 @@ input, textarea { font: inherit; color: inherit; }
 .pace-track .rail i { display: block; height: 100%; border-radius: 999px; background: var(--accent); }
 .pace-track.ahead .rail i { background: var(--warn); } .pace-track.over .rail i { background: var(--spend); }
 .pace-track .tick { position: absolute; top: 0; width: 2px; height: 16px; margin-left: -1px; border-radius: 1px; background: var(--fg); }
-.pace-line { font-size: 15px; line-height: 20px; letter-spacing: -0.1px; }
+.pace-line { font-size: 15px; line-height: 20px; letter-spacing: -0.1px; } .pace-line b { font-weight: 600; }
 .leafkey { display: inline-flex; align-items: center; gap: 3px; min-height: 48px; padding-left: 12px; color: var(--fg2); }
 .leafkey i { width: 11px; height: 8.5px; border-radius: 50%; display: inline-block; }
 .leafkey .ic { font-size: 18px; margin-left: 3px; }
@@ -918,7 +918,7 @@ SCREENS.home = () => {
       <div class="figure t-display num" id="heroFig"><span>${fmt(toDisp(T.left), S.disp)}</span></div>
       <div class="pace-track ${pace}" role="img" aria-label="Day ${TODAY.getDate()} of ${DAYS_IN_MONTH}. You have used ${Math.round(used * 100)}% of the budget in ${Math.round(elapsed * 100)}% of the month.">
         <span class="rail"><i style="width:${Math.min(100, used * 100).toFixed(1)}%"></i></span><span class="tick" style="left:${(elapsed * 100).toFixed(1)}%"></span></div>
-      <div class="pace-line num">About ${fmt(toDisp(perDay), S.disp)} a day for the ${daysLeft()} days left in October.</div>
+      <div class="pace-line num"><b>About ${fmt(toDisp(perDay), S.disp)} a day</b> <span class="fg2">for the ${daysLeft()} days left in October.</span></div>
       <div class="t-footnote fg2 num" style="margin-top:2px">1 US$ = ${RATE} ZiG · official</div>
       <div class="tree-slot" id="treeSlot" data-reveal="${S.reveal ? 1 : 0}"><canvas id="tree2d" aria-label="October's tree: ${leaves} leaves. Tap a leaf to see that day."></canvas></div>
       <div class="foot"><span class="t-footnote fg2 num">${leaves} leaves · day ${TODAY.getDate()}</span>

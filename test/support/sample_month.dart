@@ -57,6 +57,10 @@ Entry _tx(int day, int h, int m, Direction dir, Currency cur, double amount, Str
   );
 }
 
+/// One more record in the sample month, for tests that need a variation.
+Entry sampleEntry(int day, int h, int m, Direction dir, Currency cur, double amount, String cat, String who) =>
+    _tx(day, h, m, dir, cur, amount, cat, who);
+
 const _out = Direction.moneyOut;
 const _in = Direction.moneyIn;
 const _usd = Currency.usd;

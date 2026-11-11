@@ -9,8 +9,10 @@ import 'package:mari/app/app.dart';
 import 'package:mari/app/settings.dart';
 import 'package:mari/core/l10n/language.dart';
 import 'package:mari/core/money/money.dart';
-import 'package:mari/features/home/home_screen.dart';
+import 'package:mari/data/repositories/entry_repository.dart';
+import 'package:mari/domain/models.dart';
 import 'package:mari/features/tree/month_tree_view.dart';
+import 'package:mari/widgets/budget_widgets.dart';
 
 import 'support/sample_month.dart';
 
@@ -79,6 +81,7 @@ Future<void> _run(
   required Future<void> Function() body,
   bool withData = true,
   double textScale = 1,
+  List<Entry> extra = const [],
 }) async {
   tester.view.physicalSize = size * _pixelRatio;
   tester.view.devicePixelRatio = _pixelRatio;
@@ -86,7 +89,13 @@ Future<void> _run(
   addTearDown(tester.view.reset);
   addTearDown(tester.platformDispatcher.clearAllTestValues);
 
-  final db = (await tester.runAsync(() => openSampleDatabase(withData: withData)))!;
+  final db = (await tester.runAsync(() async {
+    final db = await openSampleDatabase(withData: withData);
+    for (final e in extra) {
+      await DriftEntryRepository(db).save(e);
+    }
+    return db;
+  }))!;
   await tester.pumpWidget(RepaintBoundary(
     key: _shot,
     child: sampleScope(db, settings: settings, child: const MariApp()),
@@ -174,6 +183,20 @@ void main() {
         expect(find.byType(MonthTreeView), findsOneWidget);
         expect(find.byType(PaceTrack), findsNothing, reason: 'no budget, so nothing to pace against');
         await _save(tester, 'home-empty-light');
+      },
+    );
+  });
+
+  testWidgets('over budget: the figure turns copper and the sentence says by how much', (tester) async {
+    await _run(
+      tester,
+      size: _phone,
+      settings: const AppSettings(onboarded: true, themeMode: ThemeMode.light),
+      extra: [sampleEntry(22, 14, 0, Direction.moneyOut, Currency.usd, 240, 'school', 'Exam fees')],
+      body: () async {
+        expect(find.text(Money.format(14882 - 24000, Currency.usd)), findsOneWidget);
+        expect(find.textContaining('over this month'), findsOneWidget);
+        await _save(tester, 'home-over-light');
       },
     );
   });

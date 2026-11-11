@@ -106,6 +106,33 @@ class MonthSummary {
   double get usedFraction => budgeted <= 0 ? 0 : spent / budgeted;
 }
 
+/// How a month's spending sits against the calendar.
+enum Pace {
+  /// No limits set: there is nothing to be ahead of or behind.
+  none,
+
+  /// Spending is at or under where the month is.
+  onTrack,
+
+  /// Spending is running ahead of the calendar, or has reached 85% of the budget.
+  ahead,
+
+  /// The budget is spent.
+  over,
+}
+
+/// Spending may run this far ahead of the calendar before it counts as ahead.
+const double kPaceTolerance = 0.08;
+
+/// [elapsed] is the share of the month that has gone (day / days in month).
+Pace paceOf(MonthSummary summary, {required double elapsed}) {
+  if (!summary.hasBudget) return Pace.none;
+  if (summary.leftToSpend < 0) return Pace.over;
+  final used = summary.usedFraction;
+  if (used >= 0.85 || used > elapsed + kPaceTolerance) return Pace.ahead;
+  return Pace.onTrack;
+}
+
 MonthSummary summarize({
   required List<BudgetLine> lines,
   required Iterable<Entry> thisMonth,

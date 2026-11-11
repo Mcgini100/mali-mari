@@ -19,21 +19,6 @@ enum DayPart {
           : DayPart.evening;
 }
 
-/// How the month's spending sits against the calendar.
-enum Pace {
-  /// No limits set: there is nothing to be ahead of or behind.
-  none,
-
-  /// Spending is at or under where the month is.
-  onTrack,
-
-  /// Spending is running ahead of the calendar, or has reached 85% of the budget.
-  ahead,
-
-  /// The budget is spent.
-  over,
-}
-
 /// Everything Home shows, worked out once and away from the widgets, so the
 /// screen only lays things out and these numbers can be tested without it.
 /// Money is in [display] minor units.
@@ -87,9 +72,6 @@ class HomeState {
   bool get isOver => pace == Pace.over;
 }
 
-/// Spending may run this far ahead of the calendar before the bar turns amber.
-const double kPaceTolerance = 0.08;
-
 HomeState buildHomeState({
   required DateTime now,
   required MonthSummary summary,
@@ -105,17 +87,6 @@ HomeState buildHomeState({
   final elapsed = now.day / month.days;
   final used = summary.usedFraction;
 
-  final Pace pace;
-  if (!hasBudget) {
-    pace = Pace.none;
-  } else if (left < 0) {
-    pace = Pace.over;
-  } else if (used >= 0.85 || used > elapsed + kPaceTolerance) {
-    pace = Pace.ahead;
-  } else {
-    pace = Pace.onTrack;
-  }
-
   final today = days[now.day];
   return HomeState(
     now: now,
@@ -127,7 +98,7 @@ HomeState buildHomeState({
     perDayMinor: hasBudget && left >= 0 ? left ~/ daysLeft : null,
     usedFraction: used,
     elapsedFraction: elapsed,
-    pace: pace,
+    pace: paceOf(summary, elapsed: elapsed),
     tones: tones,
     leaves: tones.values.where((t) => t != DayTone.bud).length,
     todayTone: tones[now.day] ?? DayTone.bud,
