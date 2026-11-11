@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:drift/native.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mari/app/providers.dart';
 import 'package:mari/app/settings.dart';
@@ -132,8 +133,10 @@ Future<MariDatabase> openSampleDatabase({bool withData = true}) async {
   return db;
 }
 
-/// Overrides that run the whole app offline, at a pinned moment, on [db].
-List<Override> sampleOverrides(MariDatabase db, {AppSettings settings = const AppSettings(onboarded: true), DateTime? now}) => [
+/// Runs [child] offline, at a pinned moment, on [db].
+Widget sampleScope(MariDatabase db, {required Widget child, AppSettings settings = const AppSettings(onboarded: true), DateTime? now}) {
+  return ProviderScope(
+    overrides: [
       databaseProvider.overrideWithValue(db),
       initialSettingsProvider.overrideWithValue(settings),
       clockProvider.overrideWithValue(() => now ?? sampleNow),
@@ -141,4 +144,7 @@ List<Override> sampleOverrides(MariDatabase db, {AppSettings settings = const Ap
         MessageParser.fromJsonString(File('assets/parser/templates.json').readAsStringSync()),
       ),
       rateFetcherProvider.overrideWithValue(OfflineRates()),
-    ];
+    ],
+    child: child,
+  );
+}

@@ -36,7 +36,7 @@ Future<void> _start() async {
     ));
   } catch (error, stack) {
     FlutterError.reportError(FlutterErrorDetails(exception: error, stack: stack, library: 'mari startup'));
-    runApp(StartupFailure(onRetry: _start));
+    runApp(const StartupFailure(onRetry: _start));
   }
 }
 

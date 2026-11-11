@@ -2,6 +2,8 @@
 /// and may only depend on the ones listed before it:
 ///
 ///   time → data → settings → rates → ledger → tree
+library;
+
 export 'providers/data_providers.dart';
 export 'providers/ledger_providers.dart';
 export 'providers/rate_providers.dart';

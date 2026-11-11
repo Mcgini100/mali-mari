@@ -4,7 +4,6 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mari/app/app.dart';
 import 'package:mari/app/settings.dart';
@@ -90,7 +89,7 @@ Future<void> _run(
   final db = (await tester.runAsync(() => openSampleDatabase(withData: withData)))!;
   await tester.pumpWidget(RepaintBoundary(
     key: _shot,
-    child: ProviderScope(overrides: sampleOverrides(db, settings: settings), child: const MariApp()),
+    child: sampleScope(db, settings: settings, child: const MariApp()),
   ));
   await _settle(tester);
   expect(tester.takeException(), isNull);

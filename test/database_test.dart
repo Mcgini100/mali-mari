@@ -45,7 +45,7 @@ void main() {
     final db = MariDatabase(NativeDatabase.memory(setup: (raw) {
       raw.execute(_v1Entries);
       raw.execute('CREATE TABLE settings (setting_key TEXT NOT NULL PRIMARY KEY, setting_value TEXT NOT NULL)');
-      raw.execute("INSERT INTO entries (id, amount_minor, currency, usd_minor, zig_minor, rate_used, direction, occurred_at, source, status, created_at) "
+      raw.execute('INSERT INTO entries (id, amount_minor, currency, usd_minor, zig_minor, rate_used, direction, occurred_at, source, status, created_at) '
           "VALUES ('old1', 500, 'usd', 500, 13330, 26.66, 'out', 1791000000, 'manual', 'confirmed', 1791000000)");
       raw.execute("INSERT INTO settings VALUES ('onboarded', 'true')");
       raw.execute('PRAGMA user_version = 1');
