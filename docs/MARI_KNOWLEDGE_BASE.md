@@ -130,15 +130,14 @@ Compressed record of everything decided and built for Mari, as of 11 Nov 2026 (v
 
 ## 11. v3 review scores (11 Nov 2026)
 
-Scored by the same reviewer before and after, against the same criteria. Evidence for "after" is CI (analyze, 88 tests, rendered screens), not a phone.
+Scored by the same reviewer (Claude) before and after, against the same criteria. Evidence for "after" is CI (analyze, 88 tests, rendered screens), not a phone. The owner asked for at least 8.9; by this scoring v3 lands just under it, and the last column is what closes the gap.
 
 | Area | v2 | v3 | What moved it | What still holds it back |
 |---|---|---|---|---|
-| Architecture | 7.4 | 9.0 | Enforced layers, injected clock, split providers, view-model, lifecycle out of the shell, indexed schema with a tested upgrade | Other screens still compute their numbers in `build`; navigation is still ad hoc `Navigator.push`; History loads all records |
-| UI / UX | 7.6 | 8.9 | Number-first month card, pace track, leaf key, AA contrast, 48 tap targets, text scaling, labels that fit in all three languages | Only Home, the tab bar and the Budgets header were redesigned; not yet seen on a phone; `leafKey*` strings are English only |
-| Overall | 7.5 | 9.0 | | Real EcoCash fixtures and native-speaker review (unchanged risks, section 9) |
+| Architecture | 7.4 | 8.8 | Enforced layers, injected clock, split providers, view-model, lifecycle out of the shell, indexed schema with a tested upgrade | No committed `pubspec.lock` (builds are not reproducible); only Home has a view-model; stream errors are still swallowed by `.asData`; History filters all records in memory; navigation is ad hoc `Navigator.push` |
+| UI / UX | 7.6 | 8.7 | Number-first month card, pace track, leaf key, AA contrast, 48 tap targets, text scaling, labels that fit in all three languages | Not yet seen on a phone; the leaf key sheet's body text is English only; onboarding, entry, review and settings were not redesigned |
+| Overall | 7.5 | 8.8 | | The above, plus the unchanged product risks: real EcoCash fixtures and native-speaker review (section 9) |
 
 ## 12. Repo docs to read for detail
-
 
 `README.md` (setup, test builds) · `docs/ARCHITECTURE.md` · `docs/CAPTURE.md` · `docs/DESIGN.md` · `docs/LOCALISATION.md` · `design/tokens.json`
