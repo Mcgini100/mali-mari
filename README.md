@@ -40,14 +40,15 @@ Why two: Google Play Protect blocks apps installed from a download if they ask f
 
 ```bash
 flutter analyze --no-fatal-infos
-flutter test                 # parser fixtures, money, budget maths, DB + capture pipeline, widgets
+flutter test                 # parser, money, budget maths, DB + migrations, capture, layer rules, contrast, every screen
+open build/screens           # the screens that test run just rendered, light and dark
 node tool/test_parser.js     # same fixtures against the JavaScript reference parser
 node tool/month_tree.js --fixture   # regenerate the tree parity fixture after changing the generator
 ```
 
 `.github/workflows/ci.yml` runs all of that on every push and attaches the two test APKs described above.
 
-> **Build status.** This project was written in an environment that could not download the Flutter SDK, so the Dart code has been syntax-checked and the parser logic tested in Node, but it has **not** been compiled. The first CI run (or your first `flutter run`) is the real compile. Expect at most a small fix or two, most likely around a package API version.
+> **Build status.** CI compiles, analyses and tests every push on the current stable Flutter, then builds both APKs. The `mari-screens` artifact on each run holds the rendered screens.
 
 ---
 

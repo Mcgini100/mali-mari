@@ -39,9 +39,8 @@ String entriesToCsv(List<Entry> entries, Map<String, Category> categories) {
 }
 
 /// Writes the CSV to a temporary file and opens the system share sheet.
-Future<void> shareCsv(List<Entry> entries, Map<String, Category> categories) async {
+Future<void> shareCsv(List<Entry> entries, Map<String, Category> categories, {required DateTime now}) async {
   final dir = await getTemporaryDirectory();
-  final now = DateTime.now();
   final file = File('${dir.path}/mari-${now.year}-${_two(now.month)}-${_two(now.day)}.csv');
   await file.writeAsString(entriesToCsv(entries, categories));
   await SharePlus.instance.share(ShareParams(files: [XFile(file.path, mimeType: 'text/csv')], subject: 'Mari export'));

@@ -341,7 +341,7 @@ class _Badge extends StatelessWidget {
     final c = context.colors;
     final (IconData icon, String label, Color fg, Color bg) = switch (confidence) {
       ParseConfidence.high => (Icons.verified_rounded, s[K.confidenceHigh], c.income, c.incomeSoft),
-      ParseConfidence.medium => (Icons.help_rounded, s[K.confidenceMedium], c.warning, c.warningSoft),
+      ParseConfidence.medium => (Icons.help_rounded, s[K.confidenceMedium], c.warningInk, c.warningSoft),
       ParseConfidence.low => (Icons.warning_rounded, s[K.confidenceLow], c.spend, c.spendSoft),
       null => (Icons.help_outline_rounded, s[K.notATransaction], c.spend, c.spendSoft),
     };

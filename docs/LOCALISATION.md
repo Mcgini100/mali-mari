@@ -16,6 +16,7 @@ The Shona and Ndebele text is a careful first pass, **not** reviewed by native s
 
 1. Have one Shona and one Ndebele speaker read every value in `_sn` and `_nd`, plus the category names. Pay most attention to the consent screen (`consent*` keys), which must be unambiguous.
 2. Check the greetings (Mangwanani / Masikati / Manheru; Livukile / Litshonile), the tree words (leaf, bud, Seasons) and the day sentences, which are new in v2.
-3. Fill in the keys still falling back to English (Shortcut steps, rate messages, a few short labels). Find them by comparing the three maps.
+3. Fill in the keys still falling back to English (Shortcut steps, rate messages, a few short labels, and the v3 leaf key: `leafKeyTitle`, `leafKeyIntro`, `leafKeyLight`, `leafKeySteady`, `leafKeyFull`, `leafKeyHeavy`, `leafKeyGold`, `leafKeyBud`). Find them by comparing the three maps.
+   `leftToSpendIn` ("Left to spend in {month}", Home's main label) was written by following the pattern of `paceBody`; check it first.
 4. Check that money words sound natural: "of" in "US$120 of US$180" (`K.of`), "Left to spend", "Money in / out".
-5. Run the app in each language and look for text that clips in buttons and segmented controls.
+5. Run the app in each language and look for text that clips in buttons and segmented controls. `test/screens_test.dart` already renders Home and every tab in each language at the largest text size and saves the pictures to `build/screens/`.

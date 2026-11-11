@@ -141,7 +141,7 @@ class _InsightsScreenState extends ConsumerState<InsightsScreen> {
       }
 
       // For the month in progress, compare with the same days of last month.
-      final today = DateTime.now().day;
+      final today = ref.watch(todayProvider).day;
       final prevComparable = isCurrent ? prev.where((e) => e.occurredAt.day <= today) : prev;
       final prevSpent = totalSpent(prevComparable, cats, display);
       if (prevSpent > 0) {

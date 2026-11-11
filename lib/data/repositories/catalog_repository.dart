@@ -107,7 +107,17 @@ class SettingsStore {
     return {for (final r in rows) r.settingKey: r.settingValue};
   }
 
-  Future<void> write(String key, String value) => _db
-      .into(_db.settings)
-      .insertOnConflictUpdate(SettingsCompanion.insert(settingKey: key, settingValue: value));
+  Future<void> write(String key, String value) => writeAll({key: value});
+
+  /// Saves several keys in one transaction.
+  Future<void> writeAll(Map<String, String> values) async {
+    if (values.isEmpty) return;
+    await _db.batch((b) {
+      b.insertAll(
+        _db.settings,
+        [for (final e in values.entries) SettingsCompanion.insert(settingKey: e.key, settingValue: e.value)],
+        mode: InsertMode.insertOrReplace,
+      );
+    });
+  }
 }
